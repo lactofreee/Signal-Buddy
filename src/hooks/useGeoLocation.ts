@@ -15,7 +15,6 @@ export const useGeoLocation = (options = {}) => {
   };
 
   const handleSuccess = (pos: GeolocationPosition) => {
-    console.log(pos);
     const { latitude, longitude } = pos.coords;
 
     setLocation({

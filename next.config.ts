@@ -13,6 +13,9 @@ const nextConfig = {
       enabled: false, // Turbopack 비활성화
     },
   },
+  images: {
+    domains: ["randomuser.me"], // randomuser.me 추가
+  },
 };
 
 module.exports = withPWA(nextConfig);

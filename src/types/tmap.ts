@@ -69,6 +69,17 @@ export type SearchPoiInfo = {
   pois: Pois;
 };
 
+export type PoiDetail = Poi & {
+  address?: string;
+  firstNo?: string;
+  secondNo?: string;
+  bldAddr?: string;
+  bldNo1?: string;
+  bldNo2?: string;
+  homepageURL?: string;
+  tel?: string;
+};
+
 export type TMap = {
   getCenter: () => TMapLatLng;
   setCenter: (latLng: TMapLatLng) => void;
@@ -80,6 +91,8 @@ export type TMap = {
     eventType: EventType,
     listener: (event: TMapEvent) => void,
   ) => void;
+  setMapType: (type: number) => void;
+  _data: { mapType: 1 | 4 | 5 };
 };
 type EventType = "click";
 
@@ -98,7 +111,24 @@ export type TMapMarker = {
   setPosition: (latLng: TMapLatLng) => void;
   setLabel: (HTML: string) => void;
   addListener: (e: EventType, listener: (event: TMapEvent) => void) => void;
+  animate: (type: number) => void;
+  stopAnimation: () => void;
+  setIcon: (icon: string) => void;
+  _marker_data: TMapMarkerOptions;
 };
+export type TMapMarkerOptions = {
+  id?: string;
+  name?: string;
+  map: TMap;
+  position: TMapLatLng;
+  iconHTML?: string;
+  iconSize?: TMapSize;
+  label?: string;
+  icon?: string;
+  title?: string;
+  animation?: number;
+};
+
 export type TMapSize = {
   _width: number;
   _height: number;

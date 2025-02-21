@@ -6,11 +6,11 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer
-      className="mt-[18px] flex h-[198px] justify-center pb-2 sm:mx-0"
+      className="mt-[60px] mb-2 flex justify-center pb-2 sm:mx-0"
       aria-labelledby="footer-heading"
     >
       <div
-        className="flex h-[117px] w-[1240px] flex-col rounded-[20px] bg-white px-6 sm:h-[190px] sm:px-5 sm:pt-5"
+        className="flex h-[117px]  w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-60px)] flex-col rounded-[20px] bg-white px-6 sm:h-[190px] sm:px-5 sm:pt-5"
         role="contentinfo"
       >
         <h2 id="footer-heading" className="sr-only">

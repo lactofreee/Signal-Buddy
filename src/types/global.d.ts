@@ -3,6 +3,7 @@ import {
   TMap,
   TMapLatLng,
   TMapMarker,
+  TMapMarkerOptions,
   TMapSize,
 } from "@/src/types";
 
@@ -23,20 +24,22 @@ declare global {
           ) => void;
         };
       };
-      Map: new (element: HTMLElement | string, options?: MapOptions) => TMap;
+      Map: {
+        new (element: HTMLElement | string, options?: any): TMap;
+        MapType: {
+          SATELLITE: 4;
+          HYBRID: 5;
+          ROAD: 1;
+        };
+      };
       LatLng: new (lat: number, lon: number) => TMapLatLng;
-      Marker: new (options?: {
-        id?: string;
-        name?: string;
-        map: TMap;
-        position: TMapLatLng;
-        iconHTML?: string;
-        iconSize?: TMapSize;
-        label?: string;
-        icon?: string;
-        title?: string;
-      }) => TMapMarker;
+      Marker: {
+        new (options?: TMapMarkerOptions): TMapMarker;
+      };
       Size: new (width: number, height: number) => TMapSize;
+      MarkerOptions: {
+        [key: string]: number;
+      };
     };
   }
 }

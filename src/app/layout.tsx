@@ -20,7 +20,7 @@ export default function RootLayout({
       <head>
         <Script src="https://code.jquery.com/jquery-3.2.1.min.js" />
         <Script
-          src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=1bxEMLzGUg68a4EeRA5F14J5Vbgh6GWI3zLXabl9"
+          src={`https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${process.env.TMAP_API_KEY}`}
           strategy="beforeInteractive"
         />
         <Script
