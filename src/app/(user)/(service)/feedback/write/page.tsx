@@ -1,60 +1,169 @@
 "use client";
 
+import { CrossRoadSearchbar } from "@/src/components/feedback/ui/CrossRoadSearchbar";
+import DropDownMenu from "@/src/components/feedback/ui/DropDownMenu";
 import { ArrowLeftIcon, CheckIcon } from "@/src/components/utils/icons";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 export default function Page() {
+  const { data: session } = useSession();
+  const token = session?.user.token;
+
+  const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [category, setCategory] = useState<string>("ETC");
+  const [isSecret, setIsSecret] = useState(false);
+  const [crossroadId, setCrossroadId] = useState<number>(2);
 
   const handleToggleChange = (value: string) => {
     setSelectedOption((prev) => (prev === value ? null : value));
+    setIsSecret((prev) => !prev);
   };
+
+  const postNewFeedback = async (formData: FormData) => {
+    if (!token) {
+      toast.error("올바르지 않은 접근입니다. 로그인을 다시 시도해주세요.");
+      return;
+    }
+
+    try {
+      console.log(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/feedbacks`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/feedbacks`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: token,
+          },
+          body: formData, // JSON 대신 FormData 사용
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json(); // 서버에서 에러 응답 받기
+        throw new Error(errorData.message || "피드백 제출에 실패했습니다.");
+      }
+
+      const data = await res.json();
+      toast.success("피드백이 성공적으로 제출되었습니다.");
+      return data;
+    } catch (error) {
+      console.error("❌ postNewFeedback Error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "알 수 없는 오류가 발생했습니다.",
+      );
+    }
+  };
+
+  const submitHandle = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    // const fileInput = document.querySelector<HTMLInputElement>("#fileInput");
+    // if (fileInput?.files?.length) {
+    //   formData.append("imageFile", fileInput.files[0]);
+    // }
+
+    console.log(category.toUpperCase());
+
+    const requestData = {
+      subject: title,
+      content,
+      category: category.toUpperCase(),
+      secret: isSecret,
+      crossroadId,
+      createdAt: new Date().toISOString(),
+    };
+
+    console.log(requestData);
+
+    if (!title || !content || !category) {
+      console.log(formData);
+      toast.error("내용을 모두 입력해주세요.");
+      return;
+    }
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(requestData)], { type: "application/json" }),
+    );
+
+    // API 호출
+    await postNewFeedback(formData);
+    router.push("/feedback");
+  };
+
+  interface FeedbackSubmitForm {
+    subject: string;
+    content: string;
+    category: string | null;
+    secret: boolean;
+    crossroadId: number;
+  }
 
   return (
     <div className="flex flex-col md:mx-auto md:w-[821px]">
       {/* 헤더 영역 */}
-      <Link href={`/feedback`} className="flex h-10 items-center gap-1 border-b border-gray-300">
+      <Link
+        href={`/feedback`}
+        className="flex h-10 items-center gap-1 border-b border-gray-300"
+      >
         <ArrowLeftIcon className="h-6 w-6 text-gray-700" />
         <p className="text-sm font-semibold">뒤로가기</p>
       </Link>
-      <form className="flex flex-col gap-4 pt-2">
+      <form
+        className="flex flex-col gap-4 pt-2"
+        onSubmit={(e) => submitHandle(e)}
+      >
         {/* 제목 입력 */}
-        <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-gray-500">제목</p>
-          <input
+        <div className="grid w-full items-center gap-1.5">
+          <Label htmlFor="title" className="text-sm font-medium text-gray-500">
+            제목
+          </Label>
+          <Input
             type="text"
-            className="h-12 rounded-[4px] p-4 outline outline-1 outline-gray-300"
+            className="h-12 rounded-[4px] p-4 border border-gray-300 bg-white shadow-none text-gray-500 font-medium placeholder:text-gray-400"
             placeholder="제목을 입력해주세요."
+            id="title"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
         </div>
 
         {/* 피드백 유형 선택 */}
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-gray-500">피드백 유형</p>
-          <input
-            type="text"
-            className="h-12 rounded-[4px] p-4 outline outline-1 outline-gray-300"
-            placeholder="피드백 유형 선택"
-          />
+          <p className="text-sm text-gray-500 font-medium">피드백 유형</p>
+          <DropDownMenu addCategory={setCategory} />
         </div>
 
         {/* 본문 입력 */}
         <div className="flex flex-col gap-2">
           <p className="text-sm font-medium text-gray-500">본문</p>
           <textarea
-            className="h-[409px] resize-none rounded-[4px] p-4 outline outline-1 outline-gray-300"
+            className="h-[409px] resize-none rounded-[4px] p-4 border border-gray-300 placeholder:text-sm placeholder:text-gray-400 text-gray-500 text-[14px]"
             placeholder="내용을 입력해주세요."
+            onChange={(e) => setContent(e.target.value)}
+            value={content}
           />
         </div>
 
         {/* 피드백 위치 */}
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-gray-500">피드백 위치</p>
-          <input
-            type="text"
-            className="h-12 rounded-[4px] p-4 outline outline-1 outline-gray-300"
-            placeholder="위치를 입력해주세요."
+          <CrossRoadSearchbar
+            addCrossRoad={setCrossroadId}
+            crossroadId={crossroadId}
           />
         </div>
 

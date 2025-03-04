@@ -14,7 +14,10 @@ const nextConfig = {
     },
   },
   images: {
-    domains: ["randomuser.me"], // randomuser.me 추가
+    domains: [
+      "randomuser.me",
+      "s3-signal-buddy.s3.ap-northeast-2.amazonaws.com",
+    ],
   },
 };
 
