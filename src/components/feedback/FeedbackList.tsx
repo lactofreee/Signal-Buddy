@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { formatDate } from "@/src/utils/formatDate";
 import Image from "next/image";
+import { IFeedbackListItem } from "@/src/types/feedback/feedbackList";
 
 function FeedbackItem({
   feedbackId,
@@ -46,7 +47,6 @@ export default function FeedbackList({
 }: {
   feedbackList: IFeedbackListItem[];
 }) {
-  
   return (
     <>
       {feedbackList.map((feedbackListItem, index) => (

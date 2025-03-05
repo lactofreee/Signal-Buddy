@@ -1,4 +1,6 @@
-export const fetchFeedbackList = async (searchParams: Record<string, string | undefined>) => {
+export const fetchFeedbackList = async (
+  searchParams?: Promise<Record<string, string | undefined>>,
+) => {
   const params = await searchParams;
   const query = new URLSearchParams(
     params as Record<string, string>,

@@ -23,6 +23,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const session = await auth();
+  const user = session?.user;
   const TOKEN = session?.user.token;
   const userId = session?.user.memberId || null;
 
@@ -100,14 +101,14 @@ export default async function Page({
                 </div>
                 <FeedbackLikeButton
                   feedbackId={id}
-                  likeCount={feedbackData?.likeCount}
+                  likeCount={feedbackData?.likeCount ?? 0}
                   likeStatus={isLiked}
                 />
               </div>
             </div>
           </div>
           {/* 댓글 입력창 */}
-          <FeedbackComment id={id} userId={userId} token={TOKEN} />
+          <FeedbackComment id={id} user={user} />
 
           {/* <div className="mt-5 flex w-full justify-between rounded-[20px] bg-white px-2 py-3">
             <input

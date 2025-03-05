@@ -3,6 +3,7 @@ import Kakao from "next-auth/providers/kakao";
 import Credentials from "next-auth/providers/credentials";
 import { login } from "./services/auth.service";
 import { cookies } from "next/headers";
+import server from "./lib/api/server";
 
 class InvalidLoginError extends CredentialsSignin {
   code = "사용자를 찾을 수 없습니다.";
@@ -23,7 +24,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: id as string,
           password: password as string,
         });
-
         if (response.status === 404) {
           throw new InvalidLoginError();
         }
@@ -62,9 +62,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: async () => {
       return true;
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger, session }) => {
       if (user) {
         token = { ...token, ...user };
+      }
+      if (trigger === "update" && session !== null) {
+        const { nickname, profileImageUrl } = session;
+        token.nickname = nickname;
+        token.profileImageUrl = profileImageUrl;
       }
       return token;
     },

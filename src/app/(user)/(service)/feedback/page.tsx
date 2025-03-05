@@ -11,11 +11,11 @@ import Link from "next/link";
 import { fetchFeedbackList } from "@/src/app/api/feedback/fetchFeedbackList";
 
 export default async function Page({
-  searchParams = {},
+  searchParams,
 }: {
-  searchParams?: Record<string, string | undefined>;
+  searchParams?: Promise<Record<string, string | undefined>>;
 }) {
-  const res = await fetchFeedbackList(searchParams || {});
+  const res = await fetchFeedbackList(searchParams);
   const feedbackList = res.data.searchResults;
 
   return (

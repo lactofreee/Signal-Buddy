@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   src?: string | null;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 };
 
 const DEFATUL_PROFILE = "/imgs/DefaultProfile.png";
@@ -15,11 +15,15 @@ const AVATAR_SIZES = {
   md: "w-8 h-8 min-w-8 min-h-8",
   lg: "w-10 h-10 min-w-10 min-h-10",
   xl: "w-12 h-12 min-w-12 min-h-12",
+  "2xl": "w-16 h-16 min-w-16 min-h-16",
+  "3xl": "w-18 h-18 min-w-18 min-h-18",
 };
 
 export default function Profile({ src, size = "md" }: Props) {
   return (
-    <Avatar className={cn("bg-white", AVATAR_SIZES[size])}>
+    <Avatar
+      className={cn("bg-white border border-gray-300", AVATAR_SIZES[size])}
+    >
       <AvatarImage src={src ? src : DEFATUL_PROFILE} alt="@shadcn" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>

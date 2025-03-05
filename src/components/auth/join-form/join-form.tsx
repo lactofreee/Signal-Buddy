@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { CheckboxGroup } from "../../common/form/CheckboxGroup";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { join } from "@/src/services/auth.service";
 import { useRouter } from "next/navigation";
 import { PasswordInput } from "../password-input";
@@ -72,6 +72,7 @@ const formSchema = z
   });
 
 export function JoinForm() {
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -96,8 +97,9 @@ export function JoinForm() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { email, password, nickname } = values;
     try {
+      setLoading(true);
       const body = { email, password, nickname };
-      let formData = new FormData();
+      const formData = new FormData();
       formData.append(
         "memberJoinRequest",
         new Blob([JSON.stringify(body)], {
@@ -106,13 +108,14 @@ export function JoinForm() {
       );
 
       const data = await join(formData);
-      console.log(data);
       if (data.status === 200) {
         toast("성공적으로 회원가입 되었습니다.");
         router.push("/login");
       }
     } catch (err: unknown) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -245,6 +248,7 @@ export function JoinForm() {
         <Button
           type="submit"
           className="w-full bg-teal text-white text-sm h-10 mt-6 rounded-md mb-2"
+          disabled={loading}
         >
           회원가입
         </Button>

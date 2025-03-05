@@ -11,6 +11,9 @@ import {
   SettingIcon,
   UserIcon,
 } from "@/src/components/utils/icons";
+import { auth } from "@/src/auth";
+import { redirect } from "next/navigation";
+import Profile from "@/src/components/common/profile/Profile";
 
 const activities = [
   {
@@ -35,7 +38,9 @@ const activities = [
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+  if (!session) redirect("/");
   return (
     <div className="flex w-full justify-center">
       <div className="flex w-[400px] flex-col gap-5 pt-2">
@@ -49,13 +54,14 @@ export default function Page() {
             </Link>
           </div>
           <div className="flex items-center gap-4 rounded-[8px] bg-white px-2 py-3">
-            <div className="outline-grey-300 flex aspect-square w-[54px] items-center justify-center rounded-full outline outline-1">
-              <UserIcon />
-            </div>
+            <Profile
+              src={session ? session.user.profileImageUrl : undefined}
+              size="xl"
+            />
             <div className="flex flex-col">
-              <p className="text-grey-700 font-bold">User</p>
+              <p className="text-grey-700 font-bold">{session.user.nickname}</p>
               <p className="text-grey-500 text-xs font-medium">
-                example@gmail.com
+                {session.user.email}
               </p>
             </div>
           </div>

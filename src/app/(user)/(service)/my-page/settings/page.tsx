@@ -1,6 +1,9 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import LogoutButton from "@/src/components/auth/logout/LogoutButton";
 import { ArrowLeftIcon } from "@/src/components/utils/icons";
+import { clickPushHandler } from "@/src/firebase/firebase";
 import { signOutWithForm } from "@/src/services/auth.server.service";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -27,8 +30,8 @@ export default function Page() {
             <div>토글 버튼</div>
           </div>
           <div className="text-grey-700 flex h-[60px] items-center justify-between font-extrabold">
-            <p>알림 설정</p>
-            <div>토글 버튼</div>
+            <p>푸시 알림 설정</p>
+            <button onClick={clickPushHandler}>토글 버튼</button>
           </div>
           <div className="text-grey-700 flex h-[60px] items-center justify-between font-extrabold">
             <p>디스플레이 모드</p>

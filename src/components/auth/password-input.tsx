@@ -4,13 +4,19 @@ import eyeOpen from "@/public/imgs/eye-open.svg";
 import eyeSlash from "@/public/imgs/eye-slash.svg";
 import Image from "next/image";
 import { ControllerRenderProps } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 interface PasswordInputProps {
   field: ControllerRenderProps<any, any>;
   placeholder?: string;
+  hasBg?: boolean;
 }
 
-export function PasswordInput({ field, placeholder }: PasswordInputProps) {
+export function PasswordInput({
+  field,
+  placeholder,
+  hasBg,
+}: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -18,7 +24,10 @@ export function PasswordInput({ field, placeholder }: PasswordInputProps) {
       <Input
         placeholder={placeholder || "비밀번호를 입력해 주세요."}
         type={showPassword ? "text" : "password"}
-        className="h-12 pl-3 pr-10 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300"
+        className={cn(
+          "h-12 pl-3 pr-10 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300",
+          hasBg && "bg-white",
+        )}
         {...field}
       />
       <button

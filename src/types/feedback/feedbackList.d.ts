@@ -43,7 +43,7 @@ interface IFeedbackDetailResponse {
 
 interface IFeedbackCommentListProps {
   id: string;
-  userId: number | null;
+  userId: string | null;
 }
 
 interface IFeedbackCommentListResponse {
@@ -64,7 +64,7 @@ interface SearchResult {
 
 interface IFeedbackCommentProps {
   commentItem: Comment;
-  userId: number | null;
+  userId: string | null;
 }
 
 interface Comment {
@@ -74,3 +74,17 @@ interface Comment {
   updatedAt: string;
   member: Member;
 }
+
+interface User {
+  id: string;
+  memberId: number;
+  nickname: string;
+  profileImageUrl?: string;
+  email: string;
+  role: "USER" | "ADMIN";
+  token: string;
+  refreshToken: string;
+}
+
+// ✅ `User`가 `undefined`일 수 있도록 타입 정의
+type UserType = User | undefined;

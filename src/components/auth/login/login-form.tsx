@@ -65,7 +65,8 @@ export function LoginForm() {
         redirect: false,
       });
       if (result && result.error) {
-        toast(result.code);
+        if (result.code) toast(result.code);
+        else toast("이메일 혹은 비밀번호를 확인해주세요.");
       }
     } catch (err) {
       console.error(err);
@@ -79,6 +80,7 @@ export function LoginForm() {
     console.log(session);
     if (session && session.user) {
       toast("로그인에 성공했습니다.");
+      
       redirect("/");
     }
   }, [session]);
