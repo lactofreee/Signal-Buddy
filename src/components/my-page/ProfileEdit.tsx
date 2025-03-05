@@ -171,7 +171,11 @@ export default function ProfileEdit({ user }: Props) {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <FormField
+              <FormField<{
+                nickname: string;
+                password?: string | undefined;
+                passwordConfirm?: string | undefined;
+              }>
                 control={form.control}
                 name="password"
                 render={({ field }) => (
@@ -187,7 +191,11 @@ export default function ProfileEdit({ user }: Props) {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <FormField
+              <FormField<{
+                nickname: string;
+                password?: string | undefined;
+                passwordConfirm?: string | undefined;
+              }>
                 control={form.control}
                 name="passwordConfirm"
                 render={({ field }) => (

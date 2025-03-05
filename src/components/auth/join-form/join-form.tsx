@@ -192,7 +192,13 @@ export function JoinForm() {
           />
         </div>
         <div className="grid mt-2">
-          <FormField
+          <FormField<{
+            email: string;
+            nickname: string;
+            password: string;
+            passwordConfirm: string;
+            agree: string[];
+          }>
             control={form.control}
             name="password"
             render={({ field }) => (
@@ -208,7 +214,13 @@ export function JoinForm() {
           />
         </div>
         <div className="grid mt-2">
-          <FormField
+          <FormField<{
+            email: string;
+            nickname: string;
+            password: string;
+            passwordConfirm: string;
+            agree: string[];
+          }>
             control={form.control}
             name="passwordConfirm"
             render={({ field }) => (

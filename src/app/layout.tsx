@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
-import QueryProvider from "../components/utils/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 import RootProvider from "../contexts/RootProvider";
-import { useFCMNotification } from "../firebase/firebase";
 import FCMNotification from "../components/fcm/FCMNotification";
 
 export const metadata: Metadata = {

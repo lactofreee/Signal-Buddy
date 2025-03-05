@@ -92,7 +92,10 @@ export function ResetPassword() {
         </div>
         <div className="flex flex-col mt-[32px]">
           <div className="space-y-2">
-            <FormField
+            <FormField<{
+              password: string;
+              passwordConfirm: string;
+            }>
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -106,7 +109,10 @@ export function ResetPassword() {
                 </FormItem>
               )}
             />
-            <FormField
+            <FormField<{
+              password: string;
+              passwordConfirm: string;
+            }>
               control={form.control}
               name="passwordConfirm"
               render={({ field }) => (

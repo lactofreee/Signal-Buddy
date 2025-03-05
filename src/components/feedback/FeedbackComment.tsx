@@ -10,6 +10,49 @@ import { useRouter } from "next/navigation";
 import { User } from "@/src/types/feedback/feedbackList";
 import { useQueryClient } from "@tanstack/react-query";
 
+interface ITempComment {
+  commentId: number; // Date.now()는 숫자 반환
+  content: string;
+  createdAt: string; // toISOString()은 문자열 반환
+  member: {
+    memberId: string;
+    nickname: string;
+    profileImageUrl?: string;
+  };
+}
+
+interface Member {
+  memberId: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  role: string;
+  memberStatus: string;
+}
+
+interface Comment {
+  commentId: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  member: Member;
+}
+
+interface PaginatedResponse {
+  status: string;
+  message: string | null;
+  data: {
+      totalElements: number;
+      totalPages: number;
+      currentPageNumber: number;
+      pageSize: number;
+      hasNext: boolean;
+      hasPrevious: boolean;
+      searchResults: Comment[];
+  };
+}
+
+
 export default function FeedbackComment({
   id,
   user,
@@ -21,8 +64,9 @@ export default function FeedbackComment({
   const queryClient = useQueryClient();
   const [newComment, setNewComment] = useState<string>("");
 
-  const addNewComment = (newComment: any) => {
-    queryClient.setQueryData(["comments", id], (oldData: any) => {
+  const addNewComment = (newComment: ITempComment) => {
+    queryClient.setQueryData(["comments", id], (oldData: PaginatedResponse) => {
+      console.log(oldData);
       return {
         ...oldData,
         data: {

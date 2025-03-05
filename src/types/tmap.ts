@@ -1,11 +1,13 @@
 export type MapOptions = {
   center?: TMapLatLng;
+  httpsMode?: boolean;
   scaleBar?: boolean;
   width?: string | number;
   height?: string | number;
   zoom?: number;
   zoomControl?: boolean;
   scrollwheel?: boolean;
+  pinchZoom?: boolean;
 };
 
 export type NewAddress = {

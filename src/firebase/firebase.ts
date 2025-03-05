@@ -24,6 +24,33 @@ export const app = initializeApp(firebaseConfig);
 
 const VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
 
+const sendTokenToServer = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/fcm/push`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          deviceToken: token,
+          title: "제목입니다.",
+          content: "내용입니다.",
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("토큰 저장 실패");
+    }
+
+    console.log("토큰이 백엔드에 성공적으로 저장됨");
+  } catch (error) {
+    console.error("토큰 전송 중 오류 발생:", error);
+  }
+};
+
 export const setTokenHandler = async () => {
   const messaging = getMessaging(app);
   const swRegistration = await navigator.serviceWorker.register(
@@ -34,13 +61,13 @@ export const setTokenHandler = async () => {
     vapidKey: VAPID_KEY,
     serviceWorkerRegistration: swRegistration, // ✅ 등록된 SW 전달
   })
-    .then(async (currentToken) => {
-      if (!currentToken) {
+    .then(async (token) => {
+      if (!token) {
         // 토큰 생성 불가시 처리할 내용, 주로 브라우저 푸시 허용이 안된 경우에 해당한다.
         console.error("토큰 생성 불가");
       } else {
         // 토큰을 받았다면 여기서 DB에 저장하면 됩니다.
-        console.log("currentToken: ", currentToken);
+        console.log("token: ", token);
       }
     })
     .catch((error) => {
@@ -82,7 +109,8 @@ export function useFCMNotification() {
       // payload.notification이 존재하는지 확인하고 처리
       if (payload.notification) {
         if (Notification.permission === "granted") {
-          new Notification(payload.notification.title ?? "알림", { // nullish coalescing operator 사용
+          new Notification(payload.notification.title ?? "알림", {
+            // nullish coalescing operator 사용
             body: payload.notification.body ?? "내용 없음", // 기본 값 설정
             icon: "/icon.png",
           });

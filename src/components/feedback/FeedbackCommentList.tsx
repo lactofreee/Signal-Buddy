@@ -64,22 +64,6 @@ export default function FeedbackCommentList({
     }
   }, [data]);
 
-  // ✅ 새로운 댓글을 추가하는 함수 (낙관적 업데이트)
-  const addNewComment = (newComment: IFeedbackCommentProps["commentItem"]) => {
-    setComments((prev) => [...prev, newComment]);
-
-    // `useQueryClient`를 이용해 서버 데이터 동기화
-    queryClient.setQueryData(["comments", id], (oldData: any) => {
-      return {
-        ...oldData,
-        data: {
-          ...oldData.data,
-          searchResults: [...oldData.data.searchResults, newComment],
-        },
-      };
-    });
-  };
-
   if (isLoading)
     return <p className="text-center text-gray-500">댓글을 불러오는 중...</p>;
   if (error)

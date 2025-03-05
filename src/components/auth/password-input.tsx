@@ -3,20 +3,20 @@ import { useState } from "react";
 import eyeOpen from "@/public/imgs/eye-open.svg";
 import eyeSlash from "@/public/imgs/eye-slash.svg";
 import Image from "next/image";
-import { ControllerRenderProps } from "react-hook-form";
+import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
-interface PasswordInputProps {
-  field: ControllerRenderProps<any, any>;
+interface PasswordInputProps<T extends FieldValues> {
+  field: ControllerRenderProps<T, Path<T>>;
   placeholder?: string;
   hasBg?: boolean;
 }
 
-export function PasswordInput({
+export function PasswordInput<T extends FieldValues>({
   field,
   placeholder,
   hasBg,
-}: PasswordInputProps) {
+}: PasswordInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

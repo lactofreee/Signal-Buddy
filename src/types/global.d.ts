@@ -35,7 +35,7 @@ declare global {
         };
       };
       Map: {
-        new (element: HTMLElement | string, options?: any): TMap;
+        new (element: HTMLElement | string, options?: MapOptions): TMap;
         MapType: {
           SATELLITE: 4;
           HYBRID: 5;

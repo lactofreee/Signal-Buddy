@@ -80,7 +80,7 @@ export function LoginForm() {
     console.log(session);
     if (session && session.user) {
       toast("로그인에 성공했습니다.");
-      
+
       redirect("/");
     }
   }, [session]);
@@ -119,7 +119,11 @@ export function LoginForm() {
             />
           </div>
           <div className="grid mt-2">
-            <FormField
+            <FormField<{
+              email: string;
+              password: string;
+              agree: string[];
+            }>
               control={form.control}
               name="password"
               render={({ field }) => (

@@ -1,7 +1,6 @@
 "use client";
 
-import { Control } from "react-hook-form";
-
+import { Control, FieldValues, Path } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
@@ -12,12 +11,17 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 
-type Props = {
-  control: Control<any>;
-  name: string;
+interface CheckboxGroupProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>; // ✅ name을 안전하게 제한
   items: { name: string; value: string | number; link?: string }[];
-};
-export function CheckboxGroup({ control, name, items }: Props) {
+}
+
+export function CheckboxGroup<T extends FieldValues>({
+  control,
+  name,
+  items,
+}: CheckboxGroupProps<T>) {
   return (
     <FormField
       control={control}
@@ -41,9 +45,12 @@ export function CheckboxGroup({ control, name, items }: Props) {
                         checked={field.value?.includes(item.value)}
                         onCheckedChange={(checked) => {
                           return checked
-                            ? field.onChange([...field.value, item.value])
+                            ? field.onChange([
+                                ...(field.value || []),
+                                item.value,
+                              ])
                             : field.onChange(
-                                field.value?.filter(
+                                (field.value || []).filter(
                                   (value: string | number) =>
                                     value !== item.value,
                                 ),
