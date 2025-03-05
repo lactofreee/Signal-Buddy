@@ -67,6 +67,7 @@ export const setTokenHandler = async () => {
         console.error("토큰 생성 불가");
       } else {
         // 토큰을 받았다면 여기서 DB에 저장하면 됩니다.
+        alert(`token:${token}`);
         console.log("token: ", token);
       }
     })
