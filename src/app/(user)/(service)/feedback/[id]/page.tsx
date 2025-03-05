@@ -109,16 +109,6 @@ export default async function Page({
           </div>
           {/* 댓글 입력창 */}
           <FeedbackComment id={id} user={user} />
-
-          {/* <div className="mt-5 flex w-full justify-between rounded-[20px] bg-white px-2 py-3">
-            <input
-              placeholder="답변을 입력해주세요."
-              className="w-full pl-3 text-xs font-semibold text-gray-500 outline-none"
-            />
-            <PaperAirplaneIcon />
-          </div>
-          {/* 댓글 목록 */}
-          {/* <FeedbackCommentList id={id} userId={userId} />  */}
         </div>
       ) : (
         <div>로그인 후 사용하세용</div>

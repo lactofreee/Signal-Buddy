@@ -43,7 +43,7 @@ interface IFeedbackDetailResponse {
 
 interface IFeedbackCommentListProps {
   id: string;
-  userId: string | null;
+  userId?: string;
 }
 
 interface IFeedbackCommentListResponse {
@@ -63,8 +63,11 @@ interface SearchResult {
 }
 
 interface IFeedbackCommentProps {
+  feedbackId: string;
   commentItem: Comment;
-  userId: string | null;
+  userId?: string;
+  comments: Comment[];
+  setComments: Dispatch<SetStateAction<Comment[]>>;
 }
 
 interface Comment {

@@ -5,7 +5,7 @@ export const fetchCommentList = async (
 ): Promise<IFeedbackCommentListResponse | null> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/feedbacks/${id}/comments?size=20`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/feedbacks/${id}/comments?size=100`,
     );
 
     if (!res.ok) {

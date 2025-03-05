@@ -15,7 +15,7 @@ interface ITempComment {
   content: string;
   createdAt: string; // toISOString()은 문자열 반환
   member: {
-    memberId: string;
+    memberId: number;
     nickname: string;
     profileImageUrl?: string;
   };
@@ -42,23 +42,22 @@ interface PaginatedResponse {
   status: string;
   message: string | null;
   data: {
-      totalElements: number;
-      totalPages: number;
-      currentPageNumber: number;
-      pageSize: number;
-      hasNext: boolean;
-      hasPrevious: boolean;
-      searchResults: Comment[];
+    totalElements: number;
+    totalPages: number;
+    currentPageNumber: number;
+    pageSize: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+    searchResults: Comment[];
   };
 }
-
 
 export default function FeedbackComment({
   id,
   user,
 }: {
   id: string;
-  user: User | undefined;
+  user?: User;
 }) {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -75,6 +74,7 @@ export default function FeedbackComment({
         },
       };
     });
+    console.log(newComment);
   };
 
   const postNewComment = async (id: string, token: string, content: string) => {
@@ -124,7 +124,7 @@ export default function FeedbackComment({
         content: newComment,
         createdAt: new Date().toISOString(),
         member: {
-          memberId: user.id,
+          memberId: user.memberId,
           nickname: user.nickname,
           profileImageUrl: user.profileImageUrl,
         },
@@ -157,7 +157,7 @@ export default function FeedbackComment({
       </form>
 
       {/* 댓글 목록 */}
-      <FeedbackCommentList id={id} userId={user!.id} />
+      <FeedbackCommentList id={id} userId={user?.id} />
     </>
   );
 }
