@@ -26,10 +26,12 @@ const otpSchema = z.object({
 
 export function OTPForm({
   isOtpComplete,
+  loading,
   setOtpValue,
   onSubmitOtp,
 }: {
   isOtpComplete: boolean;
+  loading: boolean;
   setOtpValue: (value: string) => void;
   onSubmitOtp: (otp: string) => void;
 }) {
@@ -108,6 +110,7 @@ export function OTPForm({
                   className={`w-full max-w-[84px] h-12 rounded-lg text-white font-bold text-sm ml-1 ${
                     isOtpComplete ? "bg-teal" : "bg-gray-400"
                   }`}
+                  disabled={loading}
                 >
                   인증
                 </Button>

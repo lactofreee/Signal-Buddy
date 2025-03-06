@@ -58,7 +58,7 @@ export function LoginForm() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      const { email, password } = values;
+      const { email, password, agree } = values;
       const result = await signIn("credentials", {
         id: email,
         password,
@@ -67,6 +67,11 @@ export function LoginForm() {
       if (result && result.error) {
         if (result.code) toast(result.code);
         else toast("이메일 혹은 비밀번호를 확인해주세요.");
+      }
+      if (agree.length) {
+        localStorage.setItem("signal-email", email);
+      } else {
+        localStorage.removeItem("signal-email");
       }
     } catch (err) {
       console.error(err);
@@ -78,6 +83,10 @@ export function LoginForm() {
 
   useEffect(() => {
     console.log(session);
+    const storagedEmail = localStorage.getItem("signal-email");
+    if (storagedEmail) {
+      form.setValue("email", storagedEmail);
+    }
     if (session && session.user) {
       toast("로그인에 성공했습니다.");
 

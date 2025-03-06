@@ -9,7 +9,7 @@ import server from "./lib/api/server";
 import { AxiosResponse } from "axios";
 
 class InvalidLoginError extends CredentialsSignin {
-  code = "사용자를 찾을 수 없습니다.";
+  code = "해당 사용자를 찾을 수 없습니다.";
 }
 
 const tokenConvert = async (response: AxiosResponse) => {
@@ -46,11 +46,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: id as string,
           password: password as string,
         });
-        if (response.status === 404) {
+        if (response.data.status === "오류") {
           throw new InvalidLoginError();
         }
         const user = response.data;
-
         const tokens = tokenConvert(response);
         return { ...user.data, ...tokens };
       },
@@ -84,7 +83,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
         const res = await server.post("/api/auth/social-login", body);
         const data = res.data;
-        console.log("social login", data.data);
         if (data.status === "성공") {
           const { token, refreshToken } = await tokenConvert(res);
           user.memberId = data.data.memberId;
@@ -123,8 +121,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     jwt: async ({ token, user, trigger, session }) => {
-      console.log("token", token);
-      console.log("user", user);
       if (user) {
         token = { ...token, ...user };
       }

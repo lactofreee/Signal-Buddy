@@ -1,5 +1,10 @@
 import { ResetPassword } from "@/src/components/auth/reset-password/reset-password";
 
-export default function ResetPasswordPage() {
-  return <ResetPassword />;
+type Props = {
+  searchParams?: Promise<{ email: string; date: string }>;
+};
+
+export default async function ResetPasswordPage({ searchParams }: Props) {
+  const searchparams = await searchParams;
+  return <ResetPassword searchparams={searchparams} />;
 }

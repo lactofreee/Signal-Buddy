@@ -16,6 +16,10 @@ import { z } from "zod";
 import { PasswordInput } from "../password-input";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import axios from "axios";
+import { resetPW } from "@/src/services/auth.service";
 
 const formSchema = z
   .object({
@@ -55,7 +59,12 @@ const formSchema = z
     }
   });
 
-export function ResetPassword() {
+type Props = {
+  searchparams?: { email: string; date: string };
+};
+
+export function ResetPassword({ searchparams }: Props) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,9 +73,22 @@ export function ResetPassword() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("비밀번호 재설정:", values);
-    // 비밀번호 재설정 로직 추가하기
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      if (!searchparams) return toast("이메일을 입력해주세요.");
+      const { email } = searchparams;
+      const res = await resetPW({ email, newPassword: values.password });
+      const data = res.data;
+      if (data) {
+        toast("성공적으로 변경 되었습니다.");
+        router.push("/login");
+      }
+    } catch (err) {
+      console.error(err);
+      if (axios.isAxiosError(err) && err.response) {
+        toast(err.response.data.message || "알수 없는 에러가 발생했습니다.");
+      }
+    }
   };
 
   const error = form.formState.errors;
@@ -77,6 +99,26 @@ export function ResetPassword() {
       if (arr) toast(arr.message);
     }
   }, [error]);
+
+  useEffect(() => {
+    const validateSearchParams = () => {
+      if (!searchparams) return false;
+
+      const { email, date } = searchparams;
+      if (!email || !date) return false;
+
+      const currentTime = dayjs();
+      const startTime = dayjs(date);
+      const timeDiff = currentTime.diff(startTime, "minutes");
+
+      return !isNaN(timeDiff) && timeDiff <= 5;
+    };
+
+    if (!validateSearchParams()) {
+      toast("이메일 인증을 진행해주세요.");
+      router.push("/reset-password/verify");
+    }
+  }, [router, searchparams]);
 
   return (
     <Form {...form}>

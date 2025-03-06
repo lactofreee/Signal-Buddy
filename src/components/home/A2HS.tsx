@@ -44,7 +44,7 @@ export function A2HS() {
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        handleBeforeInstallPrompt,
       );
     };
   }, []);
@@ -68,7 +68,7 @@ export function A2HS() {
       <DrawerTrigger asChild>
         <Button
           variant="outline"
-          className="mx-auto h-[50px] w-[200px] rounded-lg bg-black font-bold text-white sm:mx-0 sm:h-[50px] sm:text-xl border-none"
+          className="h-[50px] min-w-[120px] sm:w-[200px] rounded-lg bg-black font-bold text-white hover:text-black hover:bg-white sm:mx-0 sm:h-[50px] sm:text-xl border-none"
         >
           앱처럼 사용하기
         </Button>

@@ -25,9 +25,11 @@ const formSchema = z.object({
 export function EmailForm({
   onEmailSend,
   isEmailSent,
+  loading,
 }: {
   onEmailSend: (email: string) => void;
   isEmailSent: boolean;
+  loading: boolean;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,6 +75,7 @@ export function EmailForm({
                 <Button
                   type="submit"
                   className="bg-teal w-full max-w-[84px] h-12 rounded-lg text-white font-bold text-sm"
+                  disabled={loading}
                 >
                   {isEmailSent ? "재전송" : "전송"}
                 </Button>
