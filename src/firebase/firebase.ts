@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
+import { User } from "../types/feedback/feedbackList";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,19 +26,18 @@ export const app = initializeApp(firebaseConfig);
 
 const VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
 
-const sendTokenToServer = async (token: string) => {
+const sendTokenToServer = async (userToken: string, deviceToken: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/fcm/push`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/fcm/token`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: userToken,
         },
         body: JSON.stringify({
-          deviceToken: token,
-          title: "제목입니다.",
-          content: "내용입니다.",
+          deviceToken,
         }),
       },
     );
@@ -44,14 +45,14 @@ const sendTokenToServer = async (token: string) => {
     if (!response.ok) {
       throw new Error("토큰 저장 실패");
     }
-
-    console.log("토큰이 백엔드에 성공적으로 저장됨");
+    const resData = await response.json();
+    console.log("토큰이 백엔드에 성공적으로 저장됨", resData);
   } catch (error) {
     console.error("토큰 전송 중 오류 발생:", error);
   }
 };
 
-export const setTokenHandler = async () => {
+export const setTokenHandler = async (userToken: string) => {
   const messaging = getMessaging(app);
   const swRegistration = await navigator.serviceWorker.register(
     "/firebase-messaging-sw.js",
@@ -68,6 +69,8 @@ export const setTokenHandler = async () => {
       } else {
         // 토큰을 받았다면 여기서 DB에 저장하면 됩니다.
         alert(`token:${token}`);
+        console.log(token);
+        sendTokenToServer(userToken, token);
         console.log("token: ", token);
       }
     })
@@ -76,7 +79,7 @@ export const setTokenHandler = async () => {
     });
 };
 
-export const clickPushHandler = async () => {
+export const clickPushHandler = async (userToken: string) => {
   if (!("Notification" in window)) {
     console.log("이 브라우저는 푸시 알림을 지원하지 않습니다.");
     return;
@@ -94,7 +97,7 @@ export const clickPushHandler = async () => {
 
   if (permission === "granted") {
     console.log("푸시 승인됨");
-    setTokenHandler();
+    setTokenHandler(userToken);
   } else if (permission === "denied") {
     console.log("푸시 거부됨");
   }

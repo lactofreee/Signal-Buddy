@@ -12,14 +12,14 @@ export default function Footer() {
       aria-label="사이트 하단 정보"
     >
       <div
-        className="flex h-[117px] w-[calc(100vw-32px)] max-w-[1240px] flex-col rounded-[20px] bg-white px-6 sm:h-[190px] sm:px-5 sm:pt-5 md:w-[calc(100vw-60px)]"
+        className="flex h-[117px] w-[calc(100vw-32px)] max-w-[1240px] flex-col rounded-[20px] theme-footer-bg px-6 sm:h-[190px] sm:px-5 sm:pt-5 md:w-[calc(100vw-60px)]"
         role="contentinfo"
       >
         <h2 id="footer-heading" className="sr-only">
           Footer Navigation
         </h2>
 
-        <div className="sm:border-grey-300 flex h-[128px] justify-between sm:border-b">
+        <div className="sm:theme-line flex h-[128px] justify-between sm:border-b">
           {/* 로고 및 슬로건 */}
           <div className="mb-3 flex w-full flex-col items-center gap-[14px] pt-[21px] sm:mb-0 sm:items-start">
             <Link
@@ -33,9 +33,10 @@ export default function Footer() {
                 height={34}
                 layout="responsive"
                 objectFit="contain"
+                className="dark:invert"
               />
             </Link>
-            <p className="text-grey-500 hidden font-semibold sm:flex">
+            <p className="theme-footer-catchphrase hidden font-semibold sm:flex">
               모두를 위한 보행 파트너
             </p>
           </div>
@@ -43,10 +44,10 @@ export default function Footer() {
           {/* 네비게이션 섹션 */}
           <nav aria-label="Footer Main Menu" className="hidden gap-4 sm:flex">
             <div className="w-[120px]">
-              <h3 className="border-grey-300 text-grey-400 border-b pb-2 text-[10px]">
+              <h3 className="theme-footer-line theme-footer-menu border-b pb-2 text-[10px]">
                 MENU
               </h3>
-              <ul className="text-grey-500 mt-2 flex flex-col gap-[11px] text-xs font-semibold">
+              <ul className="theme-footer-nav mt-2 flex flex-col gap-[11px] text-xs font-semibold">
                 <li>
                   <Link href="/" className="hover:underline">
                     홈
@@ -65,10 +66,10 @@ export default function Footer() {
               </ul>
             </div>
             <div className="w-[140px]">
-              <h3 className="border-grey-300 text-grey-400 border-b pb-2 text-[10px]">
+              <h3 className="theme-footer-line theme-footer-menu border-b pb-2 text-[10px]">
                 TERMS
               </h3>
-              <ul className="text-grey-500 mt-2 flex flex-col gap-[12px] text-xs font-semibold">
+              <ul className="theme-footer-nav mt-2 flex flex-col gap-[12px] text-xs font-semibold">
                 <li>
                   <Link href="/privacy" className="hover:underline">
                     개인정보처리방침
@@ -89,7 +90,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <nav className="text-grey-500 mb-[11px] flex justify-between text-xs font-semibold sm:mb-0 sm:hidden">
+        <nav className="theme-footer-nav mb-[11px] flex justify-between text-xs font-semibold sm:mb-0 sm:hidden">
           <ul className="flex gap-5">
             <li>
               <Link href="/">홈</Link>
@@ -113,7 +114,9 @@ export default function Footer() {
 
         {/* 저작권 정보 */}
         <div className="flex justify-center pb-4 pt-3">
-          <p className="text-grey-500 text-xs">© 2025 all rights reserved.</p>
+          <p className="theme-footer-rights text-xs">
+            © 2025 all rights reserved.
+          </p>
         </div>
       </div>
     </footer>

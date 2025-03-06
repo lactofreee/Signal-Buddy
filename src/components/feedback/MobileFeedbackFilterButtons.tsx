@@ -11,24 +11,27 @@ export default function MobileFeedbackFilterButtons() {
   const { replace } = useRouter();
 
   const statusMapping: Record<string, string> = {
-    "ALL": "",
+    ALL: "",
     "답변 전": "before",
     "답변 후": "completion",
   };
 
   const currentStatus = searchParams.get("status") || "";
 
-  const handleToggle = useCallback((filter: string) => {
-    const newStatus = statusMapping[filter];
+  const handleToggle = useCallback(
+    (filter: string) => {
+      const newStatus = statusMapping[filter];
 
-    const params = new URLSearchParams(searchParams);
-    if (newStatus) {
-      params.set("status", newStatus);
-    } else {
-      params.delete("status");
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }, [searchParams, pathname, replace]);
+      const params = new URLSearchParams(searchParams);
+      if (newStatus) {
+        params.set("status", newStatus);
+      } else {
+        params.delete("status");
+      }
+      replace(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, replace],
+  );
 
   return (
     <div className="flex items-center gap-1">
@@ -39,7 +42,7 @@ export default function MobileFeedbackFilterButtons() {
           <Button
             key={filter}
             className={`flex h-[30px] w-[80px] items-center justify-center rounded-[30px] text-sm font-semibold pt-3 
-              ${isChecked ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-600 hover:bg-gray-600 hover:text-white"}`}
+              ${isChecked ? "theme-feedback-button-checked text-white" : "theme-feedback-button-unchecked hover:theme-feedback-button-checked hover:text-white"}`}
             onClick={() => handleToggle(filter)}
           >
             {filter}

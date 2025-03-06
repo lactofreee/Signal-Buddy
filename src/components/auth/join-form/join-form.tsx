@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import logo from "@/public/imgs/Logo.png";
-import defaultProfile from "@/public/imgs/DefaultProfile.png";
-import cameraIcon from "@/public/imgs/Camera.png";
+import { CameraIcon } from "@/src/components/utils/icons";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,8 +19,10 @@ import { CheckboxGroup } from "../../common/form/CheckboxGroup";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { join } from "@/src/services/auth.service";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PasswordInput } from "../password-input";
+import Profile from "../../common/profile/Profile";
+import axios from "axios";
 
 const formSchema = z
   .object({
@@ -72,13 +73,21 @@ const formSchema = z
   });
 
 export function JoinForm() {
+  const searchParams = useSearchParams();
+  const provider = searchParams.get("provider");
+  const id = searchParams.get("id");
+  const nickname = searchParams.get("nickname");
+  const email = searchParams.get("email");
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [profileFile, setProfileFile] = useState<File | null>(null);
+
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      nickname: "",
+      email: email || "",
+      nickname: nickname || "",
       password: "",
       passwordConfirm: "",
       agree: [],
@@ -94,11 +103,23 @@ export function JoinForm() {
     }
   }, [error]);
 
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || !files[0]) return;
+    const file = files[0];
+    setProfileFile(file);
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { email, password, nickname } = values;
     try {
       setLoading(true);
-      const body = { email, password, nickname };
+      const body = { email, password, nickname } as { [key: string]: string };
+      if (provider && id) {
+        body.provider = provider;
+        body.socialUserId = id;
+      }
+
       const formData = new FormData();
       formData.append(
         "memberJoinRequest",
@@ -106,6 +127,9 @@ export function JoinForm() {
           type: "application/json",
         }),
       );
+      if (profileFile) {
+        formData.append("profileImageUrl", profileFile);
+      }
 
       const data = await join(formData);
       if (data.status === 200) {
@@ -114,6 +138,9 @@ export function JoinForm() {
       }
     } catch (err: unknown) {
       console.error(err);
+      if (axios.isAxiosError(err) && err.response) {
+        toast(err.response.data.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -123,37 +150,34 @@ export function JoinForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-[360px] md:bg-white"
+        className="w-full max-w-[360px] md:theme-content-bg"
       >
         <div className="flex flex-col ">
-          <Image src={logo} alt="Signal Buddy 로고" width={206} height={38} />
-          <p className="text-sm mt-4 text-gray-500">
+          <Image
+            src={logo}
+            alt="Signal Buddy 로고"
+            width={206}
+            height={38}
+            className="dark:invert"
+          />
+          <p className="text-sm mt-4 theme-label">
             시그널 버디에 오신 것을 환영합니다.
           </p>
         </div>
         <div className="flex flex-col items-center mt-8">
-          <p className="self-start text-xs font-medium text-gray-500">
+          <p className="self-start text-xs font-medium theme-label-dark">
             프로필 이미지
           </p>
-          <div className="relative w-[100px] h-[100px] rounded-full bg-white border border-gray-300 flex items-center justify-center mt-2">
-            <Image
-              src={defaultProfile}
-              alt="프로필 이미지"
-              width={58}
-              height={58}
-              className="object-cover"
+          <label className="relative aspect-square w-[100px] cursor-pointer">
+            <Profile
+              src={profileFile ? URL.createObjectURL(profileFile) : undefined}
+              size="3xl"
             />
-            <div className="absolute bottom-[8px] right-[4px] w-[26px] h-[26px] bg-white border border-gray-400 rounded-full flex items-center justify-center transform translate-x-1/4 translate-y-1/4">
-              <label htmlFor="profileImage">
-                <Image
-                  src={cameraIcon}
-                  alt="이미지 추가"
-                  width={16}
-                  height={14}
-                />
-              </label>
+            <div className="hover:bg-gray-300 outline-gray-300 absolute bottom-0 right-0 flex aspect-square w-[26px] cursor-pointer items-center justify-center rounded-full bg-white outline outline-1 theme-content-bg theme-camera-border">
+              <CameraIcon className="aspect-square w-[18px]" />
             </div>
-          </div>
+            <input type="file" className="hidden" onChange={handleChangeFile} />
+          </label>
         </div>
         <div className="grid mt-2">
           <FormField
@@ -161,11 +185,14 @@ export function JoinForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs text-gray-500 ">이메일</FormLabel>
+                <FormLabel className="text-xs theme-label-dark ">
+                  이메일
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="이메일을 입력해 주세요."
-                    className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300"
+                    className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300 theme-line theme-content-bg"
+                    disabled={!!email}
                     {...field}
                   />
                 </FormControl>
@@ -179,11 +206,13 @@ export function JoinForm() {
             name="nickname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs text-gray-500 ">닉네임</FormLabel>
+                <FormLabel className="text-xs theme-label-dark ">
+                  닉네임
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="닉네임을 입력해 주세요."
-                    className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300"
+                    className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border theme-line theme-content-bg"
                     {...field}
                   />
                 </FormControl>
@@ -203,7 +232,7 @@ export function JoinForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs text-gray-500 ">
+                <FormLabel className="text-xs text-gray-500">
                   비밀번호
                 </FormLabel>
                 <FormControl>

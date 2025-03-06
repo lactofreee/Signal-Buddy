@@ -313,7 +313,7 @@ export default function MapDirection({ map, location }: Props) {
                         <FormControl>
                           <Input
                             placeholder="출발지를 입력해주세요."
-                            className="h-12 bg-white placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300 px-2 !m-0"
+                            className="h-12 theme-content-bg placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border theme-line px-2 !m-0"
                             onFocus={() => setFocus("start")}
                             {...field}
                           />
@@ -330,7 +330,7 @@ export default function MapDirection({ map, location }: Props) {
                         <FormControl>
                           <Input
                             placeholder="도착지를 입력해주세요."
-                            className="h-12 bg-white placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300 px-2 !m-0"
+                            className="h-12 theme-content-bg placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border thene-line px-2 !m-0"
                             onFocus={() => setFocus("end")}
                             {...field}
                           />

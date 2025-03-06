@@ -90,11 +90,17 @@ export function LoginForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full max-w-[360px] md:bg-white"
+          className="w-full max-w-[360px] md:theme-content-bg"
         >
           <div className="flex flex-col ">
-            <Image src={logo} alt="Signal Buddy 로고" width={206} height={38} />
-            <p className="text-sm mt-4 text-gray-500">
+            <Image
+              src={logo}
+              alt="Signal Buddy 로고"
+              width={206}
+              height={38}
+              className="dark:invert"
+            />
+            <p className="text-sm mt-4 theme-label">
               네이버, 카카오, 구글 통합 회원으로 로그인이 가능합니다.
             </p>
           </div>
@@ -104,13 +110,11 @@ export function LoginForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-500 ">
-                    이메일
-                  </FormLabel>
+                  <FormLabel className="text-xs theme-label ">이메일</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="이메일을 입력해 주세요."
-                      className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300"
+                      className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border theme-line theme-content-bg"
                       {...field}
                     />
                   </FormControl>
@@ -128,7 +132,7 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-500 ">
+                  <FormLabel className="text-xs theme-label">
                     비밀번호
                   </FormLabel>
                   <FormControl>
@@ -153,7 +157,7 @@ export function LoginForm() {
               </div>
               <Link
                 href="/reset-password/verify"
-                className="text-xs font-medium text-gray-500 ml-auto underline-offset-2 hover:underline"
+                className="text-xs font-medium theme-label-dark ml-auto underline-offset-2 hover:underline"
               >
                 비밀번호 재설정
               </Link>
@@ -167,7 +171,7 @@ export function LoginForm() {
             로그인
           </Button>
           <div className="text-center text-xs mt-4">
-            <Link href="/join" className="font-medium text-gray-500">
+            <Link href="/join" className="font-medium theme-label">
               회원가입
             </Link>
           </div>

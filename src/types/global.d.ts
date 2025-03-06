@@ -3,6 +3,7 @@ import {
   TMap,
   TMapLatLng,
   TMapMarker,
+  TMapCluster,
   TMapPolyline,
   TMapMarkerOptions,
   TMapSize,
@@ -33,6 +34,10 @@ declare global {
           ) => void;
           getPOIDataFromIdJson: (string, {}, {}) => void;
         };
+        MarkerCluster: new (options?: {
+          markers: TMapMarker[];
+          map: TMap;
+        }) => TMapCluster;
       };
       Map: {
         new (element: HTMLElement | string, options?: MapOptions): TMap;

@@ -152,6 +152,7 @@ export interface LineStringFeature {
 export type RouteFeature = PointFeature | LineStringFeature;
 
 export type TMap = {
+  getZoom: () => number;
   getCenter: () => TMapLatLng;
   setCenter: (latLng: TMapLatLng) => void;
   setZoomLimit: (minZoom: number, maxZoom: number) => void;
@@ -162,10 +163,14 @@ export type TMap = {
     eventType: EventType,
     listener: (event: TMapEvent) => void,
   ) => void;
+  removeListener: (
+    eventType: EventType,
+    listener: (event: TMapEvent) => void,
+  ) => void;
   setMapType: (type: number) => void;
   _data: { mapType: 1 | 4 | 5 };
 };
-type EventType = "click" | "touchend";
+type EventType = "click" | "touchend" | "dragend" | "zoom_changed";
 
 export type TMapEvent = {
   latLng: TMapLatLng;
@@ -199,6 +204,10 @@ export type TMapMarkerOptions = {
   title?: string;
   animation?: number;
 };
+export interface TMapCluster {
+  name: string;
+  setMap: (map: TMap | null) => void;
+}
 export interface TMapPolyline {
   setMap: (map: TMap | null) => void;
 }

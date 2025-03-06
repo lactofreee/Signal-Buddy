@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
+import InputFile from "@/src/components/feedback/ui/InputFile";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -24,6 +26,7 @@ export default function Page() {
   const [category, setCategory] = useState<string>("ETC");
   const [isSecret, setIsSecret] = useState(false);
   const [crossroadId, setCrossroadId] = useState<number>(2);
+  const [imageUrl, setImageUrl] = useState<File | null | string>(null);
 
   const handleToggleChange = (value: string) => {
     setSelectedOption((prev) => (prev === value ? null : value));
@@ -72,13 +75,6 @@ export default function Page() {
 
     const formData = new FormData();
 
-    // const fileInput = document.querySelector<HTMLInputElement>("#fileInput");
-    // if (fileInput?.files?.length) {
-    //   formData.append("imageFile", fileInput.files[0]);
-    // }
-
-    console.log(category.toUpperCase());
-
     const requestData = {
       subject: title,
       content,
@@ -88,40 +84,62 @@ export default function Page() {
       createdAt: new Date().toISOString(),
     };
 
+    const imageFile = {
+      imageUrl,
+    };
+
     console.log(requestData);
+    console.log(imageFile);
 
     if (!title || !content || !category) {
       console.log(formData);
       toast.error("내용을 모두 입력해주세요.");
       return;
     }
+
+    if (imageUrl) {
+      formData.append("imageFile", imageUrl);
+    }
+
     formData.append(
       "request",
       new Blob([JSON.stringify(requestData)], { type: "application/json" }),
     );
 
-    // API 호출
-    await postNewFeedback(formData);
-    router.push("/feedback");
-  };
+    Swal.fire({
+      title: "피드백 제출",
+      text: "작성한 내용을 제출하시겠습니까?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "제출",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        postNewFeedback(formData);
+        router.push("/feedback");
+        Swal.fire({
+          title: "제출 완료",
+          text: "게시물이 정상적으로 제출되었습니다.",
+          icon: "success",
+        });
+        setTimeout(() => router.refresh(), 1000);
+      }
+    });
 
-  interface FeedbackSubmitForm {
-    subject: string;
-    content: string;
-    category: string | null;
-    secret: boolean;
-    crossroadId: number;
-  }
+    // API 호출
+  };
 
   return (
     <div className="flex flex-col md:mx-auto md:w-[821px]">
       {/* 헤더 영역 */}
       <Link
         href={`/feedback`}
-        className="flex h-10 items-center gap-1 border-b border-gray-300"
+        className="flex h-10 items-center gap-1 border-b theme-line"
       >
         <ArrowLeftIcon className="h-6 w-6 text-gray-700" />
-        <p className="text-sm font-semibold">뒤로가기</p>
+        <p className="text-sm font-semibold theme-header-text">뒤로가기</p>
       </Link>
       <form
         className="flex flex-col gap-4 pt-2"
@@ -129,12 +147,12 @@ export default function Page() {
       >
         {/* 제목 입력 */}
         <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="title" className="text-sm font-medium text-gray-500">
+          <Label htmlFor="title" className="text-sm font-medium theme-label">
             제목
           </Label>
           <Input
             type="text"
-            className="h-12 rounded-[4px] p-4 border border-gray-300 bg-white shadow-none text-gray-500 font-medium placeholder:text-gray-400"
+            className="h-12 rounded-[4px] p-4 border theme-line theme-content-bg shadow-none text-gray-500 font-medium placeholder:text-gray-400"
             placeholder="제목을 입력해주세요."
             id="title"
             onChange={(e) => setTitle(e.target.value)}
@@ -144,15 +162,15 @@ export default function Page() {
 
         {/* 피드백 유형 선택 */}
         <div className="flex flex-col gap-2">
-          <p className="text-sm text-gray-500 font-medium">피드백 유형</p>
+          <p className="text-sm theme-label font-medium">피드백 유형</p>
           <DropDownMenu addCategory={setCategory} />
         </div>
 
         {/* 본문 입력 */}
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-gray-500">본문</p>
+          <p className="text-sm font-medium theme-label">본문</p>
           <textarea
-            className="h-[409px] resize-none rounded-[4px] p-4 border border-gray-300 placeholder:text-sm placeholder:text-gray-400 text-gray-500 text-[14px]"
+            className="h-[409px] resize-none rounded-[4px] p-4 border theme-line theme-content-bg placeholder:text-sm placeholder:text-gray-400 text-gray-500 text-[14px]"
             placeholder="내용을 입력해주세요."
             onChange={(e) => setContent(e.target.value)}
             value={content}
@@ -167,9 +185,14 @@ export default function Page() {
           />
         </div>
 
+        {/* 이미지 입력 */}
+        <div className="flex flex-col gap-2">
+          <InputFile setImageUrl={setImageUrl} />
+        </div>
+
         {/* 숨김처리 여부 - 토글 버튼 */}
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-gray-500">숨김처리</p>
+          <p className="text-sm font-medium theme-label">숨김처리</p>
 
           <div
             className={`mb-[187px] flex cursor-pointer items-center gap-1 transition-all`}
@@ -184,7 +207,7 @@ export default function Page() {
                 <CheckIcon className="text-white" />
               )}
             </div>
-            <span className="text-xs font-medium text-gray-500">
+            <span className="text-xs font-medium theme-label-dark">
               관리자만 보기
             </span>
           </div>

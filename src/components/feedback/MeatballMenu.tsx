@@ -75,7 +75,7 @@ export default function MeatballMenu({ id }: { id: string }) {
           text: "게시물이 성공적으로 삭제되었습니다.",
           icon: "success",
         });
-        router.refresh();
+        setTimeout(() => router.refresh(), 1500);
       }
     });
   };

@@ -72,7 +72,7 @@ export default function UserConfirm({ onConfirm }: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full ">
         <div className="flex flex-col ">
           <Image src={logo} alt="Signal Buddy 로고" width={206} height={38} />
-          <p className="text-sm mt-4 text-gray-500">
+          <p className="text-sm mt-4 theme-label">
             회원가입 시 등록한 비밀번호를 확인해주세요.
           </p>
         </div>
@@ -81,7 +81,7 @@ export default function UserConfirm({ onConfirm }: Props) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs text-gray-500 ">이메일</FormLabel>
+              <FormLabel className="text-xs theme-label ">이메일</FormLabel>
               <FormControl>
                 <PasswordInput field={field} hasBg />
               </FormControl>

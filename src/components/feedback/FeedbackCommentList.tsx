@@ -90,7 +90,7 @@ function FeedbackCommentItem({
 
   return (
     <article
-      className="flex justify-between pb-[9px] text-sm border-gray-300 border-b"
+      className="flex justify-between pb-[9px] text-sm theme-line border-b"
       aria-labelledby={`comment-${commentId}`}
     >
       <div className="flex flex-col gap-2">
@@ -105,18 +105,18 @@ function FeedbackCommentItem({
             />
             <p
               id={`comment-${commentId}`}
-              className="font-semibold text-gray-700"
+              className="font-semibold theme-nickname"
             >
               {member.nickname}
             </p>
           </div>
         </div>
-        <p className="text-gray-600">{content}</p>
-        <p className="text-xs text-gray-500">{formatDate(createdAt)}</p>
+        <p className="theme-content-text">{content}</p>
+        <p className="text-xs theme-date-text">{formatDate(createdAt)}</p>
       </div>
       {user === author && (
         <button
-          className="bg-transparent text-gray-500 shadow-none px-2"
+          className="bg-transparent theme-content-text-dark shadow-none px-2"
           onClick={
             () => onDelete(commentId, feedbackId, token, setComments) // 댓글 삭제 호출
           }
@@ -161,7 +161,7 @@ export default function FeedbackCommentList({
 
   return (
     <section
-      className="mt-5 w-full rounded-[20px] bg-white px-2 py-3 h-auto"
+      className="mt-5 w-full rounded-[20px] theme-content-bg px-2 py-3 h-auto"
       aria-label="댓글 리스트"
     >
       <div className="flex flex-col gap-2">

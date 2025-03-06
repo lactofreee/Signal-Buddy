@@ -20,9 +20,9 @@ export default function MapSearchResult({ target, onClose, onClick }: Props) {
   return (
     <div className="flex flex-col py-2 max-h-[calc(100vh-126px)]">
       <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
-        <div className="flex flex-col gap-4 bg-white px-2 py-3 md:py-4 rounded-xl">
+        <div className="flex flex-col gap-4 theme-content-bg px-2 py-3 md:py-4 rounded-xl">
           <div className="flex items-center justify-between">
-            <div className="flex gap-1 text-sm font-semibold text-gray-500">
+            <div className="flex gap-1 text-sm font-semibold theme-label">
               {target.detailBizName || "기타"}
             </div>
             <Button onClick={onClose} size={"icon"} variant={"ghost"}>
@@ -40,7 +40,7 @@ export default function MapSearchResult({ target, onClose, onClick }: Props) {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col gap-4 bg-white px-2 py-3 md:py-4 rounded-xl text-sm font-semibold text-gray-500">
+        <div className="flex flex-col gap-4 theme-content-bg px-2 py-3 md:py-4 rounded-xl text-sm font-semibold theme-map-content-text">
           {target.desc && (
             <div className="font-semibold text-sm text-gray-700">
               {target.desc}

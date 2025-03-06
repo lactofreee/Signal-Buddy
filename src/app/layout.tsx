@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Toaster } from "@/components/ui/sonner";
 import RootProvider from "../contexts/RootProvider";
 import FCMNotification from "../components/fcm/FCMNotification";
+import { Providers } from "../components/display-mode/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Signal Buddy | 모두를 위한 보행 파트너",
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <Script src="https://code.jquery.com/jquery-3.2.1.min.js" />
         <Script
@@ -33,12 +34,14 @@ export default function RootLayout({
       </head>
       <RootProvider>
         <body
-          className="bg-grey-100 flex min-h-screen flex-col font-Pretendard antialiased"
+          className="theme-bg flex min-h-screen flex-col font-Pretendard antialiased"
           cz-shortcut-listen="true"
         >
-          <FCMNotification />
-          {children}
-          <Toaster />
+          <Providers>
+            <FCMNotification />
+            {children}
+            <Toaster />
+          </Providers>
         </body>
       </RootProvider>
     </html>

@@ -23,6 +23,7 @@ interface IFeedbackListItem {
   subject: string;
   content: string;
   category: string;
+  imageUrl?: string;
   likeCount: number;
   secret: boolean;
   answerStatus: "BEFORE" | "COMPLETION";

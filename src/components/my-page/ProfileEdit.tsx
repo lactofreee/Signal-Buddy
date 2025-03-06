@@ -1,5 +1,5 @@
 "use client";
-import { CameraIcon, UserIcon } from "@/src/components/utils/icons";
+import { CameraIcon } from "@/src/components/utils/icons";
 import { User } from "next-auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -138,7 +138,7 @@ export default function ProfileEdit({ user }: Props) {
             }
             size="3xl"
           />
-          <div className="hover:bg-grey-300 outline-grey-300 absolute bottom-0 right-0 flex aspect-square w-[26px] cursor-pointer items-center justify-center rounded-full bg-white outline outline-1">
+          <div className="hover:bg-gray-300 outline-gray-300 absolute bottom-0 right-0 flex aspect-square w-[26px] cursor-pointer items-center justify-center rounded-full theme-content-bg outline outline-1">
             <CameraIcon className="aspect-square w-[18px]" />
           </div>
           <input type="file" className="hidden" onChange={handleChangeFile} />
@@ -156,13 +156,13 @@ export default function ProfileEdit({ user }: Props) {
                 name="nickname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs text-gray-500 ">
+                    <FormLabel className="text-xs theme-label ">
                       닉네임
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="닉네임을 입력해 주세요."
-                        className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300 bg-white"
+                        className="h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border theme-line theme-content-bg"
                         {...field}
                       />
                     </FormControl>
@@ -180,7 +180,7 @@ export default function ProfileEdit({ user }: Props) {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs text-gray-500 ">
+                    <FormLabel className="text-xs theme-label ">
                       새 비밀번호
                     </FormLabel>
                     <FormControl>

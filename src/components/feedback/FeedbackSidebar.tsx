@@ -14,8 +14,11 @@ export default function FeedbackSidebar() {
 
   const handleToggle = (status: string) => {
     const newStatus =
-      status === "답변 전" ? "before" :
-      status === "답변 후" ? "completion" : "";
+      status === "답변 전"
+        ? "before"
+        : status === "답변 후"
+          ? "completion"
+          : "";
 
     const params = new URLSearchParams(searchParams);
     if (newStatus) {
@@ -29,8 +32,14 @@ export default function FeedbackSidebar() {
   return (
     <aside className="hidden w-[190px] flex-shrink-0 md:block">
       {/* 답변 여부 필터 */}
-      <div className="text-gray-500" role="group" aria-labelledby="feedback-status">
-        <h2 className="text-xs font-semibold text-gray-500">답변여부</h2>
+      <div
+        className="text-gray-500"
+        role="group"
+        aria-labelledby="feedback-status"
+      >
+        <h2 className="text-xs font-semibold theme-feedback-filter">
+          답변여부
+        </h2>
         <ToggleGroup type="single" className="flex flex-col items-start">
           {["ALL", "답변 전", "답변 후"].map((status) => {
             const isChecked =
@@ -45,7 +54,9 @@ export default function FeedbackSidebar() {
                 onClick={() => handleToggle(status)}
                 aria-checked={isChecked}
                 className={`flex items-center font-bold text-base ${
-                  isChecked ? "text-gray-900" : "text-gray-500"
+                  isChecked
+                    ? "theme-feedback-filter-answer-checked"
+                    : "theme-feedback-filter-answer-unchecked"
                 }`}
               >
                 {status}
@@ -55,10 +66,12 @@ export default function FeedbackSidebar() {
         </ToggleGroup>
       </div>
 
-      <div className="my-5 border-b border-gray-300"></div>
+      <div className="my-5 border-b theme-line"></div>
 
       {/* 피드백 유형 필터 */}
-      <h2 className="text-xs font-semibold text-gray-500">피드백 유형</h2>
+      <h2 className="text-xs font-semibold theme-feedback-filter">
+        피드백 유형
+      </h2>
       <FeedbackRadioButton className="mt-2 flex flex-col gap-2 ml-2" />
     </aside>
   );

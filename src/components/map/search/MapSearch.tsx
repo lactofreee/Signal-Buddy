@@ -265,7 +265,7 @@ export default function MapSearch({ map, location }: Props) {
                 <FormControl>
                   <Input
                     placeholder="검색어를 입력해주세요."
-                    className="h-12 bg-white placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border border-gray-300 px-2 !m-0"
+                    className="h-12 theme-content-bg placeholder:text-gray-400 placeholder:text-sm mt-2 rounded-lg border theme-line px-2 !m-0"
                     onFocus={() => setIsFocus(true)}
                     {...field}
                   />
@@ -288,7 +288,7 @@ export default function MapSearch({ map, location }: Props) {
         ) : (
           <div className="flex flex-col py-2 max-h-[calc(100vh-126px)]">
             <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
-              <div className="flex flex-col gap-2 bg-white px-2 py-3 md:py-4 rounded-md">
+              <div className="flex flex-col gap-2 theme-content-bg px-2 py-3 md:py-4 rounded-md">
                 <div className="text-sm text-gray-500 font-medium mb-2">
                   주변 복지시설{" "}
                   <span className="text-xs font-bold">{welfares.length}</span>
@@ -297,7 +297,7 @@ export default function MapSearch({ map, location }: Props) {
                   <div
                     key={item.id}
                     onClick={() => handleClickItem(item)}
-                    className="bg-white py-3 md:py-4 rounded-md cursor-pointer hover:bg-gray-200 transition-all font-semibold"
+                    className="theme-content-bg py-3 md:py-4 rounded-md cursor-pointer hover:theme-hover transition-all font-semibold"
                   >
                     {item.name}
                   </div>

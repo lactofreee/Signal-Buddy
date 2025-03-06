@@ -47,21 +47,21 @@ export default function MobileToolbar() {
           style={{
             boxShadow: "0 5px 5px -5px gray",
           }}
-          className="absolute left-0 top-[40px] h-[250px] w-full rounded-b-md bg-gray-100 pt-[10px] md:hidden"
+          className="absolute left-0 top-[40px] h-[250px] w-full rounded-b-md theme-bg pt-[10px] md:hidden"
         >
           <div>
-            <h2 className="text-grey-500 flex h-5 items-center text-xs font-semibold">
+            <h2 className="theme-feedback-filter-category flex h-5 items-center text-xs font-semibold">
               피드백 유형
             </h2>
             <FeedbackRadioButton />
           </div>
 
           <div className="mt-3">
-            <h2 className="text-grey-500 flex h-5 items-center text-xs font-semibold">
+            <h2 className="theme-feedback-filter-category flex h-5 items-center text-xs font-semibold">
               검색
             </h2>
             <div
-              className="border-1 flex h-10 w-[117px] items-center justify-start rounded-[8px] border border-gray-300 bg-white p-3 text-sm font-medium text-gray-500"
+              className="border-1 flex h-10 w-[117px] items-center justify-start rounded-[8px] border theme-line theme-content-bg p-3 text-sm font-medium theme-feedback-filter-search"
               role="button"
               tabIndex={0}
               aria-label="검색조건"
@@ -76,13 +76,13 @@ export default function MobileToolbar() {
               <input
                 id="search-input"
                 type="text"
-                className="border-1 h-10 w-full rounded-[8px] border border-gray-300 p-3 text-sm font-medium text-gray-500"
+                className="border-1 h-10 w-full rounded-[8px] border theme-line p-3 text-sm font-medium theme-content-bg text-gray-500"
                 placeholder="검색어를 입력해주세요."
                 aria-describedby="search-input-helper"
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button
-                className="h-10 w-full rounded-[8px] bg-gray-800 text-sm font-medium text-white"
+                className="h-10 w-full rounded-[8px] theme-feedback-filter-search-button text-sm font-medium text-white"
                 aria-label="검색 버튼"
               >
                 검색

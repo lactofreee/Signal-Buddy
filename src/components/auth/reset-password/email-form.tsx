@@ -59,14 +59,14 @@ export function EmailForm({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs text-gray-500 self-start">
+              <FormLabel className="text-xs theme-label self-start">
                 이메일
               </FormLabel>
               <div className="flex w-full max-w-sm items-center mt-2">
                 <FormControl>
                   <Input
                     placeholder="이메일을 입력해 주세요"
-                    className="max-w-[274px] h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm rounded-lg border border-gray-300 mr-1"
+                    className="max-w-[274px] h-12 pl-3 placeholder:text-gray-400 placeholder:text-sm rounded-lg border theme-line theme-content-bg mr-1"
                     {...field}
                   />
                 </FormControl>

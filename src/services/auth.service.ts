@@ -2,7 +2,6 @@ import client from "../lib/api/client";
 import server from "../lib/api/server";
 
 export const login = async (body: { id: string; password: string }) => {
-  console.log("요청!!!!!!!!!!", body);
   return await server.post("/api/auth/login", body);
 };
 

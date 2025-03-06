@@ -36,13 +36,14 @@ export default async function Page({
   }
 
   const feedbackData = res?.data;
+  console.log("이미지: ", feedbackData?.imageUrl);
 
   return (
     <div className="">
       {TOKEN ? (
         <div>
           {/* 헤더 영역 */}
-          <div className="flex h-10 items-center justify-between border-b border-gray-300">
+          <div className="flex h-10 items-center justify-between border-b theme-line">
             <Link href={`/feedback`} className="flex items-center gap-1">
               <ArrowLeftIcon className="h-6 w-6 text-gray-700" />
               <div
@@ -57,7 +58,7 @@ export default async function Page({
           </div>
           {/* 본문 영역 */}
           <div className="pt-2">
-            <div className="w-full rounded-[20px] bg-white px-2 py-3">
+            <div className="w-full rounded-[20px] theme-content-bg px-2 py-3">
               {/* 본문 헤더 */}
               <div className="flex items-center justify-between">
                 <div className="flex">
@@ -71,12 +72,10 @@ export default async function Page({
                     />
                   </div>
                   <div className="flex flex-col justify-center text-xs font-medium">
-                    <p className="text-gray-700">
+                    <p className="theme-nickname">
                       {feedbackData?.member.nickname}
                     </p>
-                    <p className="text-gray-500">
-                      {feedbackData?.member.email}
-                    </p>
+                    <p className="theme-email">{feedbackData?.member.email}</p>
                   </div>
                 </div>
                 <div className="font-semibold text-gray-500">
@@ -85,17 +84,32 @@ export default async function Page({
               </div>
               {/* 본문 메인 */}
               <div className="mt-4">
-                <h1 className="mb-2 text-lg font-bold text-gray-950">
+                {/* 이미지 영역 */}
+                {feedbackData?.imageUrl && (
+                  <div className="flex justify-center">
+                    <div className="w-full max-w-[393px] h-[400px] relative">
+                      <Image
+                        src={feedbackData?.imageUrl}
+                        alt="게시물 이미지 영역입니다."
+                        fill
+                        className="object-contain rounded-lg"
+                      />
+                    </div>
+                  </div>
+                )}
+                <h1 className="mb-2 text-lg font-bold theme-feedback-subject">
                   {feedbackData?.subject}
                 </h1>
-                <p className="mb-4 text-xs font-medium text-gray-500">
+                <p className="mb-4 text-xs font-medium theme-date-text">
                   {formatDate(String(feedbackData?.createdAt))}
                 </p>
-                <p className="mb-10 text-gray-600">{feedbackData?.content}</p>
+                <p className="mb-10 theme-content-text">
+                  {feedbackData?.content}
+                </p>
                 {/* 지도 표시 */}
-                <div className="mb-4 flex h-[100px] items-center gap-[13px] border-y border-gray-300 pb-[6px] pt-[10px]">
+                <div className="mb-4 flex h-[100px] items-center gap-[13px] border-y theme-line pb-[6px] pt-[10px]">
                   <div className="aspect-square w-[84px] rounded-2xl bg-teal"></div>
-                  <p className="text-sm font-bold text-gray-600">
+                  <p className="text-sm font-bold theme-content-text">
                     {feedbackData?.crossroad.name}
                   </p>
                 </div>

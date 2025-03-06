@@ -45,7 +45,7 @@ export default function DropDownMenu({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="text-gray-400 h-12 flex justify-between border border-gray-300 outline-none shadow-none hover:text-gray-500"
+          className="text-gray-400 h-12 flex justify-between border theme-line theme-content-bg outline-none shadow-none hover:text-gray-500"
         >
           <p>{formatCategory(category)}</p>
           <ArrowDownIcon />

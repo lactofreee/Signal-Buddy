@@ -31,10 +31,16 @@ export function ResetPasswordVerification() {
   };
 
   return (
-    <div className="w-full max-w-[362px] md:bg-white">
+    <div className="w-full max-w-[362px] md:theme-content-bg">
       <div className="flex flex-col">
-        <Image src={logo} alt="Signal Buddy 로고" width={206} height={38} />
-        <p className="text-sm mt-4 text-gray-500">
+        <Image
+          src={logo}
+          alt="Signal Buddy 로고"
+          width={206}
+          height={38}
+          className="dark:invert"
+        />
+        <p className="text-sm mt-4 theme-label">
           이메일을 인증하고 비밀번호를 재설정하세요.
         </p>
       </div>

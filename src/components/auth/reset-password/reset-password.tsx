@@ -82,11 +82,17 @@ export function ResetPassword() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-[362px] md:bg-white"
+        className="w-full max-w-[362px] md:theme-content-bg"
       >
         <div className="flex flex-col">
-          <Image src={logo} alt="Signal Buddy 로고" width={206} height={38} />
-          <p className="text-sm mt-4 text-gray-500">
+          <Image
+            src={logo}
+            alt="Signal Buddy 로고"
+            width={206}
+            height={38}
+            className="dark:invert"
+          />
+          <p className="text-sm mt-4 theme-label">
             새로운 비밀번호를 재설정하세요.
           </p>
         </div>
@@ -100,7 +106,7 @@ export function ResetPassword() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-500">
+                  <FormLabel className="text-xs theme-label">
                     비밀번호
                   </FormLabel>
                   <FormControl>
@@ -117,7 +123,7 @@ export function ResetPassword() {
               name="passwordConfirm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-500">
+                  <FormLabel className="text-xs theme-label">
                     비밀번호 확인
                   </FormLabel>
                   <FormControl>

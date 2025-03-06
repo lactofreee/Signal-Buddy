@@ -45,22 +45,24 @@ export default async function Page() {
     <div className="flex w-full justify-center">
       <div className="flex w-[400px] flex-col gap-5 pt-2">
         <section className="flex flex-col gap-2">
-          <div className="border-grey-300 flex h-10 items-center justify-between border-b">
-            <h1 className="text-grey-700 text-sm font-extrabold">
+          <div className="theme-line flex h-10 items-center justify-between border-b">
+            <h1 className="theme-my-profile text-sm font-extrabold">
               나의 프로필
             </h1>
             <Link href="/my-page/settings">
               <SettingIcon />
             </Link>
           </div>
-          <div className="flex items-center gap-4 rounded-[8px] bg-white px-2 py-3">
+          <div className="flex items-center gap-4 rounded-[8px] theme-content-bg px-2 py-3">
             <Profile
               src={session ? session.user.profileImageUrl : undefined}
               size="xl"
             />
             <div className="flex flex-col">
-              <p className="text-grey-700 font-bold">{session.user.nickname}</p>
-              <p className="text-grey-500 text-xs font-medium">
+              <p className="theme-my-profile-name font-bold">
+                {session.user.nickname}
+              </p>
+              <p className="theme-my-profile-email text-xs font-medium">
                 {session.user.email}
               </p>
             </div>
@@ -72,8 +74,10 @@ export default async function Page() {
             프로필 수정
           </Link>
         </section>
-        <section className="rounded-[8px] bg-white px-2 pb-4 pt-3">
-          <h2 className="text-grey-500 mb-2 text-xs font-semibold">내 활동</h2>
+        <section className="rounded-[8px] theme-content-bg px-2 pb-4 pt-3">
+          <h2 className="theme-feedback-filter-category mb-2 text-xs font-semibold">
+            내 활동
+          </h2>
           <ul className="flex flex-col gap-2">
             {activities.map(({ href, icon, label }, index) => (
               <li key={index}>
@@ -89,7 +93,9 @@ export default async function Page() {
                       alt={label}
                       loading="lazy"
                     ></Image>
-                    <h3 className="text-grey-700 font-medium">{label}</h3>
+                    <h3 className="theme-my-profile-name font-medium">
+                      {label}
+                    </h3>
                   </div>
                   <ArrowRightIcon />
                 </Link>
@@ -97,8 +103,8 @@ export default async function Page() {
             ))}
           </ul>
         </section>
-        <section className="rounded-[8px] bg-white px-2 pb-4 pt-3">
-          <h2 className="text-grey-500 mb-2 text-xs font-semibold">
+        <section className="rounded-[8px] theme-content-bg px-2 pb-4 pt-3">
+          <h2 className="theme-feedback-filter-category mb-2 text-xs font-semibold">
             최근 경로
           </h2>
           <ul className="flex flex-col gap-2">
@@ -120,13 +126,15 @@ export default async function Page() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-grey-800 font-bold">최근 목적지 이름</p>
-                    <p className="text-grey-500 text-xs font-medium">
+                    <p className="theme-my-profile-location-name font-bold">
+                      최근 목적지 이름
+                    </p>
+                    <p className="theme-my-profile-location-address text-xs font-medium">
                       최근 목적지 주소
                     </p>
                   </div>
                 </div>
-                <div className="outline-grey-300 flex h-6 w-6 items-center justify-center rounded-full outline outline-1">
+                <div className="outline-gray-300 flex h-6 w-6 items-center justify-center rounded-full outline outline-1">
                   <StarIcon />
                 </div>
               </div>

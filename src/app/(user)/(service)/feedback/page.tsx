@@ -22,7 +22,7 @@ export default async function Page({
     <div className="flex justify-center">
       <div className="flex w-full max-w-[1240px] flex-col items-center justify-center">
         {/* 툴바 영역 */}
-        <div className="sticky top-0 z-10 flex w-full flex-col bg-gray-100 pb-[11px]">
+        <div className="sticky top-0 z-10 flex w-full flex-col theme-bg pb-[11px]">
           <div className="relative mt-2 flex h-[30px] items-center justify-between md:hidden">
             <MobileFeedbackFilterButtons />
             <MobileToolbarHandleButton />
@@ -31,10 +31,10 @@ export default async function Page({
         </div>
 
         {/* 네비게이션 */}
-        <div className="border-grey-300 flex h-10 w-full items-center justify-between border-b text-sm font-extrabold">
-          <p className="text-grey-700">{`홈 > 피드백 게시판`}</p>
+        <div className="theme-line flex h-10 w-full items-center justify-between border-b text-sm font-extrabold">
+          <p className="theme-header-text">{`홈 > 피드백 게시판`}</p>
           <Link href={`/feedback/write`}>
-            <EditIcon className="text-gray-500" />
+            <EditIcon className="theme-edit-icon" />
           </Link>
         </div>
 

@@ -142,12 +142,12 @@ export default function FeedbackComment({
   return (
     <>
       <form
-        className="mt-5 flex w-full justify-between rounded-[20px] bg-white px-2 py-1 items-center"
+        className="mt-5 flex w-full justify-between rounded-[20px] theme-content-bg px-2 py-1 items-center"
         onSubmit={onSubmit}
       >
         <Input
           placeholder="답변을 입력해주세요."
-          className="w-full pl-3 text-xs font-semibold text-gray-500 outline-none border-none shadow-none focus:border-none"
+          className="w-full pl-3 text-xs font-semibold theme-comment-text outline-none border-none shadow-none focus:border-none"
           value={newComment}
           onChange={onInputChange}
         />

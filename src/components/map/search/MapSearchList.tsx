@@ -12,7 +12,7 @@ export default function MapSearchList({ results, onClick }: Props) {
           <div
             onClick={() => onClick(result)}
             key={`${result.id}${idx}`}
-            className="bg-white p-4 rounded-md cursor-pointer hover:bg-gray-200 transition-all font-semibold"
+            className="theme-content p-4 rounded-md cursor-pointer hover:theme-hover transition-all font-semibold"
           >
             {result.name}
           </div>

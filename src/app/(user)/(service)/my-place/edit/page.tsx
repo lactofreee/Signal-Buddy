@@ -123,8 +123,8 @@ export default function Page() {
   return (
     <div className="flex justify-center">
       <div className="flex w-full max-w-[1240px] flex-col items-center justify-center">
-        <div className="border-grey-300 flex h-10 w-full items-center justify-between border-b text-sm font-extrabold mb-5 md:mb-2">
-          <p className="text-grey-700">{`홈 > 즐겨찾기`}</p>
+        <div className="theme-line flex h-10 w-full items-center justify-between border-b text-sm font-extrabold mb-5 md:mb-2">
+          <p className="theme-header-text">{`홈 > 즐겨찾기`}</p>
           <button onClick={handleComplete}>완료</button>
         </div>
         <div className="flex min-h-[917px] w-full">

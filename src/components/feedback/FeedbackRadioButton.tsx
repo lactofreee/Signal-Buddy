@@ -44,7 +44,7 @@ export default function FeedbackRadioButton({ className = "mt-2 flex gap-2" }) {
       {options.map((option) => (
         <label
           key={option.value}
-          className="flex cursor-pointer items-center gap-1 text-gray-500"
+          className="flex cursor-pointer items-center gap-1 theme-feedback-filter-category"
         >
           <input
             type="radio"

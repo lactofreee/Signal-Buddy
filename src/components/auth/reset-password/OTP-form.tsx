@@ -78,27 +78,27 @@ export function OTPForm({
                     <InputOTPGroup className="w-full">
                       <InputOTPSlot
                         index={0}
-                        className="border border-gray-300 bg-white h-12 w-1/6 rounded-l-lg"
+                        className="border theme-line theme-content-bg h-12 w-1/6 rounded-l-lg"
                       />
                       <InputOTPSlot
                         index={1}
-                        className="border-y border-r border-gray-300 bg-white h-12 w-1/6"
+                        className="border-y border-r theme-line theme-content-bg h-12 w-1/6"
                       />
                       <InputOTPSlot
                         index={2}
-                        className="border-y border-gray-300 bg-white h-12 w-1/6"
+                        className="border-y theme-line theme-content-bg h-12 w-1/6"
                       />
                       <InputOTPSlot
                         index={3}
-                        className="border-y border-gray-300 bg-white h-12 w-1/6"
+                        className="border-y theme-line theme-content-bg h-12 w-1/6"
                       />
                       <InputOTPSlot
                         index={4}
-                        className="border-y border-gray-300 bg-white h-12 w-1/6"
+                        className="border-y theme-line theme-content-bg h-12 w-1/6"
                       />
                       <InputOTPSlot
                         index={5}
-                        className="border-y border-gray-300 bg-white h-12 w-1/6 rounded-r-lg"
+                        className="border-y theme-line theme-content-bg h-12 w-1/6 rounded-r-lg"
                       />
                     </InputOTPGroup>
                   </InputOTP>

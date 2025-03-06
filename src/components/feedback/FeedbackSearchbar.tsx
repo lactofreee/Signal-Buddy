@@ -49,7 +49,7 @@ export default function FeedbackSearchbar() {
     <div className="hidden h-10 w-full gap-1 md:flex">
       {/* 검색 조건 표시 */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="border-1 flex h-full w-[117px] items-center justify-between rounded-[8px] border border-gray-300 bg-white p-3 text-sm font-medium text-gray-500 pt-4">
+        <DropdownMenuTrigger className="border-1 flex h-full w-[117px] items-center justify-between rounded-[8px] border theme-line theme-content-bg p-3 text-sm font-medium theme-feedback-filter-search pt-4">
           검색조건
           <ArrowDownIcon className="w-4 text-gray-500" />
         </DropdownMenuTrigger>
@@ -65,14 +65,14 @@ export default function FeedbackSearchbar() {
       <form onSubmit={handleSubmit} className="flex items-center gap-1">
         <input
           type="text"
-          className="border-1 h-10 w-[264px] rounded-[8px] border border-gray-300 p-3 text-sm font-medium text-gray-500"
+          className="border-1 h-10 w-[264px] rounded-[8px] border theme-line theme-content-bg p-3 text-sm font-medium text-gray-500"
           placeholder="검색어를 입력해주세요."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button
           type="submit"
-          className="h-10 w-[70px] rounded-[8px] bg-gray-800 text-sm font-medium text-white"
+          className="h-10 w-[70px] rounded-[8px] theme-feedback-filter-search-button text-sm font-medium text-white"
         >
           검색
         </button>

@@ -60,14 +60,14 @@ export function CheckboxGroup<T extends FieldValues>({
                     </FormControl>
                     {item.link ? (
                       <Link
-                        className="text-xs font-bold underline text-gray-500"
+                        className="text-xs font-bold underline theme-label-dark"
                         href={item.link}
                         target="_blank"
                       >
                         {item.name}
                       </Link>
                     ) : (
-                      <FormLabel className="text-xs font-bold text-gray-500">
+                      <FormLabel className="text-xs font-bold theme-label-dark">
                         {item.name}
                       </FormLabel>
                     )}
