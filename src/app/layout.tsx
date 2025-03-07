@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import RootProvider from "../contexts/RootProvider";
 import FCMNotification from "../components/fcm/FCMNotification";
 import { Providers } from "../components/display-mode/ThemeProvider";
+import ThemeColorUpdater from "../components/home/ThemeColorUpdater";
 
 export const metadata: Metadata = {
   title: "Signal Buddy | 모두를 위한 보행 파트너",
@@ -39,6 +40,7 @@ export default function RootLayout({
         >
           <Providers>
             <FCMNotification />
+            <ThemeColorUpdater />
             {children}
             <Toaster />
           </Providers>

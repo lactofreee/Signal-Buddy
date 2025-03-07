@@ -2,10 +2,6 @@ import type { MetadataRoute } from "next";
 import { headers } from "next/headers";
 
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
-  const headerList = await headers();
-  const prefersDarkMode =
-    headerList.get("sec-ch-prefers-color-scheme") === "dark";
-
   return {
     name: "Signal Buddy",
     short_name: "SignalBuddy",
@@ -13,7 +9,7 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     start_url: "/",
     display: "standalone",
     background_color: "#8DB4AF",
-    theme_color: prefersDarkMode ? "#18181B" : "#F3F3F3",
+    theme_color: "#F3F3F3",
     icons: [
       {
         src: "/icon-192x192.png",
