@@ -84,18 +84,17 @@ export function A2HS() {
                 height={80}
               />
               <div className="text-2xl flex-wrap w-[250px] text-gray-800 font-bold justify-start flex">
-                <p>Signal Buddy 바로가기를</p>
-                <p>추가하시겠습니까?</p>
+                <p className="dark:text-white">Signal Buddy 바로가기를</p>
+                <p className="dark:text-white">추가하시겠습니까?</p>
               </div>
             </DrawerTitle>
           </DrawerHeader>
 
           <DrawerFooter>
             {isIOS ? (
-              <div className="text-center text-gray-600">
-                <p>📌 iOS 사용자는</p>
-                <p>Safari에서 공유 버튼을 눌러</p>
-                <p>홈 화면에 추가하세요.</p>
+              <div className="text-start text-gray-600 text-xl dark:text-white mb-5">
+                <p>📱 iOS 사용자는 Safari에서 공유 버튼을 눌러</p>
+                <p>홈 화면에 추가해주세요.</p>
               </div>
             ) : (
               <Button
