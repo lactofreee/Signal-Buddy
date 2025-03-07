@@ -16,7 +16,7 @@ export default async function Page({
   let res: IFeedbackDetailResponse | null = null;
 
   if (TOKEN) {
-    res = await fetchDataFeedbackItem(id, TOKEN);
+    res = await fetchDataFeedbackItem(id);
   }
 
   const feedbackData = res?.data;
