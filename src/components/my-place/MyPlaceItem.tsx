@@ -14,9 +14,6 @@ export default function MyPlaceItem({ name, address }: MyPlace) {
             {address}
           </p>
         </div>
-        <div className="theme-content-bg w-[58px] h-[58px] rounded-full md:rounded-xl md:border md:border-gray-300 flex items-center justify-center md:mr-4">
-          <div className="bg-gray-500 w-[50px] h-[50px] rounded-full md:rounded-lg"></div>
-        </div>
       </div>
     </article>
   );

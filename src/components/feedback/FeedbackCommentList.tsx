@@ -161,7 +161,7 @@ export default function FeedbackCommentList({
 
   return (
     <section
-      className="mt-5 w-full rounded-[20px] theme-content-bg px-2 py-3 h-auto"
+      className="mt-5 w-full rounded-[20px] theme-content-bg px-5 py-5 h-auto"
       aria-label="댓글 리스트"
     >
       <div className="flex flex-col gap-2">

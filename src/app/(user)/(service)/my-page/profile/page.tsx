@@ -46,11 +46,13 @@ export default async function Page() {
       <div className="flex w-[400px] flex-col gap-5 pt-2">
         <section className="flex flex-col gap-2">
           <div className="theme-line flex h-10 items-center justify-between border-b">
-            <h1 className="theme-my-profile text-sm font-extrabold">
+            <h1 className="theme-my-page-title text-sm font-extrabold">
               나의 프로필
             </h1>
             <Link href="/my-page/settings">
-              <SettingIcon />
+              <span className="theme-my-page-setting-icon">
+                <SettingIcon />
+              </span>
             </Link>
           </div>
           <div className="flex items-center gap-4 rounded-[8px] theme-content-bg px-2 py-3">
@@ -97,7 +99,9 @@ export default async function Page() {
                       {label}
                     </h3>
                   </div>
-                  <ArrowRightIcon />
+                  <span className="theme-my-page-arrow-right-icon">
+                    <ArrowRightIcon />
+                  </span>
                 </Link>
               </li>
             ))}

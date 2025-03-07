@@ -220,8 +220,8 @@ export default {
         ".theme-feedback-filter-search-button": {
           "@apply bg-gray-800 dark:bg-gray-400": "",
         },
-        ".theme-my-profile": {
-          "@apply text-gray-700 dark:text-gray-300": "",
+        ".theme-my-page-title": {
+          "@apply text-gray-700 dark:text-gray-200": "",
         },
         ".theme-my-profile-name": {
           "@apply text-gray-700 dark:text-gray-200": "",
@@ -270,6 +270,91 @@ export default {
         },
         ".theme-hover": {
           "@apply bg-gray-200 dark:bg-gray-300 dark:text-gray-950": "",
+        },
+        ".theme-a2h2-title": {
+          "@apply text-gray-800 dark:text-gray-100": "",
+        },
+        ".theme-a2h2-content": {
+          "@apply text-gray-600 dark:text-gray-400": "",
+        },
+        ".theme-my-page-setting-icon": {
+          "@apply text-gray-700 dark:text-gray-300": "",
+        },
+        ".theme-my-page-arrow-right-icon": {
+          "@apply text-gray-700 dark:text-gray-300": "",
+        },
+        ".theme-my-page-arrow-left-icon": {
+          "@apply text-gray-700 dark:text-gray-300": "",
+        },
+        ".theme-my-page-setting-toggle": {
+          "@apply dark:bg-gray-700 data-[state=checked]:dark:bg-gray-200": "",
+        },
+        ".theme-map-deraction-search-result-box": {
+          "@apply bg-white dark:bg-gray-800": "",
+        },
+        ".theme-map-deraction-search-result-label": {
+          "@apply text-gray-500 dark:text-gray-400": "",
+        },
+        ".theme-map-deraction-search-result-time": {
+          "@apply text-gray-600 dark:text-gray-300": "",
+        },
+        ".theme-map-deraction-search-result-km": {
+          "@apply text-gray-500 dark:text-gray-400": "",
+        },
+        ".theme-map-deraction-speaker-buttton": {
+          "@apply dark:bg-gray-600": "",
+        },
+        ".theme-map-deraction-guide-box": {
+          "@apply bg-white dark:bg-gray-800": "",
+        },
+        ".theme-map-deraction-search-button": {
+          "@apply dark:hover:text-gray-800": "",
+        },
+        ".theme-map-deraction-guide-finish-button": {
+          "@apply dark:hover:text-gray-800": "",
+        },
+        ".theme-map-welfare-facilities": {
+          "@apply text-gray-500 dark:text-gray-400": "",
+        },
+        ".theme-feedback-no-result": {
+          "@apply text-gray-500 dark:text-gray-400": "",
+        },
+        ".theme-my-page-withdraw": {
+          "@apply text-gray-500 dark:text-gray-400": "",
+        },
+        ".theme-my-page-logout": {
+          "@apply  dark:hover:text-gray-800": "",
+        },
+        ".theme-auth-login-button": {
+          "@apply  dark:hover:text-gray-800": "",
+        },
+        ".theme-auth-join-button": {
+          "@apply  dark:hover:text-gray-800": "",
+        },
+        ".theme-auth-reset-password-button": {
+          "@apply  dark:hover:text-gray-800": "",
+        },
+        ".theme-feedback-arrow-right-icon": {
+          "@apply text-gray-700 dark:text-gray-300": "",
+        },
+        ".theme-feedback-meatball-icon": {
+          "@apply text-gray-700 dark:text-gray-400": "",
+        },
+        ".theme-feedback-data-category": {
+          "@apply text-gray-500 dark:text-gray-400": "",
+        },
+        ".theme-feedback-require-comment-text": {
+          "@apply text-gray-500 dark:text-gray-300 dark:placeholder:text-gray-400":
+            "",
+        },
+        ".theme-feedback-comment-submit-icon": {
+          "@apply text-gray-600 dark:text-gray-400": "",
+        },
+        ".theme-home-slogan": {
+          "@apply text-gray-700 dark:text-gray-100": "",
+        },
+        ".theme-home-description": {
+          "@apply text-gray-600 dark:text-gray-100": "",
         },
       });
     },

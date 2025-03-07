@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   TMAP_POINT_TYPE,
   TMAP_FACILITY_TYPE,
@@ -16,7 +17,7 @@ export default function MapDirectionItem({ feature, onClick }: Props) {
   return (
     <div
       onClick={onClick}
-      className="bg-white p-2 flex gap-4 items-center cursor-pointer h-full transiton-all hover:opacity-70 rounded-md"
+      className="theme-map-deraction-guide-box p-2 flex gap-4 items-center cursor-pointer h-full transiton-all hover:opacity-70 rounded-md"
     >
       {"turnType" in feature.properties && (
         <div className="min-w-14 min-h-14  rounded flex items-center justify-center">
@@ -28,22 +29,28 @@ export default function MapDirectionItem({ feature, onClick }: Props) {
             alt="nav icon"
             width={40}
             height={40}
+            className={cn({
+              "dark:invert":
+                TMAP_TURN_TYPE[feature.properties.turnType].value !==
+                  "출발지" &&
+                TMAP_TURN_TYPE[feature.properties.turnType].value !== "목적지",
+            })}
           />
         </div>
       )}
       <div className="flex flex-col gap-2">
         {"pointType" in feature.properties && (
-          <div className="text-sm font-semibold">
+          <div className="text-sm font-semibold ">
             {TMAP_POINT_TYPE[feature.properties.pointType]}
           </div>
         )}
         {"facilityType" in feature.properties && (
-          <div className="text-xs font-semibold">
+          <div className="text-xs font-semibold ">
             {TMAP_FACILITY_TYPE[feature.properties.facilityType]}
           </div>
         )}
         {"turnType" in feature.properties && (
-          <div className="text-lg font-semibold">
+          <div className="text-lg font-semibold ">
             {TMAP_TURN_TYPE[feature.properties.turnType].value}
           </div>
         )}

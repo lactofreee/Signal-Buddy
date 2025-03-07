@@ -1,4 +1,5 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { toast } from "sonner";
 
 export const updateFeedback = async (
   formData: FormData,
@@ -24,7 +25,7 @@ export const updateFeedback = async (
     }
 
     const data = await res.json();
-    console.log("✅ 피드백 업데이트 성공:", data);
+    toast.success("게시물이 수정되었습니다.");
     router.push(`/feedback/${feedbackId}`);
     return data;
   } catch (error) {

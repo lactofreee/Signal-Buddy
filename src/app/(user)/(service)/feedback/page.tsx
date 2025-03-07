@@ -47,7 +47,9 @@ export default async function Page({
               <FeedbackList feedbackList={feedbackList} />
             ) : (
               <div className="flex justify-center mt-[100px]">
-                <p className="text-gray-500 text-sm">검색 결과가 없습니다.</p>
+                <p className="theme-feedback-no-result text-sm">
+                  검색 결과가 없습니다.
+                </p>
               </div>
             )}
           </section>

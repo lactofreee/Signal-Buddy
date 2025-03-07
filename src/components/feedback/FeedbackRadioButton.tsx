@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import { CheckIcon } from "../utils/icons";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 type Option = {
   value: string;
@@ -14,10 +14,9 @@ export default function FeedbackRadioButton({ className = "mt-2 flex gap-2" }) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const initialCategory = searchParams.get("category") || null;
-  const [selectedOption, setSelectedOption] = useState<string | null>(
-    initialCategory,
-  );
+  const initialCategory = searchParams.getAll("category") || [];
+  const [selectedOptions, setSelectedOptions] =
+    useState<string[]>(initialCategory);
 
   const options: Option[] = [
     { value: "delay", label: "신호 지연" },
@@ -27,43 +26,37 @@ export default function FeedbackRadioButton({ className = "mt-2 flex gap-2" }) {
   ];
 
   const handleToggle = (value: string) => {
-    const newValue = selectedOption === value ? null : value;
-    setSelectedOption(newValue);
+    let newSelectedOptions;
 
-    const params = new URLSearchParams(searchParams);
-    if (newValue) {
-      params.set("category", newValue);
+    if (selectedOptions.includes(value)) {
+      newSelectedOptions = selectedOptions.filter((option) => option !== value);
     } else {
-      params.delete("category");
+      newSelectedOptions = [...selectedOptions, value];
     }
+
+    setSelectedOptions(newSelectedOptions);
+
+    // 쿼리 파라미터 업데이트
+    const params = new URLSearchParams(searchParams);
+    params.delete("category"); // 기존 category 제거 후 추가
+    newSelectedOptions.forEach((option) => params.append("category", option));
+
     replace(`${pathname}?${params.toString()}`);
   };
 
   return (
     <div className={className}>
-      {options.map((option) => (
-        <label
-          key={option.value}
-          className="flex cursor-pointer items-center gap-1 theme-feedback-filter-category"
-        >
-          <input
-            type="radio"
-            name="option"
+      <ToggleGroup type="multiple" className="flex flex-col items-start">
+        {options.map((option) => (
+          <ToggleGroupItem
+            key={option.value}
             value={option.value}
-            checked={selectedOption === option.value}
-            onChange={() => handleToggle(option.value)}
-            className="peer hidden"
-          />
-          <span className="flex h-5 w-5 items-center justify-center rounded-sm border-2 border-gray-300 bg-white transition-all peer-checked:border-gray-700">
-            <CheckIcon
-              className={`h-4 w-4 text-gray-700 transition-opacity ${
-                selectedOption === option.value ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          </span>
-          <span className="text-xs font-medium">{option.label}</span>
-        </label>
-      ))}
+            onClick={() => handleToggle(option.value)}
+          >
+            {option.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
     </div>
   );
 }

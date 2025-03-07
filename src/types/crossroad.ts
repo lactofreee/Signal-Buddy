@@ -9,6 +9,16 @@ export type CrossRoadType = {
 
 export type CrossRoadSignType = "RED" | "GREEN" | "YELLOW" | null;
 
+export type CrossRoadStatePosition =
+  | "north"
+  | "south"
+  | "east"
+  | "west"
+  | "northeast"
+  | "northwest"
+  | "southeast"
+  | "southwest";
+
 export type CrossRoadStateType = {
   crossroadId: number;
   crossroadApiId: string;

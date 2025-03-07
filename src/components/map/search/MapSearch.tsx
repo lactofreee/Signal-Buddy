@@ -289,7 +289,7 @@ export default function MapSearch({ map, location }: Props) {
           <div className="flex flex-col py-2 max-h-[calc(100vh-126px)]">
             <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
               <div className="flex flex-col gap-2 theme-content-bg px-2 py-3 md:py-4 rounded-md">
-                <div className="text-sm text-gray-500 font-medium mb-2">
+                <div className="text-sm theme-map-welfare-facilities font-medium mb-2">
                   주변 복지시설{" "}
                   <span className="text-xs font-bold">{welfares.length}</span>
                 </div>

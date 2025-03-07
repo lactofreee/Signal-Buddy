@@ -180,7 +180,7 @@ export function ResetPassword({ searchparams }: Props) {
           </div>
           <Button
             type="submit"
-            className="w-full bg-teal text-white text-sm h-10 mt-[148px] rounded-md mb-2"
+            className="w-full bg-teal text-white text-sm h-10 mt-[148px] rounded-md mb-2 theme-auth-reset-password-button"
           >
             재설정
           </Button>

@@ -24,13 +24,21 @@ export default function MapBox({ slug }: Props) {
 
   const { location, handleGetGeo } = useGeoLocation(geolocationOptions);
   const { mapIns } = useMap(mapRef, location);
-  const { target: crossTarget } = useMapCrossRoad(mapIns);
+  const {
+    target: crossTarget,
+    removeTarget,
+    refreshState,
+  } = useMapCrossRoad(mapIns);
 
   return (
     <div className="flex relative flex-grow max-w-[100vw] max-h-[calc(100vh-70px)] overflow-hidden">
       <div className="w-full md:w-[40%] md:max-w-[320px] md:h-[calc(100vh-70px)] bg-gray-100 pb-2 md:py-2 shadow-md absolute top-0 left-0 z-[999] flex flex-col items-center theme-bg">
         {crossTarget ? (
-          <MapCrossRoad target={crossTarget} />
+          <MapCrossRoad
+            target={crossTarget}
+            removeTarget={removeTarget}
+            refreshState={refreshState}
+          />
         ) : !slug ? (
           <MapSearch map={mapIns} location={location} />
         ) : slug[0] === "direction" ? (

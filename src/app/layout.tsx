@@ -32,6 +32,7 @@ export default function RootLayout({
           src="https://topopentile1.tmap.co.kr/scriptSDKV2/tmapjs2.min.js?version=20231206"
           strategy="beforeInteractive"
         />
+        <meta name="theme-color" content="#18181B" />
       </head>
       <RootProvider>
         <body
@@ -40,12 +41,12 @@ export default function RootLayout({
         >
           <Providers>
             <FCMNotification />
-            <ThemeColorUpdater />
             {children}
             <Toaster />
           </Providers>
         </body>
       </RootProvider>
+      <ThemeColorUpdater />
     </html>
   );
 }

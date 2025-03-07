@@ -174,7 +174,7 @@ export function LoginForm() {
           </div>
           <Button
             type="submit"
-            className="w-full bg-teal text-white text-sm h-10 mt-6 rounded-md"
+            className="w-full bg-teal text-white text-sm h-10 mt-6 rounded-md theme-auth-login-button"
             disabled={loading}
           >
             로그인

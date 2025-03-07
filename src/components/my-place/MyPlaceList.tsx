@@ -5,6 +5,7 @@ import client from "@/src/lib/api/client";
 import MyPlaceItem from "./MyPlaceItem";
 import { useQuery } from "@tanstack/react-query";
 import { Bookmark } from "@/src/types/my-place";
+import { useEffect } from "react";
 
 export default function MyPlaceList() {
   const { data: session } = useSession();
@@ -36,7 +37,9 @@ export default function MyPlaceList() {
     },
     enabled: !!session?.user?.memberId,
   });
-
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
   if (isLoading) return <div>로딩 중...</div>;
 
   if (!session) {

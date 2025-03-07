@@ -66,7 +66,7 @@ export function OTPForm({
           name="otp"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs text-gray-500">인증번호</FormLabel>
+              <FormLabel className="text-xs theme-label">인증번호</FormLabel>
               <div className="flex w-full max-w-sm items-center">
                 <FormControl>
                   <InputOTP
@@ -107,7 +107,7 @@ export function OTPForm({
                 </FormControl>
                 <Button
                   type="submit"
-                  className={`w-full max-w-[84px] h-12 rounded-lg text-white font-bold text-sm ml-1 ${
+                  className={`w-full max-w-[84px] h-12 rounded-lg text-white font-bold text-sm ml-1 theme-auth-reset-password-button ${
                     isOtpComplete ? "bg-teal" : "bg-gray-400"
                   }`}
                   disabled={loading}

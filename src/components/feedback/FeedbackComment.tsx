@@ -147,12 +147,14 @@ export default function FeedbackComment({
       >
         <Input
           placeholder="답변을 입력해주세요."
-          className="w-full pl-3 text-xs font-semibold theme-comment-text outline-none border-none shadow-none focus:border-none"
+          className="w-full pl-3 text-xs font-semibold theme-feedback-require-comment-text outline-none border-none shadow-none focus:border-none"
           value={newComment}
           onChange={onInputChange}
         />
         <button type="submit">
-          <PaperAirplaneIcon />
+          <span className="theme-feedback-comment-submit-icon">
+            <PaperAirplaneIcon />
+          </span>
         </button>
       </form>
 

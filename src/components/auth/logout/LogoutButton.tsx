@@ -7,7 +7,7 @@ export default function LogoutButton() {
   return (
     <Button
       onClick={() => signOut({ redirectTo: "/login" })}
-      className="bg-gray-500 mt-6 flex h-10 items-center justify-center gap-[7px] rounded-[5px] text-sm font-medium text-white"
+      className="bg-gray-500 mt-6 flex h-10 items-center justify-center gap-[7px] rounded-[5px] text-sm font-medium text-white theme-my-page-logout"
     >
       <div className="flex aspect-square h-[18px] items-center justify-center">
         <svg

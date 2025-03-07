@@ -74,7 +74,7 @@ export function EmailForm({
                 </FormControl>
                 <Button
                   type="submit"
-                  className="bg-teal w-full max-w-[84px] h-12 rounded-lg text-white font-bold text-sm"
+                  className="bg-teal w-full max-w-[84px] h-12 rounded-lg text-white font-bold text-sm theme-auth-reset-password-button"
                   disabled={loading}
                 >
                   {isEmailSent ? "재전송" : "전송"}

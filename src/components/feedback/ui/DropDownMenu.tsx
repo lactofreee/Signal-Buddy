@@ -31,7 +31,7 @@ export default function DropDownMenu({
         return "신호 지연";
       case "malfunction":
         return "오작동";
-      case "add-signal":
+      case "add_signal":
         return "신호등 추가";
       case "etc":
         return "기타";
@@ -65,7 +65,7 @@ export default function DropDownMenu({
           <DropdownMenuRadioItem value="malfunction">
             오작동
           </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="add-signal">
+          <DropdownMenuRadioItem value="add_signal">
             신호등 추가
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="etc">기타</DropdownMenuRadioItem>

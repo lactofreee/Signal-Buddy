@@ -258,7 +258,7 @@ export default function MapDirection({ map, location }: Props) {
             <div className="hidden md:flex justify-between gap-5 items-center">
               <Button
                 onClick={handleClickSpeech}
-                className="rounded-3xl"
+                className="rounded-3xl theme-map-deraction-speaker-buttton"
                 variant={"outline"}
               >
                 <SpeakerWaveIcon />
@@ -266,7 +266,7 @@ export default function MapDirection({ map, location }: Props) {
               </Button>
               <Button
                 onClick={() => setIsSelect(false)}
-                className="bg-red w-full text-white"
+                className="bg-red w-full text-white theme-map-deraction-guide-finish-button"
               >
                 안내 종료
               </Button>
@@ -343,7 +343,7 @@ export default function MapDirection({ map, location }: Props) {
                 <Button
                   type="submit"
                   size="icon"
-                  className="bg-gray-700 text-white p-2 h-full"
+                  className="bg-gray-700 text-white p-2 h-full theme-map-deraction-search-button"
                 >
                   <MagnifyingGlassIcon />
                 </Button>
@@ -351,7 +351,7 @@ export default function MapDirection({ map, location }: Props) {
             </Form>
             <Button
               onClick={handleClickSearch}
-              className="bg-teal text-white font-bold"
+              className="bg-teal text-white font-bold theme-map-deraction-search-button"
               type="button"
             >
               길 찾기
@@ -369,9 +369,9 @@ export default function MapDirection({ map, location }: Props) {
                     <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
                       <div
                         onClick={handleSelectRoute}
-                        className="w-full bg-white rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all"
+                        className="w-full theme-map-deraction-search-result-box rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all"
                       >
-                        <span className="text-xs text-gray-500 font-semibold mb-2">
+                        <span className="text-xs theme-map-deraction-search-result-label font-semibold mb-2">
                           도보 경로
                         </span>
                         <h2 className="text-xl font-extrabold mb-1">
@@ -381,7 +381,7 @@ export default function MapDirection({ map, location }: Props) {
                               )
                             : "0"}
                         </h2>
-                        <div className="text-sm text-gray-600 font-medium mb-1">
+                        <div className="text-sm theme-map-deraction-search-result-time font-medium mb-1">
                           {formatFutureTime(
                             "totalTime" in routeFeatures[0].properties
                               ? routeFeatures[0].properties.totalTime || 0
@@ -389,7 +389,7 @@ export default function MapDirection({ map, location }: Props) {
                           )}{" "}
                           도착
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs theme-map-deraction-search-result-km">
                           {formatDistance(
                             "totalDistance" in routeFeatures[0].properties
                               ? routeFeatures[0].properties.totalDistance || 0
@@ -418,13 +418,13 @@ export default function MapDirection({ map, location }: Props) {
         )}
       </div>
       {routeFeatures.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-2 md:hidden">
+        <div className="fixed bottom-0 left-0 right-0 theme-bg p-2 md:hidden">
           {!isSelect ? (
             <div
               onClick={handleSelectRoute}
-              className="w-full md:hidden bg-white rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all"
+              className="w-full md:hidden theme-map-deraction-search-result-box rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all"
             >
-              <span className="text-xs text-gray-500 font-semibold mb-2">
+              <span className="text-xs theme-map-deraction-search-result-label font-semibold mb-2">
                 도보 경로
               </span>
               <h2 className="text-xl font-extrabold mb-1">
@@ -432,7 +432,7 @@ export default function MapDirection({ map, location }: Props) {
                   ? formatSeconds(routeFeatures[0].properties.totalTime || 0)
                   : "0"}
               </h2>
-              <div className="text-sm text-gray-600 font-medium mb-1">
+              <div className="text-sm theme-map-deraction-search-result-time font-medium mb-1">
                 {formatFutureTime(
                   "totalTime" in routeFeatures[0].properties
                     ? routeFeatures[0].properties.totalTime || 0
@@ -440,7 +440,7 @@ export default function MapDirection({ map, location }: Props) {
                 )}{" "}
                 도착
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs theme-map-deraction-search-result-km">
                 {formatDistance(
                   "totalDistance" in routeFeatures[0].properties
                     ? routeFeatures[0].properties.totalDistance || 0
@@ -452,7 +452,7 @@ export default function MapDirection({ map, location }: Props) {
             <div className="flex justify-between gap-5 items-center">
               <Button
                 onClick={handleClickSpeech}
-                className="rounded-3xl"
+                className="rounded-3xl theme-map-deraction-speaker-buttton"
                 variant={"outline"}
               >
                 <SpeakerWaveIcon />
@@ -460,7 +460,7 @@ export default function MapDirection({ map, location }: Props) {
               </Button>
               <Button
                 onClick={() => setIsSelect(false)}
-                className="bg-red w-full text-white"
+                className="bg-red w-full text-white theme-map-deraction-guide-finish-button"
               >
                 안내 종료
               </Button>

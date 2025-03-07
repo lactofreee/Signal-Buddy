@@ -107,7 +107,7 @@ export function ResetPasswordVerification() {
         <Button
           type="button"
           onClick={handleNext}
-          className={`w-full  text-white text-sm h-10 mt-[148px] rounded-md mb-2 ${
+          className={`w-full  text-white text-sm h-10 mt-[148px] rounded-md mb-2 theme-auth-reset-password-button ${
             isOtpComplete ? "bg-teal" : "bg-gray-400"
           } ${isEmailSent ? "mt-[148px]" : "mt-[226px]"}`}
           disabled={!verified}

@@ -22,6 +22,8 @@ export function DropdownThemeToggle() {
 
   if (!mounted) return null;
 
+  const displayTheme = theme === "dark" ? "Dark" : "Light";
+
   const handleChange = (value: string) => {
     setTheme(value);
   };
@@ -31,14 +33,18 @@ export function DropdownThemeToggle() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="border-none theme-bg shadow-none pr-0 hover:theme-bg"
+          className="border-none theme-bg shadow-none pr-0 hover:theme-bg "
         >
-          {theme}
-          <ArrowDownIcon className="w-4 text-gray-500" />
+          {displayTheme}
+          <ArrowDownIcon className="!w-3 theme-chevron" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-5">
-        <DropdownMenuRadioGroup value={theme} onValueChange={handleChange}>
+      <DropdownMenuContent className="">
+        <DropdownMenuRadioGroup
+          value={displayTheme}
+          onValueChange={handleChange}
+          className=""
+        >
           <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
