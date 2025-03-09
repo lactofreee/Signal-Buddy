@@ -38,7 +38,7 @@ export default async function Page({
 
   const feedbackData = res?.data;
   const authorId = feedbackData?.member.memberId;
-  console.log("이미지: ", feedbackData?.imageUrl);
+  const isCompleted = feedbackData?.answerStatus === "COMPLETION";
 
   return (
     <div className="">
@@ -50,11 +50,10 @@ export default async function Page({
               <ArrowLeftIcon className="h-6 w-6 " />
             </span>
             <div
-              className={`flex h-[22px] w-[66px] items-center justify-center rounded-[30px] bg-teal text-xs font-semibold text-white`}
+              className={`flex h-[22px] w-[66px] items-center justify-center rounded-[30px] 
+    ${isCompleted ? "bg-teal" : "bg-red"} text-xs font-semibold text-white`}
             >
-              {feedbackData?.answerStatus === "COMPLETION"
-                ? "답변 전"
-                : "답변 후"}
+              {isCompleted ? "답변 후" : "답변 전"}
             </div>
           </Link>
           <span className="theme-feedback-meatball-icon">

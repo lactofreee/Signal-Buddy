@@ -103,27 +103,26 @@ export const clickPushHandler = async (userToken: string) => {
   }
 };
 
-export function useFCMNotification() {
-  useEffect(() => {
-    const messaging = getMessaging(app); // messaging 가져오기
+// export function useFCMNotification() {
+//   useEffect(() => {
+//     const messaging = getMessaging(app); // messaging 가져오기
 
-    const unsubscribe = onMessage(messaging, (payload) => {
-      console.log("포그라운드 메시지 수신: ", payload);
+//     const unsubscribe = onMessage(messaging, (payload) => {
+//       console.log("포그라운드 메시지 수신: ", payload);
 
-      // payload.notification이 존재하는지 확인하고 처리
-      if (payload.notification) {
-        if (Notification.permission === "granted") {
-          new Notification(payload.notification.title ?? "알림", {
-            // nullish coalescing operator 사용
-            body: payload.notification.body ?? "내용 없음", // 기본 값 설정
-            icon: "/icon.png",
-          });
-        }
-      } else {
-        console.warn("notification 정보가 없습니다.");
-      }
-    });
+//       // payload.notification이 존재하는지 확인하고 처리
+//       if (payload.notification) {
+//         if (Notification.permission === "granted") {
+//           new Notification(payload.notification.title ?? "알림", {
+//             body: payload.notification.body ?? "내용 없음", // 기본 값 설정
+//             icon: "/icon.png",
+//           });
+//         }
+//       } else {
+//         console.warn("notification 정보가 없습니다.");
+//       }
+//     });
 
-    return () => unsubscribe();
-  }, []);
-}
+//     return () => unsubscribe();
+//   }, []);
+// }
