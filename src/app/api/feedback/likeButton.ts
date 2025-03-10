@@ -1,30 +1,7 @@
-// import { fetchDataFeedbackItem } from "./fetchFeedbackItem";
+import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/feedbacks`;
-
-// // export const getLikes = async (id: string) => {
-// //   try {
-// //     const res = await fetch(`${BASE_URL}/${id}/exist`, {
-// //       method: "GET",
-// //       headers: {
-// //         "Content-Type": "application/json",
-// //       },
-// //       cache: "no-store",
-// //     });
-
-// //     if (!res.ok) {
-// //       const errorData = await res.json();
-// //       throw new Error(
-// //         errorData.message || "데이터를 가져오는 데 실패했습니다.",
-// //       );
-// //     }
-// //     const resData = await res.json();
-// //     return resData;
-// //   } catch (error) {
-// //     console.error("❌ fetchData Error:", error);
-// //     throw error;
-// //   }
-// // };
 
 export const getLikes = async (id: string, token: string) => {
   try {
@@ -59,7 +36,7 @@ export const getLikes = async (id: string, token: string) => {
   }
 };
 
-export const gerIsLiked = async (id: string, token: string) => {
+export const getIsLiked = async (id: string, token: string) => {
   try {
     const res = await fetch(`${BASE_URL}/${id}/like/exist`, {
       method: "GET",
@@ -71,16 +48,15 @@ export const gerIsLiked = async (id: string, token: string) => {
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(
-        errorData.message || "데이터를 가져오는 데 실패했습니다.",
-      );
+      throw new Error("유효하지 않은 응답");
     }
+
     const resJson = await res.json();
     return resJson.data.status;
   } catch (error) {
     console.error("❌ fetchData Error:", error);
-    throw error;
+    toast.error("로그인이 만료되었습니다. 다시 로그인 후 사용해주세요.");
+    redirect("/login");
   }
 };
 

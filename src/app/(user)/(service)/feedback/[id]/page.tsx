@@ -12,9 +12,12 @@ import {
 } from "@/src/components/utils/icons";
 import { IFeedbackDetailResponse } from "@/src/types/feedback/feedbackList";
 import FeedbackLikeButton from "@/src/components/feedback/FeedbackLikeButton";
-import { gerIsLiked } from "@/src/app/api/feedback/likeButton";
+
 import { formatDate } from "@/src/utils/formatDate";
 import FeedbackComment from "@/src/components/feedback/FeedbackComment";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
+import { getIsLiked } from "@/src/app/api/feedback/likeButton";
 
 export default async function Page({
   params,
@@ -33,7 +36,7 @@ export default async function Page({
   res = await fetchDataFeedbackItem(id);
 
   if (TOKEN) {
-    isLiked = await gerIsLiked(id, TOKEN);
+    isLiked = await getIsLiked(id, TOKEN);
   }
 
   const feedbackData = res?.data;
@@ -41,8 +44,8 @@ export default async function Page({
   const isCompleted = feedbackData?.answerStatus === "COMPLETION";
 
   return (
-    <div className="">
-      <div>
+    <div className="flex justify-center">
+      <div className="max-w-[1240px] w-full">
         {/* 헤더 영역 */}
         <div className="flex h-10 items-center justify-between border-b theme-line">
           <Link href={`/feedback`} className="flex items-center gap-1">

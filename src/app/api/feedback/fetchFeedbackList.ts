@@ -14,3 +14,11 @@ export const fetchFeedbackList = async (
   if (!res.ok) throw new Error("데이터를 가져오는 데 실패했습니다.");
   return res.json();
 };
+
+export const fetchTotalFeedback = async () => {
+  const res = await fetch(`${process.env.API_BASE_URL}/api/feedbacks?`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("데이터를 가져오는 데 실패했습니다.");
+  return res.json();
+};

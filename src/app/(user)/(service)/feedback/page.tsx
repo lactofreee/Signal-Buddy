@@ -8,18 +8,69 @@ import MobileToolbarHandleButton from "@/src/components/feedback/MobileToolbarHa
 
 import Link from "next/link";
 
-import { fetchFeedbackList } from "@/src/app/api/feedback/fetchFeedbackList";
+import {
+  fetchFeedbackList,
+  fetchTotalFeedback,
+} from "@/src/app/api/feedback/fetchFeedbackList";
+
+import Head from "next/head";
+import FeedbackPagination from "@/src/components/feedback/ui/FeedbackPagination";
+
 
 export default async function Page({
   searchParams,
 }: {
   searchParams?: Promise<Record<string, string | undefined>>;
 }) {
+  const searchParamsResolved = await searchParams;
+  const page = parseInt(searchParamsResolved?.page || "0", 10);
+  const size = parseInt(searchParamsResolved?.size || "10", 10);
+
+  const totalFeedback = await fetchTotalFeedback();
+  const totalFeedbackLength = totalFeedback.data.totalElements;
+
   const res = await fetchFeedbackList(searchParams);
   const feedbackList = res.data.searchResults;
+  const totalPages = Math.ceil(totalFeedbackLength / 10);
 
   return (
     <div className="flex justify-center">
+      <Head>
+        <title>피드백 게시판 - 페이지 {page + 1}</title>
+        <meta
+          name="description"
+          content="피드백 게시판에서 다양한 피드백을 확인하세요."
+        />
+        <meta name="keywords" content="피드백, 게시판, 리뷰, 의견" />
+        <meta
+          property="og:title"
+          content={`피드백 게시판 - 페이지 ${page + 1}`}
+        />
+        <meta
+          property="og:description"
+          content="피드백 게시판에서 다양한 피드백을 확인하세요."
+        />
+        <meta
+          property="og:url"
+          content={`https://yourdomain.com/feedback?page=${page}`}
+        />
+        <link
+          rel="canonical"
+          href={`https://yourdomain.com/feedback?page=${page}`}
+        />
+        {page > 0 && (
+          <link
+            rel="prev"
+            href={`https://yourdomain.com/feedback?page=${page - 1}`}
+          />
+        )}
+        {page < totalPages - 1 && (
+          <link
+            rel="next"
+            href={`https://yourdomain.com/feedback?page=${page + 1}`}
+          />
+        )}
+      </Head>
       <div className="flex w-full max-w-[1240px] flex-col items-center justify-center">
         {/* 툴바 영역 */}
         <div className="sticky top-0 z-10 flex w-full flex-col theme-bg pb-[11px]">
@@ -54,6 +105,9 @@ export default async function Page({
             )}
           </section>
         </div>
+
+        {/* 페이지네이션 */}
+        <FeedbackPagination totalPages={totalPages} page={page} size={size} />
       </div>
     </div>
   );

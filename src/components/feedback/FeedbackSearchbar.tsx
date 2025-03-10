@@ -2,13 +2,10 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect, useMemo } from "react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowDownIcon } from "../utils/icons";
@@ -18,24 +15,42 @@ export default function FeedbackSearchbar() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const keywordFromURL = useMemo(
-    () => searchParams.get("keyword") || "",
+  // URL에서 검색 조건과 키워드 가져오기
+  const keywordFromURL = searchParams.get("keyword") || "";
+  const targetFromURL = searchParams.get("target") || "content";
+
+  // 상태 관리
+  const [searchTerm, setSearchTerm] = useState(keywordFromURL);
+  const [selectedOption, setSelectedOption] = useState(
+    targetFromURL === "content" ? "제목 + 내용" : "작성자",
+  );
+
+  // URLSearchParams 캐싱 (최적화)
+  const params = useMemo(
+    () => new URLSearchParams(searchParams),
     [searchParams],
   );
 
+  // URL의 keyword 값이 변경되면 searchTerm 업데이트
   useEffect(() => {
     setSearchTerm(keywordFromURL);
   }, [keywordFromURL]);
 
   // 검색 실행 함수
   const handleSearch = (term: string) => {
-    const params = new URLSearchParams(searchParams);
     if (term.trim()) {
       params.set("keyword", term.trim());
     } else {
       params.delete("keyword");
     }
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  // 드롭다운 선택 시 실행
+  const handleSelectOption = (option: string) => {
+    const value = option === "제목 + 내용" ? "content" : "writer";
+    setSelectedOption(option);
+    params.set("target", value);
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -45,23 +60,34 @@ export default function FeedbackSearchbar() {
     handleSearch(searchTerm);
   };
 
+  const searchOptions = ["제목 + 내용", "작성자"];
+
   return (
     <div className="hidden h-10 w-full gap-1 md:flex">
-      {/* 검색 조건 표시 */}
+      {/* 검색 조건 드롭다운 */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="border-1 flex h-full w-[117px] items-center justify-between rounded-[8px] border theme-line theme-content-bg p-3 text-sm font-medium theme-feedback-filter-search pt-4">
-          검색조건
+        <DropdownMenuTrigger className="border-1 flex h-full w-[117px] items-center justify-between rounded-[8px] border theme-line theme-content-bg p-3 text-sm font-medium theme-feedback-filter-search">
+          {selectedOption}
           <ArrowDownIcon className="w-4 text-gray-500" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[100px] text-sm font-medium text-gray-500">
-          <DropdownMenuItem className="cursor-pointer">
-            제목 + 내용
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">작성자</DropdownMenuItem>
+
+        <DropdownMenuContent
+          className="w-[120px] text-sm font-medium text-gray-700"
+          align="end"
+        >
+          {searchOptions.map((option) => (
+            <DropdownMenuItem
+              key={option}
+              className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+              onSelect={() => handleSelectOption(option)}
+            >
+              {option}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* 검색 폼 */}
+      {/* 검색 입력창 */}
       <form onSubmit={handleSubmit} className="flex items-center gap-1">
         <input
           type="text"

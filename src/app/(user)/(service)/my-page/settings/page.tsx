@@ -7,13 +7,36 @@ import { Switch } from "@/src/components/shadcn/components/ui/switch";
 import { DropdownThemeToggle } from "@/src/components/display-mode/DarkModeToggle";
 import { ArrowLeftIcon } from "@/src/components/utils/icons";
 import { clickPushHandler } from "@/src/firebase/firebase";
-import { signOutWithForm } from "@/src/services/auth.server.service";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import client from "@/src/lib/api/client";
 
 export default function Page() {
   const session = useSession();
   const userToken = session.data?.user.token;
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      if (!session?.data?.user?.memberId) return;
+      await client.delete(`/api/members/${session.data?.user.memberId}`);
+    },
+    onSuccess: () => {
+      alert("탈퇴가 완료되었습니다.");
+      signOut({ redirectTo: "/login" });
+    },
+    onError: (error) => {
+      console.error(error);
+      alert("탈퇴에 실패했습니다. 다시 시도해주세요.");
+    },
+  });
+
+  const handleDeleteUser = () => {
+    const confirmed = window.confirm("탈퇴하시겠습니까?");
+    if (!confirmed) return;
+
+    deleteUserMutation.mutate(session.data?.user?.memberId!);
+  };
 
   return (
     <div className="flex w-full justify-center">
@@ -40,7 +63,7 @@ export default function Page() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="airplane-mode"
-                onClick={() => clickPushHandler(userToken!)}
+                // onClick={() => clickPushHandler(userToken!)}
               />
             </div>
           </div>
@@ -51,8 +74,11 @@ export default function Page() {
         </section>
         <LogoutButton />
         <div className="flex justify-center">
-          <button className="theme-my-page-withdraw mt-[222px] text-xs font-medium hover:text-red">
-            회원탈퇴
+          <button
+            onClick={handleDeleteUser}
+            className="theme-my-page-withdraw mt-[222px] text-xs font-medium hover:text-red"
+          >
+            회원 탈퇴
           </button>
         </div>
       </div>

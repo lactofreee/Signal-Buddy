@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { CheckboxGroup } from "../../common/form/CheckboxGroup";
 import { redirect } from "next/navigation";
 import { PasswordInput } from "../password-input";
+import { setTokenHandler } from "@/src/firebase/firebase";
 
 const formSchema = z.object({
   email: z
@@ -89,7 +90,7 @@ export function LoginForm() {
     }
     if (session && session.user) {
       toast("로그인에 성공했습니다.");
-
+      setTokenHandler(session.user.token);
       redirect("/");
     }
   }, [session]);
