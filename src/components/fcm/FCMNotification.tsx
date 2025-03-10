@@ -12,15 +12,15 @@ const FCMNotification = () => {
     const unsubscribe = onMessage(messaging, (payload) => {
       console.log("포그라운드 메시지 수신: ", payload);
 
-      if (payload.notification) {
+      if (payload.notification && payload.data) {
+        const feedbackId = payload.data.feedbackId;
+
         const title = payload.notification.title ?? "제목 없음";
         const options = {
           body: payload.notification.body ?? "내용 없음",
           icon: "@/public/icon-512x512.png",
           data: {
-            url:
-              // payload.notification.click_action ||
-              `https://signal-buddy.vercel.app/feedback`,
+            url: `https://signal-buddy.vercel.app/feedback/${feedbackId}`,
           },
         };
 
