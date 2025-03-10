@@ -2,7 +2,10 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "../shadcn/components/ui/toggle-group";
 
 type Option = {
   value: string;
@@ -38,7 +41,7 @@ export default function FeedbackRadioButton({ className = "mt-2 flex gap-2" }) {
 
     // 쿼리 파라미터 업데이트
     const params = new URLSearchParams(searchParams);
-    params.delete("category"); // 기존 category 제거 후 추가
+    params.delete("category");
     newSelectedOptions.forEach((option) => params.append("category", option));
 
     replace(`${pathname}?${params.toString()}`);
@@ -46,7 +49,7 @@ export default function FeedbackRadioButton({ className = "mt-2 flex gap-2" }) {
 
   return (
     <div className={className}>
-      <ToggleGroup type="multiple" className="flex flex-col items-start">
+      <ToggleGroup type="multiple" className="flex md:flex-col items-start">
         {options.map((option) => (
           <ToggleGroupItem
             key={option.value}

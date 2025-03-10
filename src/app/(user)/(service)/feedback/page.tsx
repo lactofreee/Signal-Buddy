@@ -16,7 +16,6 @@ import {
 import Head from "next/head";
 import FeedbackPagination from "@/src/components/feedback/ui/FeedbackPagination";
 
-
 export default async function Page({
   searchParams,
 }: {
@@ -52,22 +51,22 @@ export default async function Page({
         />
         <meta
           property="og:url"
-          content={`https://yourdomain.com/feedback?page=${page}`}
+          content={`https://signal-buddy.vercel.app/feedback?page=${page}`}
         />
         <link
           rel="canonical"
-          href={`https://yourdomain.com/feedback?page=${page}`}
+          href={`https://signal-buddy.vercel.app/feedback?page=${page}`}
         />
         {page > 0 && (
           <link
             rel="prev"
-            href={`https://yourdomain.com/feedback?page=${page - 1}`}
+            href={`https://signal-buddy.vercel.app/feedback?page=${page - 1}`}
           />
         )}
         {page < totalPages - 1 && (
           <link
             rel="next"
-            href={`https://yourdomain.com/feedback?page=${page + 1}`}
+            href={`https://signal-buddy.vercel.app/feedback?page=${page + 1}`}
           />
         )}
       </Head>
@@ -93,7 +92,7 @@ export default async function Page({
         <div className="bg-blue mt-2 flex min-h-[917px] w-full">
           <FeedbackSidebar />
           <section className="flex flex-grow flex-col gap-3 md:ml-[22px]">
-            <FeedbackSearchbar />
+            <FeedbackSearchbar className="hidden md:flex" />
             {feedbackList.length ? (
               <FeedbackList feedbackList={feedbackList} />
             ) : (

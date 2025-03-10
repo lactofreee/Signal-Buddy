@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ArrowDownIcon } from "../utils/icons";
 
-export default function FeedbackSearchbar() {
+export default function FeedbackSearchbar({
+  className,
+}: {
+  className: string;
+}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -63,7 +67,7 @@ export default function FeedbackSearchbar() {
   const searchOptions = ["제목 + 내용", "작성자"];
 
   return (
-    <div className="hidden h-10 w-full gap-1 md:flex">
+    <div className={`h-10 w-full gap-1 ${className}`}>
       {/* 검색 조건 드롭다운 */}
       <DropdownMenu>
         <DropdownMenuTrigger className="border-1 flex h-full w-[117px] items-center justify-between rounded-[8px] border theme-line theme-content-bg p-3 text-sm font-medium theme-feedback-filter-search">
