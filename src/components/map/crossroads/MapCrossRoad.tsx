@@ -31,14 +31,14 @@ export default function MapCrossRoad({
   return (
     <div
       className={cn(
-        "w-full flex flex-col h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]  transition-all md:translate-y-0 rounded-t-lg md:rounded-none items-center fixed left-0 md:relative bg-gray-100 md:top-auto md:left-auto py-2 z-[9999999]",
+        "w-full flex flex-col h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]  transition-all md:translate-y-0 rounded-t-lg md:rounded-none items-center fixed left-0 md:relative theme-bg md:top-auto md:left-auto py-2 z-[9999999]",
         open ? "top-[70px] translate-y-0" : "top-full -translate-y-[260px]",
       )}
     >
       <button
         onClick={toggleOpen}
         className={cn(
-          "border bg-white border-gray-300 px-4 top-0 left-1/2 -translate-x-1/2 absolute flex md:hidden",
+          "border theme-bg theme-login-border px-4 top-0 left-1/2 -translate-x-1/2 absolute flex md:hidden",
           !open
             ? "-translate-y-full rounded-t-xl"
             : "translate-y-0 rounded-b-xl",
@@ -58,7 +58,7 @@ export default function MapCrossRoad({
             <XMarkIcon className="!size-5" />
           </Button>
         </div>
-        <div className="w-full flex items-center justify-center bg-white rounded-md border border-gray-300 p-2 mb-4">
+        <div className="w-full flex items-center justify-center bg-white dark:bg-black rounded-md border border-gray-300 dark:border-gray-700 p-2 mb-4">
           <div className="relative w-[180px] aspect-square flex items-center justify-center ">
             <Image
               src={"/imgs/all-direction.svg"}

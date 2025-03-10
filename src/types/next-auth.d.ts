@@ -11,6 +11,7 @@ declare module "next-auth" {
       role: "USER" | "ADMIN";
       token: string;
       refreshToken: string;
+      accessTokenExpires: number;
     } & DefaultSession["user"];
   }
 
@@ -23,6 +24,7 @@ declare module "next-auth" {
     role: "USER" | "ADMIN";
     token: string;
     refreshToken: string;
+    accessTokenExpires: number;
   }
 
   interface JWT {
@@ -34,6 +36,7 @@ declare module "next-auth" {
     role: "USER" | "ADMIN";
     token: string;
     refreshToken: string;
+    accessTokenExpires: number;
   }
 
   interface Profile {

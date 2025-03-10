@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import client from "@/src/lib/api/client";
 import { Destination } from "./RecentDestinations";
 import { IFeedbackListItem } from "@/src/types/feedback/feedbackList";
+import { useRouter } from "next/navigation";
 
 export interface DestinationItem {
   id?: string;
@@ -23,8 +24,11 @@ export default function RecentDestinationsItem({
   name,
   address,
   bookmarked,
+  lat,
+  lng,
 }: DestinationItem) {
   const { data: session } = useSession();
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const addBookmarkMutation = useMutation({
@@ -130,7 +134,8 @@ export default function RecentDestinationsItem({
     },
   });
 
-  const handleClickBookmark = () => {
+  const handleClickBookmark = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!session?.user?.memberId) return;
 
     if (bookmarked) {
@@ -140,9 +145,17 @@ export default function RecentDestinationsItem({
     }
   };
 
+  const handleNavigate = () => {
+    const encodedName = encodeURIComponent(name);
+    router.push(`/map/direction?end=${lng},${lat},${encodedName}`);
+  };
+
   return (
     <li className="my-[10px]">
-      <div className="flex items-center justify-between">
+      <div
+        className="flex items-center justify-between"
+        onClick={handleNavigate}
+      >
         <div className="flex gap-2">
           <div className="flex aspect-square w-[40px] items-center justify-center rounded-full bg-teal">
             <svg

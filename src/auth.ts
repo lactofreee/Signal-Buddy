@@ -1,9 +1,9 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth, { CredentialsSignin, JWT } from "next-auth";
 import Kakao from "next-auth/providers/kakao";
 import Naver from "next-auth/providers/naver";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { login } from "./services/auth.service";
+import { login, refresh } from "./services/auth.service";
 import { cookies } from "next/headers";
 import server from "./lib/api/server";
 import { AxiosResponse } from "axios";
@@ -16,19 +16,9 @@ const tokenConvert = async (response: AxiosResponse) => {
   const token = response.headers["authorization"];
   const resCookies = response.headers["set-cookie"];
   const refreshToken = resCookies ? resCookies[0] : "";
-  const cookieStore = await cookies();
-  const match = refreshToken.match(/refresh-token=([^;]+)/);
-  cookieStore.set({
-    name: "refresh-token",
-    value: match ? decodeURIComponent(match[1]) : refreshToken,
-    path: "/",
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 60 * 60 * 24 * 7,
-  });
+  const accessTokenExpires = Math.floor(Date.now() / 1000) + 60 * 60;
 
-  return { token, refreshToken };
+  return { token, refreshToken, accessTokenExpires };
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -84,7 +74,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const res = await server.post("/api/auth/social-login", body);
         const data = res.data;
         if (data.status === "성공") {
-          const { token, refreshToken } = await tokenConvert(res);
+          const { token, refreshToken, accessTokenExpires } =
+            await tokenConvert(res);
           user.memberId = data.data.memberId;
           user.nickname = data.data.nickname;
           user.profileImageUrl = data.data.profileImageUrl;
@@ -92,6 +83,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.role = data.data.role;
           user.token = token;
           user.refreshToken = refreshToken;
+          user.accessTokenExpires = accessTokenExpires;
 
           return true;
         } else {
@@ -120,16 +112,72 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
-    jwt: async ({ token, user, trigger, session }) => {
-      if (user) {
-        token = { ...token, ...user };
-      }
-      if (trigger === "update" && session) {
+    jwt: async ({ token, user, account, trigger, session }) => {
+      if (user && account) {
+        return { ...token, ...user };
+      } else if (trigger === "update" && session) {
         const { nickname, profileImageUrl } = session;
-        token.nickname = nickname;
-        token.profileImageUrl = profileImageUrl;
+        return { ...token, nickname, profileImageUrl };
+      } else if (
+        Date.now() <
+        (token.accessTokenExpires as number) * 1000 - 10 * 60 * 1000
+      ) {
+        console.log(
+          Math.floor(Date.now() / 1000) -
+            Math.floor(
+              ((token.accessTokenExpires as number) * 1000 - 10 * 60 * 1000) /
+                1000,
+            ),
+        );
+        return token;
       }
-      return token;
+      if (!token.token) throw new TypeError("Missing accessTokenExpires");
+      if (!token.refreshToken) throw new TypeError("Missing refresh_token");
+      try {
+        console.log("request headers", {
+          Authorization: token.token as string,
+          Cookie: token.refreshToken as string,
+        });
+        const response = await fetch(
+          `${process.env.API_BASE_URL}/api/auth/reissue`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: token.token as string,
+              Cookie: token.refreshToken as string,
+            },
+          },
+        );
+        const tokensOrError = await response.json();
+        console.log("data", tokensOrError);
+        if (!response.ok) {
+          console.error(response.status, "REFRESH ERROR");
+          token.error = "RefreshTokenError";
+          return token;
+        }
+        const newToken = response.headers.get("authorization");
+        const resCookies = response.headers.get("set-cookie")?.split(", ");
+        const refreshToken =
+          resCookies?.find((cookie) => cookie.startsWith("refreshToken=")) ||
+          "";
+
+        console.log("newToken", newToken, resCookies);
+        if (!newToken || !refreshToken) {
+          token.error = "RefreshTokenError";
+          return token;
+        }
+
+        return {
+          ...token,
+          accessTokenExpires: Math.floor(Date.now() / 1000) + 60 * 60,
+          token: newToken,
+          refreshToken,
+        };
+      } catch (err) {
+        console.error("Error refreshing access_token", err);
+        token.error = "RefreshTokenError";
+        return token;
+      }
     },
     session: async ({ session, token }) => {
       if (session.user) {
@@ -140,6 +188,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as "USER" | "ADMIN";
         session.user.token = token.token as string;
         session.user.refreshToken = token.refreshToken as string;
+        session.user.accessTokenExpires = token.accessTokenExpires as number;
       }
       return session;
     },

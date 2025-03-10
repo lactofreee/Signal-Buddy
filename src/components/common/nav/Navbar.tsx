@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
+import useThemeImg from "@/src/hooks/useThemeImg";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -21,18 +22,20 @@ export default function Navbar() {
     setOpen((prev) => !prev);
   };
 
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { theme, resolvedTheme, mounted } = useThemeImg();
 
   if (!mounted) {
     return null;
   }
 
-  const logoSrc = theme === "dark" ? logoDark : logoLight;
+  const logoSrc =
+    theme === "system"
+      ? resolvedTheme === "dark"
+        ? logoDark
+        : logoLight
+      : theme === "dark"
+        ? logoDark
+        : logoLight;
 
   return (
     <nav className="w-full flex justify-center" aria-label="Main Navigation">

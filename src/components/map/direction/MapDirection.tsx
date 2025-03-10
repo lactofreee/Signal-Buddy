@@ -50,9 +50,18 @@ const formSchema = z.object({
 type Props = {
   map: TMap | null;
   location?: ILocation;
+  startWatching: () => void;
+  stopWatching: () => void;
+  isWatching: boolean;
 };
 
-export default function MapDirection({ map, location }: Props) {
+export default function MapDirection({
+  map,
+  location,
+  startWatching,
+  stopWatching,
+  isWatching,
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -149,6 +158,7 @@ export default function MapDirection({ map, location }: Props) {
   const setMapCenter = (lonlat: TMapLatLng) => {
     if (!map) return;
     map.setCenter(lonlat);
+    map.setZoom(19);
   };
 
   const addTargetMarker = (poi: Poi) => {
@@ -221,6 +231,12 @@ export default function MapDirection({ map, location }: Props) {
     }
     setIsSelect(true);
     setResults([]);
+    startWatching();
+  };
+
+  const handleCancelRoute = () => {
+    setIsSelect(false);
+    stopWatching();
   };
 
   const handleClickFeatureItem = (feature: RouteFeature) => {
@@ -250,6 +266,11 @@ export default function MapDirection({ map, location }: Props) {
     getRoute(formatLatLng(start), formatLatLng(end));
   }, [location, start, end]);
 
+  useEffect(() => {
+    if (isWatching) handleCancelRoute();
+    return () => handleCancelRoute();
+  }, []);
+
   return (
     <>
       <div className="w-full max-w-[calc(100%-32px)] relative flex flex-col gap-2">
@@ -265,7 +286,7 @@ export default function MapDirection({ map, location }: Props) {
                 안내음 듣기
               </Button>
               <Button
-                onClick={() => setIsSelect(false)}
+                onClick={handleCancelRoute}
                 className="bg-red w-full text-white theme-map-deraction-guide-finish-button"
               >
                 안내 종료
@@ -459,7 +480,7 @@ export default function MapDirection({ map, location }: Props) {
                 안내음 듣기
               </Button>
               <Button
-                onClick={() => setIsSelect(false)}
+                onClick={handleCancelRoute}
                 className="bg-red w-full text-white theme-map-deraction-guide-finish-button"
               >
                 안내 종료

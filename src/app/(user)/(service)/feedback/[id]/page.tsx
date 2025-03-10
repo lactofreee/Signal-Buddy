@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import defaultProfileImage from "@/public/imgs/DefaultProfile.png";
+
 import MeatballMenu from "@/src/components/feedback/MeatballMenu";
 import FeedbackCommentList from "@/src/components/feedback/FeedbackCommentList";
 import { auth } from "@/src/auth";
@@ -18,6 +20,7 @@ import FeedbackComment from "@/src/components/feedback/FeedbackComment";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { getIsLiked } from "@/src/app/api/feedback/likeButton";
+import { formatFeedbackCategory } from "@/src/utils/formatFeedbackCategory";
 
 export default async function Page({
   params,
@@ -69,12 +72,14 @@ export default async function Page({
             {/* 본문 헤더 */}
             <div className="flex items-center justify-between">
               <div className="flex">
-                <div className="mr-2 flex aspect-square w-[38px] items-center justify-center overflow-hidden rounded-full border border-gray-300">
+                <div className="mr-2 flex aspect-square w-[38px] items-center justify-center overflow-hidden rounded-full border border-gray-300 relative">
                   <Image
-                    src={feedbackData?.member.profileImageUrl as string}
+                    src={
+                      feedbackData?.member.profileImageUrl ??
+                      defaultProfileImage
+                    }
                     alt="User profile image"
-                    width={30}
-                    height={30}
+                    fill
                     className="object-cover"
                   />
                 </div>
@@ -86,7 +91,7 @@ export default async function Page({
                 </div>
               </div>
               <div className="font-semibold theme-feedback-data-category">
-                {feedbackData?.category}
+                {formatFeedbackCategory(feedbackData?.category)}
               </div>
             </div>
             {/* 본문 메인 */}
@@ -114,12 +119,16 @@ export default async function Page({
                 {feedbackData?.content}
               </p>
               {/* 지도 표시 */}
-              <div className="mb-4 flex h-[100px] items-center gap-[13px] border-y theme-line pb-[6px] pt-[10px]">
-                <div className="aspect-square w-[84px] rounded-2xl bg-teal"></div>
-                <p className="text-sm font-bold theme-content-text">
-                  {feedbackData?.crossroad.name}
-                </p>
-              </div>
+              <Link
+                href={`/map?crossroadId=${feedbackData.crossroad.crossroadId}`}
+              >
+                <div className="mb-4 flex h-[100px] items-center gap-[13px] border-y theme-line pb-[6px] pt-[10px]">
+                  {/* <div className="aspect-square w-[84px] rounded-2xl bg-teal"></div> */}
+                  <p className="text-sm font-bold theme-content-text">
+                    {feedbackData?.crossroad.name}
+                  </p>
+                </div>
+              </Link>
               <FeedbackLikeButton
                 feedbackId={id}
                 likeCount={feedbackData?.likeCount ?? 0}

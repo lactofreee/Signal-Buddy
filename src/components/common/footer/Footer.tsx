@@ -80,11 +80,6 @@ export default function Footer() {
                     이용약관
                   </Link>
                 </li>
-                <li>
-                  <Link href="/admin" className="hover:underline">
-                    관리자 페이지
-                  </Link>
-                </li>
               </ul>
             </div>
           </nav>

@@ -4,7 +4,7 @@ import { CrossRoadSearchbar } from "@/src/components/feedback/ui/CrossRoadSearch
 import DropDownMenu from "@/src/components/feedback/ui/DropDownMenu";
 import { ArrowLeftIcon, CheckIcon } from "@/src/components/utils/icons";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,9 @@ import Swal from "sweetalert2";
 import InputFile from "@/src/components/feedback/ui/InputFile";
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const crossroadId = searchParams.get("crossroadId");
+
   const { data: session } = useSession();
   const token = session?.user.token;
 
@@ -25,7 +28,7 @@ export default function Page() {
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<string>("ETC");
   const [isSecret, setIsSecret] = useState(false);
-  const [crossroadId, setCrossroadId] = useState<number>(2);
+  const [crossroad, setCrossroad] = useState<string | null>(crossroadId);
   const [imageUrl, setImageUrl] = useState<File | null | string>(null);
 
   const handleToggleChange = (value: string) => {
@@ -169,10 +172,7 @@ export default function Page() {
         </div>
         {/* 피드백 위치 */}
         <div className="flex flex-col gap-2">
-          <CrossRoadSearchbar
-            addCrossRoad={setCrossroadId}
-            crossroadId={crossroadId}
-          />
+          <CrossRoadSearchbar crossroadId={crossroad!} />
         </div>
         {/* 이미지 입력 */}
         <div className="flex flex-col gap-2">

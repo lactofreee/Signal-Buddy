@@ -50,18 +50,12 @@ export default function Page() {
           </div>
         </section>
         <section>
-          <div className="theme-category-title flex h-[60px] items-center justify-between font-extrabold">
-            <p>음성 안내</p>
-            <div className="flex items-center space-x-2">
-              <Switch id="airplane-mode" className="" />
-            </div>
-          </div>
-          <div className="theme-category-title flex h-[60px] items-center justify-between font-extrabold">
+          {/* <div className="theme-category-title flex h-[60px] items-center justify-between font-extrabold">
             <p>푸시 알림 설정</p>
             <div className="flex items-center space-x-2">
               <Switch id="airplane-mode" />
             </div>
-          </div>
+          </div> */}
           <div className="theme-category-title flex h-[60px] items-center justify-between font-extrabold">
             <p>디스플레이 모드</p>
             <DropdownThemeToggle />

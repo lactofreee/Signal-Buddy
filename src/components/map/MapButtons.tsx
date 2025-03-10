@@ -12,6 +12,8 @@ type Props = {
 export default function MapButtons({ map, getGEO }: Props) {
   const handleClickCurrentPosition = () => {
     getGEO();
+    if (!map) return;
+    map.setZoom(19);
   };
 
   const [mapType, setMapType] = useState<number>(map?._data.mapType || 1);

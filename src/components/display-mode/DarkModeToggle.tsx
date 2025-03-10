@@ -13,7 +13,7 @@ import { useTheme } from "next-themes";
 import { ArrowDownIcon } from "../utils/icons";
 
 export function DropdownThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -22,11 +22,20 @@ export function DropdownThemeToggle() {
 
   if (!mounted) return null;
 
-  const displayTheme = theme === "dark" ? "Dark" : "Light";
+  let displayTheme = "system";
+  if (theme !== "system") {
+    displayTheme = theme === "dark" ? "Dark" : "Light";
+  } else {
+    displayTheme = resolvedTheme === "dark" ? "Dark" : "Light";
+  }
 
   const handleChange = (value: string) => {
     setTheme(value);
   };
+
+  const displayThemeName = theme
+    ? theme.charAt(0).toUpperCase() + theme.slice(1)
+    : "";
 
   return (
     <DropdownMenu>
@@ -35,16 +44,13 @@ export function DropdownThemeToggle() {
           variant="outline"
           className="border-none theme-bg shadow-none pr-0 hover:theme-bg "
         >
-          {displayTheme}
+          {displayThemeName}
           <ArrowDownIcon className="!w-3 theme-chevron" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="">
-        <DropdownMenuRadioGroup
-          value={displayTheme}
-          onValueChange={handleChange}
-          className=""
-        >
+        <DropdownMenuRadioGroup value={theme} onValueChange={handleChange}>
+          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>

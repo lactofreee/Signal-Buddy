@@ -8,23 +8,24 @@ import { A2HS } from "@/src/components/home/A2HS";
 import { Button } from "@/src/components/shadcn/components/ui/button";
 import InstallPrompt from "@/src/components/home/InstallPrompt";
 import home_background_img_dark from "@/public/imgs/noisy-gradients-dark.png";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import useThemeImg from "@/src/hooks/useThemeImg";
 
 export default function Home() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { theme, resolvedTheme, mounted } = useThemeImg();
 
   if (!mounted) {
     return null;
   }
 
   const bgImageSrc =
-    theme === "dark" ? home_background_img_dark.src : home_background_img.src;
+    theme === "system"
+      ? resolvedTheme === "dark"
+        ? home_background_img_dark.src
+        : home_background_img.src
+      : theme === "dark"
+        ? home_background_img_dark.src
+        : home_background_img.src;
+
   return (
     <section
       className="flex-grow-1 flex w-full justify-center rounded-[20px] py-[203px] lg:pb-[359px] lg:pt-[311px] shadow-md"

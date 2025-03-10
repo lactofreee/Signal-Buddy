@@ -57,6 +57,8 @@ export default function MyPlaceList() {
             key={item.bookmarkId}
             name={item.name}
             address={item.address}
+            lat={item.lat}
+            lng={item.lng}
           />
         ))
       ) : (

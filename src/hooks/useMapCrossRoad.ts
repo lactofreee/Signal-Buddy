@@ -9,8 +9,11 @@ import {
 import { getCrossroadState } from "../services/crossroad.service";
 import { toast } from "sonner";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 export default function useMapCrossRoad(map: TMap | null) {
+  const searchParams = useSearchParams();
+  const crossroadId = searchParams.get("crossroadId");
   const ws = useRef<WebSocket | null>(null);
   const mapRef = useRef<TMap | null>(map);
   const [target, setTarget] = useState<
@@ -61,20 +64,26 @@ export default function useMapCrossRoad(map: TMap | null) {
     return marker;
   };
 
+  const handleGetCrossroadState = async (crossroadId: number) => {
+    const res = await getCrossroadState(crossroadId);
+    const data = res.data;
+    if (data.status === "성공" && data.data) {
+      return data.data;
+    } else if (data.code && data.message) {
+      toast(data.message);
+    }
+    return null;
+  };
+
   const handleClickItem = async (cross: CrossRoadType) => {
     try {
       const { Tmapv2 } = window;
       const currentMap = mapRef.current;
       if (!Tmapv2 || !currentMap) return null;
       if (target) setTarget(null);
-      currentMap.setCenter(new Tmapv2.LatLng(cross.lat, cross.lng));
-      currentMap.setZoom(19);
-      const res = await getCrossroadState(cross.crossroadId);
-      const data = res.data;
-      if (data.status === "성공" && data.data) {
-        setTarget({ ...cross, ...data.data });
-      } else if (data.code && data.message) {
-        toast(data.message);
+      const data = await handleGetCrossroadState(cross.crossroadId);
+      if (data) {
+        setTarget({ ...cross, ...data });
       }
     } catch (err) {
       console.error(err);
@@ -86,14 +95,32 @@ export default function useMapCrossRoad(map: TMap | null) {
 
   const refreshState = async (target: CrossRoadType & CrossRoadStateType) => {
     try {
-      const res = await getCrossroadState(target.crossroadId);
-      const data = res.data;
-      if (data.status === "성공" && data.data) {
-        console.log(data.data);
+      const data = await handleGetCrossroadState(target.crossroadId);
+      if (data) {
+        console.log(data);
         setTarget((prev) => ({ ...prev, ...data.data }));
-      } else if (data.code && data.message) {
-        toast(data.message);
       }
+    } catch (err) {
+      console.error(err);
+      if (axios.isAxiosError(err) && err.response) {
+        toast(err.response.data.message);
+      }
+    }
+  };
+
+  const handleCrossroadState = async (id: number) => {
+    try {
+      const { Tmapv2 } = window;
+      const currentMap = mapRef.current;
+      if (!Tmapv2 || !currentMap) return null;
+      if (target) setTarget(null);
+      const data = await handleGetCrossroadState(id);
+      console.log(data);
+      if (data) {
+        setTarget({ ...data });
+      }
+      currentMap.setCenter(new Tmapv2.LatLng(data.lat, data.lon));
+      currentMap.setZoom(19);
     } catch (err) {
       console.error(err);
       if (axios.isAxiosError(err) && err.response) {
@@ -196,6 +223,17 @@ export default function useMapCrossRoad(map: TMap | null) {
       map.removeListener("zoom_changed", handleCenterChange);
     };
   }, [map]);
+
+  useEffect(() => {
+    console.log(crossroadId);
+    if (!map || !crossroadId) return;
+    const numCrossroadId = Number(crossroadId);
+    console.log(numCrossroadId);
+    if (!isNaN(numCrossroadId)) {
+      console.log(numCrossroadId);
+      handleCrossroadState(numCrossroadId);
+    }
+  }, [map, crossroadId]);
 
   return { isLoading, target, removeTarget, refreshState };
 }

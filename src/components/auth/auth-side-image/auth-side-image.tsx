@@ -7,21 +7,23 @@ import logoSymbol from "@/public/imgs/Logo Symbol White.png";
 import logoWhite from "@/public/imgs/Logo White.png";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import useThemeImg from "@/src/hooks/useThemeImg";
 
 export function AuthSideImage() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { theme, resolvedTheme, mounted } = useThemeImg();
 
   if (!mounted) {
     return null;
   }
 
   const sideImageSrc =
-    theme === "dark" ? authSideImageDark : authSideImageLight;
+    theme === "system"
+      ? resolvedTheme === "dark"
+        ? authSideImageDark
+        : authSideImageLight
+      : theme === "dark"
+        ? authSideImageDark
+        : authSideImageLight;
 
   return (
     <div className="relative hidden bg-muted md:block ">

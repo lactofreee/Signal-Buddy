@@ -28,7 +28,9 @@ export default function FeedbackEditPost({
   const [feedbackContent, setFeedbackContent] = useState<string>(content);
   const [feedbackCategory, setFeedbackCategory] = useState<string>(category);
   const [isSecret, setIsSecret] = useState(false);
-  const [crossroadId, setCrossroadId] = useState<number>(crossroad.crossroadId);
+  const [crossroadId, setCrossroadId] = useState<string | null>(
+    crossroad.crossroadId.toString(),
+  );
   const [newImageUrl, setNewImageUrl] = useState<string | File | null>(
     imageUrl || null,
   );
@@ -140,10 +142,7 @@ export default function FeedbackEditPost({
 
         {/* 피드백 위치 */}
         <div className="flex flex-col gap-2">
-          <CrossRoadSearchbar
-            addCrossRoad={setCrossroadId}
-            crossroadId={crossroadId}
-          />
+          <CrossRoadSearchbar crossroadId={crossroadId!} />
         </div>
 
         {/* 이미지 입력 */}
@@ -152,7 +151,7 @@ export default function FeedbackEditPost({
         </div>
 
         {/* 숨김처리 여부 */}
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <p className="text-sm font-medium theme-label">숨김처리</p>
           <div
             className="mb-[187px] flex cursor-pointer items-center gap-1 transition-all"
@@ -169,7 +168,7 @@ export default function FeedbackEditPost({
               관리자만 보기
             </span>
           </div>
-        </div>
+        </div> */}
 
         {/* 제출 버튼 */}
         <div className="flex justify-end">
