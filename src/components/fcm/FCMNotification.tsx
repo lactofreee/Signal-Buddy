@@ -20,7 +20,7 @@ const FCMNotification = () => {
           body: payload.notification.body ?? "내용 없음",
           icon: "@/public/icon-512x512.png",
           data: {
-            url: `https://signal-buddy.vercel.app/feedback/${feedbackId}`,
+            url: `https://signal-buddy.vercel.app/feedback/${feedbackId}` || `https://signal-buddy.vercel.app/feedback/` ,
           },
         };
 
