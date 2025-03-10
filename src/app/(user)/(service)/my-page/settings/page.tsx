@@ -1,12 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-
 import LogoutButton from "@/src/components/auth/logout/LogoutButton";
 import { Switch } from "@/src/components/shadcn/components/ui/switch";
 import { DropdownThemeToggle } from "@/src/components/display-mode/DarkModeToggle";
 import { ArrowLeftIcon } from "@/src/components/utils/icons";
-import { clickPushHandler } from "@/src/firebase/firebase";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +11,7 @@ import client from "@/src/lib/api/client";
 
 export default function Page() {
   const session = useSession();
-  const userToken = session.data?.user.token;
+  const userId = session.data?.user.memberId;
 
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: number) => {
@@ -35,7 +32,8 @@ export default function Page() {
     const confirmed = window.confirm("탈퇴하시겠습니까?");
     if (!confirmed) return;
 
-    deleteUserMutation.mutate(session.data?.user?.memberId!);
+    if (!userId) return;
+    deleteUserMutation.mutate(userId);
   };
 
   return (
@@ -61,10 +59,7 @@ export default function Page() {
           <div className="theme-category-title flex h-[60px] items-center justify-between font-extrabold">
             <p>푸시 알림 설정</p>
             <div className="flex items-center space-x-2">
-              <Switch
-                id="airplane-mode"
-                // onClick={() => clickPushHandler(userToken!)}
-              />
+              <Switch id="airplane-mode" />
             </div>
           </div>
           <div className="theme-category-title flex h-[60px] items-center justify-between font-extrabold">
