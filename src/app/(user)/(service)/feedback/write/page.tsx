@@ -13,9 +13,10 @@ import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import InputFile from "@/src/components/feedback/ui/InputFile";
+import { useSearchParamsClient } from "@/src/hooks/useSearchParamsClient";
 
 export default function Page() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParamsClient()
   const crossroadId = searchParams.get("crossroadId");
 
   const { data: session } = useSession();
