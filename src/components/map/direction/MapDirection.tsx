@@ -40,7 +40,8 @@ import { Swiper as SwiperType } from "swiper/types";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import { getSpeech } from "@/src/utils/getSpeeech";
+import Image from "next/image";
+// import { getSpeech } from "@/src/utils/getSpeeech";
 
 const formSchema = z.object({
   start: z.string(),
@@ -257,13 +258,39 @@ export default function MapDirection({
     }
     map.setZoom(24);
   };
+  const audioRef = useRef<HTMLAudioElement>(null);
 
+  const generateSpeech = async (text: string) => {
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      console.log(res);
+      if (!res.ok) {
+        alert("오디오 생성에 실패했습니다.");
+        return;
+      }
+
+      const audioBlob = await res.blob();
+      const url = URL.createObjectURL(audioBlob);
+      if (audioRef.current) {
+        audioRef.current.src = url;
+        audioRef.current.play(); // 바로 재생
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleClickSpeech = () => {
     if (swiperIns) {
       const activeIndex = swiperIns.activeIndex;
-      getSpeech(routeFeatures[activeIndex].properties.description);
+      // getSpeech(routeFeatures[activeIndex].properties.description);
+      generateSpeech(routeFeatures[activeIndex].properties.description);
     } else {
-      getSpeech("300m 앞에서 우회전하세요.");
+      // getSpeech("300m 앞에서 우회전하세요.");
+      generateSpeech("300m 앞에서 우회전하세요.");
     }
   };
 
@@ -294,6 +321,7 @@ export default function MapDirection({
                 <SpeakerWaveIcon />
                 안내음 듣기
               </Button>
+              <audio ref={audioRef} controls className="hidden" />
               <Button
                 onClick={handleCancelRoute}
                 className="bg-red w-full text-white theme-map-deraction-guide-finish-button"
@@ -399,33 +427,42 @@ export default function MapDirection({
                     <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
                       <div
                         onClick={handleSelectRoute}
-                        className="w-full theme-map-deraction-search-result-box rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all"
+                        className="w-full theme-map-deraction-search-result-box rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all flex justify-between"
                       >
-                        <span className="text-xs theme-map-deraction-search-result-label font-semibold mb-2">
-                          도보 경로
-                        </span>
-                        <h2 className="text-xl font-extrabold mb-1">
-                          {"totalTime" in routeFeatures[0].properties
-                            ? formatSeconds(
-                                routeFeatures[0].properties.totalTime || 0,
-                              )
-                            : "0"}
-                        </h2>
-                        <div className="text-sm theme-map-deraction-search-result-time font-medium mb-1">
-                          {formatFutureTime(
-                            "totalTime" in routeFeatures[0].properties
-                              ? routeFeatures[0].properties.totalTime || 0
-                              : 0,
-                          )}{" "}
-                          도착
+                        <div>
+                          <span className="text-xs theme-map-deraction-search-result-label font-semibold mb-2">
+                            도보 경로
+                          </span>
+                          <h2 className="text-xl font-extrabold mb-1">
+                            {"totalTime" in routeFeatures[0].properties
+                              ? formatSeconds(
+                                  routeFeatures[0].properties.totalTime || 0,
+                                )
+                              : "0"}
+                          </h2>
+                          <div className="text-sm theme-map-deraction-search-result-time font-medium mb-1">
+                            {formatFutureTime(
+                              "totalTime" in routeFeatures[0].properties
+                                ? routeFeatures[0].properties.totalTime || 0
+                                : 0,
+                            )}{" "}
+                            도착
+                          </div>
+                          <div className="text-xs theme-map-deraction-search-result-km">
+                            {formatDistance(
+                              "totalDistance" in routeFeatures[0].properties
+                                ? routeFeatures[0].properties.totalDistance || 0
+                                : 0,
+                            )}
+                          </div>
                         </div>
-                        <div className="text-xs theme-map-deraction-search-result-km">
-                          {formatDistance(
-                            "totalDistance" in routeFeatures[0].properties
-                              ? routeFeatures[0].properties.totalDistance || 0
-                              : 0,
-                          )}
-                        </div>
+                        <Image
+                          src={"/imgs/nav-walk.svg"}
+                          alt="nav icon"
+                          width={40}
+                          height={40}
+                          className={"dark:invert"}
+                        />
                       </div>
                     </div>
                   </div>
@@ -452,31 +489,40 @@ export default function MapDirection({
           {!isSelect ? (
             <div
               onClick={handleSelectRoute}
-              className="w-full md:hidden theme-map-deraction-search-result-box rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all"
+              className="w-full md:hidden theme-map-deraction-search-result-box rounded-md py-3 px-2 cursor-pointer hover:opacity-70 transition-all flex justify-between gap-4"
             >
-              <span className="text-xs theme-map-deraction-search-result-label font-semibold mb-2">
-                도보 경로
-              </span>
-              <h2 className="text-xl font-extrabold mb-1">
-                {"totalTime" in routeFeatures[0].properties
-                  ? formatSeconds(routeFeatures[0].properties.totalTime || 0)
-                  : "0"}
-              </h2>
-              <div className="text-sm theme-map-deraction-search-result-time font-medium mb-1">
-                {formatFutureTime(
-                  "totalTime" in routeFeatures[0].properties
-                    ? routeFeatures[0].properties.totalTime || 0
-                    : 0,
-                )}{" "}
-                도착
+              <div>
+                <span className="text-xs theme-map-deraction-search-result-label font-semibold mb-2">
+                  도보 경로
+                </span>
+                <h2 className="text-xl font-extrabold mb-1">
+                  {"totalTime" in routeFeatures[0].properties
+                    ? formatSeconds(routeFeatures[0].properties.totalTime || 0)
+                    : "0"}
+                </h2>
+                <div className="text-sm theme-map-deraction-search-result-time font-medium mb-1">
+                  {formatFutureTime(
+                    "totalTime" in routeFeatures[0].properties
+                      ? routeFeatures[0].properties.totalTime || 0
+                      : 0,
+                  )}{" "}
+                  도착
+                </div>
+                <div className="text-xs theme-map-deraction-search-result-km">
+                  {formatDistance(
+                    "totalDistance" in routeFeatures[0].properties
+                      ? routeFeatures[0].properties.totalDistance || 0
+                      : 0,
+                  )}
+                </div>
               </div>
-              <div className="text-xs theme-map-deraction-search-result-km">
-                {formatDistance(
-                  "totalDistance" in routeFeatures[0].properties
-                    ? routeFeatures[0].properties.totalDistance || 0
-                    : 0,
-                )}
-              </div>
+              <Image
+                src={"/imgs/nav-walk.svg"}
+                alt="nav icon"
+                width={40}
+                height={40}
+                className={"dark:invert"}
+              />
             </div>
           ) : (
             <div className="flex justify-between gap-5 items-center">
