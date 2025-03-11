@@ -2,48 +2,72 @@
 
 import MyPlaceListEdit from "@/src/components/my-place/MyPlaceListEdit";
 import { useSession } from "next-auth/react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
 import client from "@/src/lib/api/client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DropResult } from "@hello-pangea/dnd";
 import { Bookmark, ReorderBody } from "@/src/types/my-place";
+import MyPlacePagination from "@/src/components/my-place/MyPlacePagination";
+
+type MyPlacesResponse = {
+  searchResults: Bookmark[];
+  totalPages: number;
+};
 
 export default function Page() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const page = 0;
-  const size = 20;
+  const [page, setPage] = useState(0);
+  const size = 15;
 
   const {
-    data: bookmarks,
+    data: bookmarks = { searchResults: [], totalPages: 1 },
     isLoading,
     isError,
     error,
-  } = useQuery<Bookmark[]>({
-    queryKey: ["myPlaces", session?.user?.memberId],
+  } = useQuery<MyPlacesResponse>({
+    queryKey: ["myPlaces", session?.user?.memberId, page],
     queryFn: async () => {
-      if (!session?.user?.memberId) return [];
+      if (!session?.user?.memberId)
+        return {
+          searchResults: [],
+          totalPages: 1,
+        };
+
       const response = await client.get(
         `/api/members/${session.user.memberId}/bookmarks`,
-        { params: { page, size } },
+        {
+          params: { page, size },
+        },
       );
-      const apiData = response.data;
-      if (apiData.status === "성공") {
-        return apiData.data.searchResults as Bookmark[];
+
+      if (response.data.status === "성공") {
+        return {
+          searchResults: response.data.data.searchResults,
+          totalPages: response.data.data.totalPages,
+        };
       }
       throw new Error("북마크 불러오기 실패");
     },
+    placeholderData: keepPreviousData,
     enabled: !!session?.user?.memberId,
   });
+
+  const { searchResults, totalPages } = bookmarks;
 
   const [items, setItems] = useState<Bookmark[]>([]);
   const [deletedIds, setDeletedIds] = useState<number[]>([]);
 
   useEffect(() => {
-    if (bookmarks?.length) setItems(bookmarks);
+    if (bookmarks?.searchResults.length) setItems(bookmarks.searchResults);
   }, [bookmarks]);
 
   const deleteBookmarksMutation = useMutation({
@@ -106,7 +130,7 @@ export default function Page() {
     if (items.length > 0) {
       const reorderBody = items.map((item, idx) => ({
         id: item.bookmarkId,
-        targetSequence: idx + 1,
+        targetSequence: page * size + idx + 1,
       }));
       await reorderMutation.mutateAsync(reorderBody);
     }
@@ -127,12 +151,17 @@ export default function Page() {
           <p className="theme-header-text">{`홈 > 즐겨찾기`}</p>
           <button onClick={handleComplete}>완료</button>
         </div>
-        <div className="flex min-h-[917px] w-full">
+        <div className="flex min-h-[916px] w-full">
           <section className="flex flex-grow flex-col gap-2">
             <MyPlaceListEdit
               items={items}
               handleDragEnd={handleDragEnd}
               handleDelete={handleDelete}
+            />
+            <MyPlacePagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={(newPage) => setPage(newPage)}
             />
           </section>
         </div>

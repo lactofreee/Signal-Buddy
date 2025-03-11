@@ -3,7 +3,7 @@
 import Image from "next/image";
 import logo from "@/public/imgs/Logo.svg";
 import Link from "next/link";
-import home_background_img from "@/public/imgs/noisy-gradients.svg";
+import home_background_img from "@/public/imgs/noisy-gradients.png";
 import { A2HS } from "@/src/components/home/A2HS";
 import { Button } from "@/src/components/shadcn/components/ui/button";
 import InstallPrompt from "@/src/components/home/InstallPrompt";

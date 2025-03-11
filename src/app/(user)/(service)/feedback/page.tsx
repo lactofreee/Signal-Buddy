@@ -25,12 +25,10 @@ export default async function Page({
   const page = parseInt(searchParamsResolved?.page || "0", 10);
   const size = parseInt(searchParamsResolved?.size || "10", 10);
 
-  const totalFeedback = await fetchTotalFeedback();
-  const totalFeedbackLength = totalFeedback.data.totalElements;
-
   const res = await fetchFeedbackList(searchParams);
   const feedbackList = res.data.searchResults;
-  const totalPages = Math.ceil(totalFeedbackLength / 10);
+  const updatedTotalFeedback = res.data.totalElements;
+  const totalPages = Math.ceil(updatedTotalFeedback / 10);
 
   return (
     <div className="flex justify-center">
@@ -83,16 +81,13 @@ export default async function Page({
         {/* 네비게이션 */}
         <div className="theme-line flex h-10 w-full items-center justify-between border-b text-sm font-extrabold">
           <p className="theme-header-text">{`홈 > 피드백 게시판`}</p>
-          <Link href={`/feedback/write`}>
-            <EditIcon className="theme-edit-icon" />
-          </Link>
         </div>
 
         {/* 메인 콘텐츠 영역 */}
-        <div className="bg-blue mt-2 flex min-h-[917px] w-full">
+        <div className="bg-blue mt-4 flex min-h-[917px] w-full mb-10">
           <FeedbackSidebar />
           <section className="flex flex-grow flex-col gap-3 md:ml-[22px]">
-            <FeedbackSearchbar className="hidden md:flex" />
+            <FeedbackSearchbar className="hidden md:flex mb-2" />
             {feedbackList.length ? (
               <FeedbackList feedbackList={feedbackList} />
             ) : (

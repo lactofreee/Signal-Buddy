@@ -8,6 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import client from "@/src/lib/api/client";
+import Swal from "sweetalert2";
 
 export default function Page() {
   const session = useSession();
@@ -19,7 +20,6 @@ export default function Page() {
       await client.delete(`/api/members/${session.data?.user.memberId}`);
     },
     onSuccess: () => {
-      alert("탈퇴가 완료되었습니다.");
       signOut({ redirectTo: "/login" });
     },
     onError: (error) => {
@@ -29,11 +29,21 @@ export default function Page() {
   });
 
   const handleDeleteUser = () => {
-    const confirmed = window.confirm("탈퇴하시겠습니까?");
-    if (!confirmed) return;
-
-    if (!userId) return;
-    deleteUserMutation.mutate(userId);
+    Swal.fire({
+      title: "정말 탈퇴하시겠습니까?",
+      text: "더 이상 즐겨찾기와 피드백 작성을 이용할 수 없게 됩니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "탈퇴",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (!userId) return;
+        deleteUserMutation.mutate(userId);
+      }
+    });
   };
 
   return (

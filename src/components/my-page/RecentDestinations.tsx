@@ -44,10 +44,6 @@ export default function RecentDestinations({ session }: Props) {
 
   if (isLoading) return <div>로딩 중...</div>;
 
-  if (!session) {
-    return <div>로그인 해주세요</div>;
-  }
-
   if (isError && error instanceof Error)
     return <div>에러가 발생했습니다: {error.message}</div>;
 

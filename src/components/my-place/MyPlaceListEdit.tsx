@@ -10,6 +10,7 @@ import {
   DropResult,
   DraggableProvidedDragHandleProps,
 } from "@hello-pangea/dnd";
+import { MyPlaceNameChangeDialog } from "./MyPlaceDialog";
 
 interface Bookmark {
   bookmarkId: number;
@@ -43,14 +44,16 @@ function MyPlaceItem({
           >
             <Image src={deleteImage} alt="삭제" />
           </div>
-          <div className="theme-content-bg rounded-full px-5 md:px-0 py-2 h-[58px] flex-1">
-            <p className="text-base font-extrabold h-5 overflow-hidden">
-              {name}
-            </p>
-            <p className="text-sm font-medium theme-my-profile-location-address h-4 mt-1 overflow-hidden">
-              {address}
-            </p>
-          </div>
+          <MyPlaceNameChangeDialog bookmark={bookmark}>
+            <div className="theme-content-bg rounded-full px-5 md:px-0 py-2 h-[58px] flex-1">
+              <p className="text-base font-extrabold h-5 overflow-hidden">
+                {name}
+              </p>
+              <p className="text-sm font-medium theme-my-profile-location-address h-4 mt-1 overflow-hidden">
+                {address}
+              </p>
+            </div>
+          </MyPlaceNameChangeDialog>
         </div>
         <div className="flex items-center">
           <div className="ml-2 md:ml-5" {...(dragHandleProps || {})}>
