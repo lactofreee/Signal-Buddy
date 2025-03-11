@@ -48,8 +48,8 @@ export default function RecentDestinations({ session }: Props) {
     return <div>에러가 발생했습니다: {error.message}</div>;
 
   return (
-    <section className="rounded-[8px] theme-content-bg px-2 pb-4 pt-3">
-      <h2 className="theme-feedback-filter-category mb-2 text-xs font-semibold">
+    <section className="rounded-[8px] theme-content-bg pb-4 pt-3">
+      <h2 className="theme-feedback-filter-category mb-2 text-xs font-semibold px-2">
         최근 경로
       </h2>
       <ul className="flex flex-col gap-2">

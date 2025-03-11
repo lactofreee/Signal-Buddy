@@ -34,8 +34,8 @@ export default function Page() {
       text: "더 이상 즐겨찾기와 피드백 작성을 이용할 수 없게 됩니다.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#FF6156",
+      cancelButtonColor: "#64748B",
       confirmButtonText: "탈퇴",
       cancelButtonText: "취소",
     }).then((result) => {

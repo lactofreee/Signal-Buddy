@@ -151,9 +151,9 @@ export default function RecentDestinationsItem({
   };
 
   return (
-    <li className="my-[10px]">
+    <li className="hover:theme-hover-recent-path mx-1 rounded-md">
       <div
-        className="flex items-center justify-between"
+        className="flex items-center justify-between my-[10px] px-1"
         onClick={handleNavigate}
       >
         <div className="flex gap-2">
@@ -180,13 +180,15 @@ export default function RecentDestinationsItem({
         </div>
         <div
           onClick={handleClickBookmark}
-          className={`flex h-6 w-6 items-center justify-center rounded-full outline outline-1 ${
+          className={`hover:cursor-pointer flex h-6 w-6 items-center justify-center rounded-full outline outline-1 hover:theme-hover-recent-path-star-icon ${
             bookmarked
-              ? "outline-teal text-teal"
+              ? "theme-bookmarked-recent-path-star-icon"
               : "outline-gray-300 text-gray-300"
           }`}
         >
-          <StarIcon />
+          <span className="hover:theme-hover-recent-path-star-icon">
+            <StarIcon />
+          </span>
         </div>
       </div>
     </li>

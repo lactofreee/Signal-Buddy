@@ -18,15 +18,22 @@ export default function MyPlaceList({
   return (
     <div className="flex-1 flex flex-col space-y-2">
       {searchResults.length > 0 ? (
-        searchResults.map((item) => (
-          <MyPlaceItem
-            key={item.bookmarkId}
-            name={item.name}
-            address={item.address}
-            lat={item.lat}
-            lng={item.lng}
+        <>
+          {searchResults.map((item) => (
+            <MyPlaceItem
+              key={item.bookmarkId}
+              name={item.name}
+              address={item.address}
+              lat={item.lat}
+              lng={item.lng}
+            />
+          ))}
+          <MyPlacePagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
           />
-        ))
+        </>
       ) : (
         <div className="flex justify-center my-[100px]">
           <p className="theme-feedback-no-result text-sm">
@@ -34,11 +41,6 @@ export default function MyPlaceList({
           </p>
         </div>
       )}
-      <MyPlacePagination
-        page={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
     </div>
   );
 }

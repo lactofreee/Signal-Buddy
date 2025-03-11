@@ -1,6 +1,7 @@
 "use client";
 
 import FeedbackList from "@/src/components/feedback/FeedbackList";
+import LikedFeedbackList from "@/src/components/my-page/LikedFeedbackList";
 import MyPlacePagination from "@/src/components/my-place/MyPlacePagination";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/src/components/utils/icons";
 import client from "@/src/lib/api/client";
@@ -81,7 +82,14 @@ export default function Page() {
         {/* 메인 콘텐츠 영역 */}
         <section className="flex flex-grow flex-col gap-3">
           {searchResults.length ? (
-            <FeedbackList feedbackList={searchResults} />
+            <>
+              <LikedFeedbackList feedbackList={searchResults} />
+              <MyPlacePagination
+                page={page}
+                totalPages={totalPages}
+                onPageChange={(newPage) => setPage(newPage)}
+              />
+            </>
           ) : (
             <div className="flex justify-center my-[100px]">
               <p className="theme-feedback-no-result text-sm">
@@ -89,11 +97,6 @@ export default function Page() {
               </p>
             </div>
           )}
-          <MyPlacePagination
-            page={page}
-            totalPages={totalPages}
-            onPageChange={(newPage) => setPage(newPage)}
-          />
         </section>
       </div>
     </div>

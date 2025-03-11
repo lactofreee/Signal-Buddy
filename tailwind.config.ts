@@ -356,6 +356,17 @@ export default {
         ".theme-home-description": {
           "@apply text-gray-600 dark:text-gray-100": "",
         },
+        ".theme-hover-recent-path": {
+          "@apply bg-gray-100 dark:bg-gray-900": "",
+        },
+        ".theme-hover-recent-path-star-icon": {
+          "@apply outline-[#FFD500]/50 text-[#FFD500]/50 dark:text-[#FFD500] dark:outline-[#FFD500]":
+            "",
+        },
+        ".theme-bookmarked-recent-path-star-icon": {
+          "@apply outline-[#FFD500]/70 text-[#FFD500]/90 dark:text-[#FFD500]/80":
+            "",
+        },
       });
     },
   ],
