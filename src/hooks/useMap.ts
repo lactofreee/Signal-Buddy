@@ -70,7 +70,6 @@ export default function useMap(
       if (!Tmapv2) return;
       const latitude = location?.latitude || 37.5652045;
       const longitude = location?.longitude || 126.98702028;
-
       const position = new Tmapv2.LatLng(latitude, longitude);
       mapIns.setCenter(position);
       mapIns.setZoom(19);

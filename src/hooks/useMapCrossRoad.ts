@@ -118,8 +118,10 @@ export default function useMapCrossRoad(map: TMap | null) {
       if (data) {
         setTarget({ ...data });
       }
-      currentMap.setCenter(new Tmapv2.LatLng(data.lat, data.lon));
       currentMap.setZoom(19);
+      setTimeout(() => {
+        currentMap.setCenter(new Tmapv2.LatLng(data.lat, data.lng));
+      }, 1000);
     } catch (err) {
       console.error(err);
       if (axios.isAxiosError(err) && err.response) {

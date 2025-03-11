@@ -212,7 +212,6 @@ export default function MapSearch({ map, location }: Props) {
         const { Tmapv2 } = window;
         if (!Tmapv2 || !map) return;
         const center = map.getCenter();
-        map.setCenter(new Tmapv2.LatLng(center._lat, center._lng));
         const res = await fetch(
           `https://apis.openapi.sk.com/tmap/pois/search/around?version=1&page=1&count=20&categories=복지시설&centerLon=${center._lng}&centerLat=${center._lat}&radius=1&appKey=${process.env.NEXT_PUBLIC_TMAP_API_KEY}`,
         );

@@ -256,7 +256,7 @@ export default function MapDirection({
       const coord = feature.geometry.coordinates;
       map.setCenter(new Tmapv2.LatLng(coord[0][1], coord[0][0]));
     }
-    map.setZoom(24);
+    map.setZoom(19);
   };
   const audioRef = useRef<HTMLAudioElement>(null);
 

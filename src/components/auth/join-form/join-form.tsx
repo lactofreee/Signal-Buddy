@@ -114,7 +114,13 @@ export function JoinForm() {
     const { email, password, nickname } = values;
     try {
       setLoading(true);
-      const body = { email, password, nickname } as { [key: string]: string };
+      const body = {
+        email: email.trim(),
+        password: password.trim(),
+        nickname: nickname.trim(),
+      } as {
+        [key: string]: string;
+      };
       if (provider && id) {
         body.provider = provider;
         body.socialUserId = id;

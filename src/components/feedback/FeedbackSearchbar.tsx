@@ -82,7 +82,7 @@ export default function FeedbackSearchbar({
           {searchOptions.map((option) => (
             <DropdownMenuItem
               key={option}
-              className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+              className="cursor-pointer px-4 py-2 hover:theme-feedback-search-dropdown-hover theme-feedback-search-dropdown "
               onSelect={() => handleSelectOption(option)}
             >
               {option}

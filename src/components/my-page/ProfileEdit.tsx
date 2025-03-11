@@ -104,7 +104,7 @@ export default function ProfileEdit({ user }: Props) {
     const { nickname, password } = values;
     try {
       setLoading(true);
-      const body = { nickname } as {
+      const body = { nickname: nickname.trim() } as {
         password?: string;
         nickname: string;
       };
@@ -118,7 +118,6 @@ export default function ProfileEdit({ user }: Props) {
       const res = await changeUserInfo(user.memberId, body);
       if (res.data.data) {
         toast("프로필이 수정되었습니다.");
-        console.log(res.data.data);
         await update(res.data.data);
         router.push("/my-page/profile");
       }

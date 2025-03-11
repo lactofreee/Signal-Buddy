@@ -137,7 +137,7 @@ export default function Page() {
         href={`/feedback`}
         className="flex h-10 items-center gap-1 border-b theme-line"
       >
-        <ArrowLeftIcon className="h-6 w-6 text-gray-700" />
+        <ArrowLeftIcon className="h-6 w-6 theme-feedback-arrow-right-icon" />
         <p className="text-sm font-semibold theme-header-text">뒤로가기</p>
       </Link>
       <form

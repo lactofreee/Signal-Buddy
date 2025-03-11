@@ -59,7 +59,7 @@ export default function MapSearchResult({ target, onClose, onClick }: Props) {
         </div>
         <div className="flex flex-col gap-4 theme-content-bg px-2 py-3 md:py-4 rounded-xl text-sm font-semibold theme-map-content-text">
           {target.desc && (
-            <div className="font-semibold text-sm text-gray-700">
+            <div className="font-semibold text-sm theme-map-search-description">
               {target.desc}
             </div>
           )}

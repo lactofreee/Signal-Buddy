@@ -367,6 +367,15 @@ export default {
           "@apply outline-[#FFD500]/70 text-[#FFD500]/90 dark:text-[#FFD500]/80":
             "",
         },
+        ".theme-map-search-description": {
+          "@apply text-gray-700 dark:text-gray-300": "",
+        },
+        ".theme-feedback-search-dropdown-hover": {
+          "@apply bg-gray-100 dark:text-gray-300": "",
+        },
+        ".theme-feedback-search-dropdown": {
+          "@apply dark:text-gray-400": "",
+        },
       });
     },
   ],
