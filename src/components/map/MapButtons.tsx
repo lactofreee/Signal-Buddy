@@ -7,13 +7,13 @@ import { useState } from "react";
 type Props = {
   map: TMap | null;
   getGEO: () => void;
+  setCenterLocation: () => void;
 };
 
-export default function MapButtons({ map, getGEO }: Props) {
+export default function MapButtons({ map, getGEO, setCenterLocation }: Props) {
   const handleClickCurrentPosition = () => {
     getGEO();
-    if (!map) return;
-    map.setZoom(19);
+    setCenterLocation();
   };
 
   const [mapType, setMapType] = useState<number>(map?._data.mapType || 1);

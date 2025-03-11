@@ -71,12 +71,12 @@ export default function Footer() {
               </h3>
               <ul className="theme-footer-nav mt-2 flex flex-col gap-[12px] text-xs font-semibold">
                 <li>
-                  <Link href="/privacy" className="hover:underline">
+                  <Link href="/terms/private" className="hover:underline">
                     개인정보처리방침
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="hover:underline">
+                  <Link href="/terms/policy" className="hover:underline">
                     이용약관
                   </Link>
                 </li>
@@ -99,10 +99,10 @@ export default function Footer() {
           </ul>
           <ul className="flex gap-5">
             <li>
-              <Link href="/">개인정보 처리 방침</Link>
+              <Link href="/terms/private">개인정보 처리 방침</Link>
             </li>
             <li>
-              <Link href="/">이용약관</Link>
+              <Link href="/terms/policy">이용약관</Link>
             </li>
           </ul>
         </nav>

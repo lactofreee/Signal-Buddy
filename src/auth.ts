@@ -3,8 +3,7 @@ import Kakao from "next-auth/providers/kakao";
 import Naver from "next-auth/providers/naver";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { login, refresh } from "./services/auth.service";
-import { cookies } from "next/headers";
+import { login } from "./services/auth.service";
 import server from "./lib/api/server";
 import { AxiosResponse } from "axios";
 
@@ -123,21 +122,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         (token.accessTokenExpires as number) * 1000 - 10 * 60 * 1000
       ) {
         console.log(
-          Math.floor(Date.now() / 1000) -
+          "남은 시간",
+          Math.floor(
             Math.floor(
-              ((token.accessTokenExpires as number) * 1000 - 10 * 60 * 1000) /
+              ((token.accessTokenExpires as number) * 1000 -
+                10 * 60 * 1000 -
+                Date.now()) /
                 1000,
-            ),
+            ) / 60,
+          ),
+          "분",
         );
         return token;
       }
       if (!token.token) throw new TypeError("Missing accessTokenExpires");
       if (!token.refreshToken) throw new TypeError("Missing refresh_token");
       try {
-        console.log("request headers", {
-          Authorization: token.token as string,
-          Cookie: token.refreshToken as string,
-        });
         const response = await fetch(
           `${process.env.API_BASE_URL}/api/auth/reissue`,
           {
@@ -149,7 +149,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
         );
         const tokensOrError = await response.json();
-        console.log("data", tokensOrError);
+        console.log("REFRESH 호출!!!!!!!!!!!!!", tokensOrError);
         if (!response.ok) {
           console.error(response.status, "REFRESH ERROR");
           token.error = "RefreshTokenError";

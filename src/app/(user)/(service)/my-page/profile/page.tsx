@@ -3,12 +3,7 @@ import Link from "next/link";
 
 import myFeedback from "@/public/imgs/my-feedback.svg";
 import likedFeedback from "@/public/imgs/liked-feedback.svg";
-import {
-  ArrowRightIcon,
-  StarIcon,
-  SettingIcon,
-  UserIcon,
-} from "@/src/components/utils/icons";
+import { ArrowRightIcon, SettingIcon } from "@/src/components/utils/icons";
 import { auth } from "@/src/auth";
 import { redirect } from "next/navigation";
 import Profile from "@/src/components/common/profile/Profile";
@@ -98,7 +93,7 @@ export default async function Page() {
             ))}
           </ul>
         </section>
-        <RecentDestinations />
+        <RecentDestinations session={session} />
       </div>
     </div>
   );

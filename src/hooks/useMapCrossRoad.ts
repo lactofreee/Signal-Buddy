@@ -97,8 +97,7 @@ export default function useMapCrossRoad(map: TMap | null) {
     try {
       const data = await handleGetCrossroadState(target.crossroadId);
       if (data) {
-        console.log(data);
-        setTarget((prev) => ({ ...prev, ...data.data }));
+        setTarget((prev) => ({ ...prev, ...data }));
       }
     } catch (err) {
       console.error(err);
@@ -225,12 +224,9 @@ export default function useMapCrossRoad(map: TMap | null) {
   }, [map]);
 
   useEffect(() => {
-    console.log(crossroadId);
     if (!map || !crossroadId) return;
     const numCrossroadId = Number(crossroadId);
-    console.log(numCrossroadId);
     if (!isNaN(numCrossroadId)) {
-      console.log(numCrossroadId);
       handleCrossroadState(numCrossroadId);
     }
   }, [map, crossroadId]);

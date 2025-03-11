@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { saveRecentPath } from "@/src/services/members.service";
 import { PoiDetail } from "@/src/types";
 import {
   BuildingOffice2Icon,
@@ -9,6 +10,7 @@ import {
   PhoneIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 type Props = {
   target: PoiDetail;
@@ -17,6 +19,21 @@ type Props = {
 };
 
 export default function MapSearchResult({ target, onClose, onClick }: Props) {
+  const { data: session } = useSession();
+  const handleClick = async (poi: PoiDetail) => {
+    onClick(poi);
+    try {
+      if (!session) return;
+      await saveRecentPath(session.user.memberId, {
+        name: poi.name,
+        address: poi.address || "알수없음",
+        lat: Number(poi.frontLat),
+        lng: Number(poi.frontLon),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="flex flex-col py-2 max-h-[calc(100vh-126px)]">
       <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
@@ -33,7 +50,7 @@ export default function MapSearchResult({ target, onClose, onClick }: Props) {
 
           <div className="flex">
             <Button
-              onClick={() => onClick(target)}
+              onClick={() => handleClick(target)}
               className="w-full flex items-center text-lg bg-teal text-white hover:opacity-80"
             >
               <MapPinIcon className="size-7" /> 도착지 설정

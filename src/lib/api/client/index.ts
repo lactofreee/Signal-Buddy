@@ -27,6 +27,7 @@ client.interceptors.response.use(
         console.log(err);
       }
     }
+    return Promise.reject(error);
   },
 );
 export default client;

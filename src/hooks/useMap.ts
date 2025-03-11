@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapOptions, TMap, TMapMarker } from "@/src/types";
 import { ILocation } from "./useGeoLocation";
 import { DEFAULT_ZOOM_LEVEL } from "@/src/constants";
@@ -16,6 +16,7 @@ export default function useMap(
 ) {
   const [mapIns, setMapIns] = useState<TMap | null>(null);
   const [currentMarker, setCurrentMarker] = useState<TMapMarker | null>(null);
+  const isFirstLocationSet = useRef(false);
 
   const initTmap = () => {
     const { Tmapv2 } = window;
@@ -49,7 +50,21 @@ export default function useMap(
       setMapIns(map);
     }
   };
-  const handleGetCenter = (location?: ILocation) => {
+
+  const handleCurrentMarkerPosition = () => {
+    if (currentMarker) {
+      const { Tmapv2 } = window;
+      if (!Tmapv2 || !location) return;
+      const latitude = location?.latitude || 37.5652045;
+      const longitude = location?.longitude || 126.98702028;
+      const position = new Tmapv2.LatLng(latitude, longitude);
+      setTimeout(() => {
+        currentMarker.setPosition(position);
+      }, 0);
+    }
+  };
+
+  const handleGetCenter = () => {
     if (location && mapIns) {
       const { Tmapv2 } = window;
       if (!Tmapv2) return;
@@ -58,6 +73,7 @@ export default function useMap(
 
       const position = new Tmapv2.LatLng(latitude, longitude);
       mapIns.setCenter(position);
+      mapIns.setZoom(19);
       if (currentMarker) {
         setTimeout(() => {
           currentMarker.setPosition(position);
@@ -67,10 +83,18 @@ export default function useMap(
   };
   useEffect(() => {
     initTmap();
-    handleGetCenter(location);
+  }, []);
+
+  useEffect(() => {
+    if (location && mapIns && !isFirstLocationSet.current) {
+      handleGetCenter();
+      isFirstLocationSet.current = true;
+    }
+    handleCurrentMarkerPosition();
   }, [location, mapIns]);
 
   return {
     mapIns,
+    handleGetCenter,
   };
 }

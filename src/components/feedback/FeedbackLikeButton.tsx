@@ -1,11 +1,14 @@
 "use client";
 
 import { HeartIcon } from "@/src/components/utils/icons";
-import { Button } from "../shadcn/components/ui/button";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addLikes, deleteLikes, getLikes } from "@/src/app/api/feedback/likeButton";
+import {
+  addLikes,
+  deleteLikes,
+  getLikes,
+} from "@/src/app/api/feedback/likeButton";
 import { debounce } from "lodash";
 
 export default function FeedbackLikeButton({
@@ -24,7 +27,6 @@ export default function FeedbackLikeButton({
   const [isLiked, setIsLiked] = useState(likeStatus);
   const [like, setLike] = useState(likeCount);
 
-  // ✅ async 함수를 `fetchLikes`로 따로 분리
   const fetchLikes = async () => {
     if (!token) return { count: likeCount };
     return getLikes(feedbackId, token);
@@ -32,31 +34,35 @@ export default function FeedbackLikeButton({
 
   const { data, isLoading } = useQuery({
     queryKey: ["likes", feedbackId],
-    queryFn: fetchLikes, // ✅ `async`를 직접 사용하지 않고 함수로 전달
+    queryFn: fetchLikes,
     enabled: !!token,
   });
 
-  // ✅ 데이터를 안전하게 받아오기
   const currentLikeCount = data?.count ?? likeCount;
 
   const { isPending, mutate } = useMutation({
     mutationFn: async (liked: boolean) => {
       if (!token) return;
-      return liked ? deleteLikes(feedbackId, token) : addLikes(feedbackId, token);
+      return liked
+        ? deleteLikes(feedbackId, token)
+        : addLikes(feedbackId, token);
     },
     onMutate: async (liked) => {
       if (!token) return;
 
       await queryClient.cancelQueries({ queryKey: ["likes", feedbackId] });
-      const previousLikes = queryClient.getQueryData<{ count: number }>(["likes", feedbackId]);
+      const previousLikes = queryClient.getQueryData<{ count: number }>([
+        "likes",
+        feedbackId,
+      ]);
 
-      // ✅ 즉시 UI 업데이트
       setIsLiked(!liked);
       setLike((prev) => (liked ? prev - 1 : prev + 1));
 
-      // ✅ React Query 캐시 업데이트
       queryClient.setQueryData(["likes", feedbackId], {
-        count: liked ? Math.max((previousLikes?.count ?? likeCount) - 1, 0) : (previousLikes?.count ?? likeCount) + 1,
+        count: liked
+          ? Math.max((previousLikes?.count ?? likeCount) - 1, 0)
+          : (previousLikes?.count ?? likeCount) + 1,
       });
 
       return { previousLikes };
@@ -78,17 +84,21 @@ export default function FeedbackLikeButton({
 
   return (
     <div className="mb-1 flex justify-center">
-      <Button
-        variant="outline"
-        className={`flex h-[30px] w-[69px] items-center justify-center gap-1 rounded-[30px] border ${
-          isLiked ? "border-red-500 opacity-50" : "border-gray-400"
-        }`}
-        disabled={!token || isLoading || isPending}
+      <div
+        className="flex items-center gap-1 justify-center w-[68px] h-[30px] border border-gray-400 rounded-full cursor-pointer"
         onClick={onLikeClicked}
+        style={{
+          pointerEvents: !token || isLoading || isPending ? "none" : "auto",
+        }}
+        aria-label={isLiked ? "좋아요 취소" : "좋아요"}
       >
-        <HeartIcon className={isLiked ? "text-red-500" : "text-gray-400"} />
-        <p className="text-sm font-medium">{like}</p> {/* ✅ 즉시 업데이트 */}
-      </Button>
+        {isLiked ? (
+          <HeartIcon className="fill-red w-4" />
+        ) : (
+          <HeartIcon className="stroke-gray-400 fill-none w-4" />
+        )}
+        <p className="text-sm font-medium text-gray-400">{like}</p>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatDate } from "@/src/utils/formatDate";
 import Image from "next/image";
 import { IFeedbackListItem } from "@/src/types/feedback/feedbackList";
+import Profile from "../common/profile/Profile";
 
 function FeedbackItem({
   feedbackId,
@@ -29,13 +30,7 @@ function FeedbackItem({
         </Link>
       </div>
       <div className="mt-4 flex items-center gap-1 theme-feedback-user text-xs font-medium">
-        <Image
-          src={member?.profileImageUrl || "/default-profile.png"}
-          alt="작성자 프로필 이미지입니다."
-          width={24}
-          height={24}
-          className="rounded-full"
-        />
+        <Profile src={member.profileImageUrl} size="sm" />
 
         <p className="mr-2">{member.nickname}</p>
         <p>{formatDate(createdAt)}</p>

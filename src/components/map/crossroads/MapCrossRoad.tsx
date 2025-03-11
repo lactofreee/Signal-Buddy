@@ -126,7 +126,7 @@ export default function MapCrossRoad({
             </Button>
           )}
         </div>
-        <div className="max-h-[calc(100vh-396px)]">
+        <div className="w-full max-h-[calc(100vh-396px)]">
           <div className="flex-grow flex flex-col gap-2 overflow-y-auto">
             <MapCrossroadFeedback crossroadId={target.crossroadId} />
           </div>

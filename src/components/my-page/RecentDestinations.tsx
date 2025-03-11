@@ -4,6 +4,7 @@ import client from "@/src/lib/api/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import RecentDestinationsItem from "./RecentDestinationsItem";
+import { Session } from "next-auth";
 
 export interface Destination {
   recentPathId: number;
@@ -15,8 +16,11 @@ export interface Destination {
   bookmarked: boolean;
 }
 
-export default function RecentDestinations() {
-  const { data: session, status } = useSession();
+type Props = {
+  session: Session;
+};
+
+export default function RecentDestinations({ session }: Props) {
   const {
     data: destinations = [],
     isLoading,

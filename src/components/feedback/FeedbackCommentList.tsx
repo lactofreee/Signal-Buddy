@@ -12,6 +12,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
+import Profile from "../common/profile/Profile";
 
 // 댓글 삭제 함수 (비동기 처리 및 UI 반영)
 const deleteComment = async (
@@ -56,10 +57,9 @@ const onDelete = (
   Swal.fire({
     title: "정말 삭제하시겠습니까?",
     text: "삭제된 댓글은 복구할 수 없습니다.",
-    icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#FF6156",
+    cancelButtonColor: "#64748B",
     confirmButtonText: "삭제",
     cancelButtonText: "취소",
   }).then((result) => {
@@ -95,14 +95,8 @@ function FeedbackCommentItem({
     >
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
-          <div className="flex items-center gap-1">
-            <Image
-              className="rounded-full outline outline-1 outline-gray-300"
-              src={member.profileImageUrl}
-              width={24}
-              height={24}
-              alt={`${member.nickname}님의 프로필 이미지`}
-            />
+          <div className="flex items-center gap-2">
+            <Profile src={member.profileImageUrl} size="sm" />
             <p
               id={`comment-${commentId}`}
               className="font-semibold theme-nickname"

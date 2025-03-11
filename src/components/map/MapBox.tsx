@@ -1,7 +1,7 @@
 "use client";
 
 import { useGeoLocation } from "@/src/hooks/useGeoLocation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import useMap from "@/src/hooks/useMap";
 import MapSearch from "./search/MapSearch";
 import MapButtons from "./MapButtons";
@@ -24,7 +24,7 @@ export default function MapBox({ slug }: Props) {
 
   const { location, handleGetGeo, startWatching, stopWatching, isWatching } =
     useGeoLocation(geolocationOptions);
-  const { mapIns } = useMap(mapRef, location);
+  const { mapIns, handleGetCenter } = useMap(mapRef, location);
   const {
     target: crossTarget,
     removeTarget,
@@ -46,6 +46,7 @@ export default function MapBox({ slug }: Props) {
           <MapDirection
             map={mapIns}
             location={location}
+            getGEO={handleGetGeo}
             startWatching={startWatching}
             stopWatching={stopWatching}
             isWatching={isWatching}
@@ -54,7 +55,11 @@ export default function MapBox({ slug }: Props) {
           <></>
         )}
       </div>
-      <MapButtons map={mapIns} getGEO={handleGetGeo} />
+      <MapButtons
+        map={mapIns}
+        getGEO={handleGetGeo}
+        setCenterLocation={handleGetCenter}
+      />
       <div className="flex-1 relative cursor-grab">
         <div id="map" ref={mapRef} />
       </div>

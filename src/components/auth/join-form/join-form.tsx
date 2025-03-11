@@ -269,7 +269,7 @@ export function JoinForm() {
               {
                 name: "개인정보처리방침에 동의",
                 value: "terms",
-                link: "/terms/services",
+                link: "/terms/private",
               },
               {
                 name: "이용 약관에 동의",

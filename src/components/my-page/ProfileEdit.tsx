@@ -22,6 +22,7 @@ import {
   changeUserInfo,
 } from "@/src/services/members.service";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -69,6 +70,7 @@ type Props = {
 };
 
 export default function ProfileEdit({ user }: Props) {
+  const router = useRouter();
   const { update } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const [profileFile, setProfileFile] = useState<File | null>(null);
@@ -107,16 +109,18 @@ export default function ProfileEdit({ user }: Props) {
         nickname: string;
       };
       if (password) body.password = password;
-      const res = await changeUserInfo(user.memberId, body);
-      if (res.data.data) {
-        toast("프로필이 수정되었습니다.");
-        await update(res.data.data);
-      }
       if (profileFile) {
         const formData = new FormData();
         formData.append("imageFile", profileFile);
         const profileRes = await changeProfileImg(user.memberId, formData);
         await update({ profileImageUrl: profileRes.data.data });
+      }
+      const res = await changeUserInfo(user.memberId, body);
+      if (res.data.data) {
+        toast("프로필이 수정되었습니다.");
+        console.log(res.data.data);
+        await update(res.data.data);
+        router.push("/my-page/profile");
       }
     } catch (err: unknown) {
       console.error(err);

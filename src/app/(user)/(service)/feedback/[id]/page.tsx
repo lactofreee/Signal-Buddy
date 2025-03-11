@@ -1,26 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import defaultProfileImage from "@/public/imgs/DefaultProfile.png";
-
 import MeatballMenu from "@/src/components/feedback/MeatballMenu";
-import FeedbackCommentList from "@/src/components/feedback/FeedbackCommentList";
 import { auth } from "@/src/auth";
 import { fetchDataFeedbackItem } from "@/src/app/api/feedback/fetchFeedbackItem";
-import {
-  ArrowLeftIcon,
-  HeartIcon,
-  PaperAirplaneIcon,
-} from "@/src/components/utils/icons";
+import { ArrowLeftIcon } from "@/src/components/utils/icons";
 import { IFeedbackDetailResponse } from "@/src/types/feedback/feedbackList";
-import FeedbackLikeButton from "@/src/components/feedback/FeedbackLikeButton";
 
 import { formatDate } from "@/src/utils/formatDate";
 import FeedbackComment from "@/src/components/feedback/FeedbackComment";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
-import { getIsLiked } from "@/src/app/api/feedback/likeButton";
 import { formatFeedbackCategory } from "@/src/utils/formatFeedbackCategory";
+import Profile from "@/src/components/common/profile/Profile";
+import LikeBTN from "@/src/components/feedback/LikeBTN";
+
+const handleError = (error: unknown) => {
+  if (error instanceof Response) {
+    if (error.status === 401) {
+      toast.error("세션이 만료되었습니다. 다시 로그인해주세요.");
+      redirect("/login");
+    }
+  } else if (error instanceof Error) {
+    toast.error("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+  } else {
+    toast.error("알 수 없는 오류가 발생했습니다.");
+  }
+};
 
 export default async function Page({
   params,
@@ -30,21 +36,35 @@ export default async function Page({
   const { id } = await params;
   const session = await auth();
   const user = session?.user;
-  const TOKEN = session?.user.token;
-  const userId = session?.user.memberId || null;
 
-  let isLiked = false;
+  // let isLiked = false;
   let res: IFeedbackDetailResponse | null = null;
 
-  res = await fetchDataFeedbackItem(id);
-
-  if (TOKEN) {
-    isLiked = await getIsLiked(id, TOKEN);
+  // 피드백 데이터 요청
+  try {
+    res = await fetchDataFeedbackItem(id);
+  } catch (error: unknown) {
+    console.error("피드백 데이터 불러오기 실패:", error);
+    handleError(error); // 에러 처리 함수 호출
   }
 
   const feedbackData = res?.data;
-  const authorId = feedbackData?.member.memberId;
-  const isCompleted = feedbackData?.answerStatus === "COMPLETION";
+  if (!feedbackData) {
+    return <div>피드백 데이터가 없습니다.</div>; // 피드백 데이터가 없을 때 처리
+  }
+
+  const {
+    member,
+    category,
+    imageUrl,
+    subject,
+    createdAt,
+    content,
+    crossroad,
+    likeCount,
+  } = feedbackData;
+  const isCompleted = feedbackData.answerStatus === "COMPLETION";
+  const authorId = member.memberId;
 
   return (
     <div className="flex justify-center">
@@ -66,42 +86,33 @@ export default async function Page({
             <MeatballMenu feedbackId={id} authorId={authorId!} />
           </span>
         </div>
+
         {/* 본문 영역 */}
         <div className="pt-2">
           <div className="w-full rounded-[20px] theme-content-bg px-5 py-3 pt-6">
             {/* 본문 헤더 */}
             <div className="flex items-center justify-between">
-              <div className="flex">
-                <div className="mr-2 flex aspect-square w-[38px] items-center justify-center overflow-hidden rounded-full border border-gray-300 relative">
-                  <Image
-                    src={
-                      feedbackData?.member.profileImageUrl ??
-                      defaultProfileImage
-                    }
-                    alt="User profile image"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+              <div className="flex gap-2">
+                <Profile src={member.profileImageUrl} size="2md" />
+
                 <div className="flex flex-col justify-center text-xs font-medium">
-                  <p className="theme-nickname">
-                    {feedbackData?.member.nickname}
-                  </p>
-                  <p className="theme-email">{feedbackData?.member.email}</p>
+                  <p className="theme-nickname">{member.nickname}</p>
+                  <p className="theme-email">{member.email}</p>
                 </div>
               </div>
               <div className="font-semibold theme-feedback-data-category">
-                {formatFeedbackCategory(feedbackData?.category)}
+                {formatFeedbackCategory(category)}
               </div>
             </div>
+
             {/* 본문 메인 */}
             <div className="mt-4">
               {/* 이미지 영역 */}
-              {feedbackData?.imageUrl && (
+              {imageUrl && (
                 <div className="flex justify-center">
                   <div className="w-full max-w-[393px] h-[400px] relative">
                     <Image
-                      src={feedbackData?.imageUrl}
+                      src={imageUrl}
                       alt="게시물 이미지 영역입니다."
                       fill
                       className="object-contain rounded-lg"
@@ -110,33 +121,27 @@ export default async function Page({
                 </div>
               )}
               <h1 className="mb-2 text-lg font-bold theme-feedback-subject">
-                {feedbackData?.subject}
+                {subject}
               </h1>
               <p className="mb-4 text-xs font-medium theme-date-text">
-                {formatDate(String(feedbackData?.createdAt))}
+                {formatDate(String(createdAt))}
               </p>
-              <p className="mb-10 theme-content-text">
-                {feedbackData?.content}
-              </p>
+              <p className="mb-10 theme-content-text">{content}</p>
+
               {/* 지도 표시 */}
-              <Link
-                href={`/map?crossroadId=${feedbackData.crossroad.crossroadId}`}
-              >
+              <Link href={`/map?crossroadId=${crossroad.crossroadId}`}>
                 <div className="mb-4 flex h-[100px] items-center gap-[13px] border-y theme-line pb-[6px] pt-[10px]">
-                  {/* <div className="aspect-square w-[84px] rounded-2xl bg-teal"></div> */}
                   <p className="text-sm font-bold theme-content-text">
-                    {feedbackData?.crossroad.name}
+                    {crossroad.name}
                   </p>
                 </div>
               </Link>
-              <FeedbackLikeButton
-                feedbackId={id}
-                likeCount={feedbackData?.likeCount ?? 0}
-                likeStatus={isLiked}
-              />
+
+              <LikeBTN feedbackId={id} session={session} />
             </div>
           </div>
         </div>
+
         {/* 댓글 영역 */}
         <FeedbackComment id={id} user={user} />
       </div>

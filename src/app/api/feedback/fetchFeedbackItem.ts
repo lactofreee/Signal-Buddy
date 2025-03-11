@@ -3,7 +3,7 @@ import { IFeedbackDetailResponse } from "@/src/types/feedback/feedbackList";
 export const fetchDataFeedbackItem = async (
   id: string,
 ): Promise<IFeedbackDetailResponse> => {
-  const END_POINT = `${process.env.API_BASE_URL}/api/feedbacks/${id}`;
+  const END_POINT = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/feedbacks/${id}`;
   try {
     const res = await fetch(END_POINT, {
       method: "GET",
