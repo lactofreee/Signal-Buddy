@@ -6,14 +6,8 @@ import RootProvider from "../contexts/RootProvider";
 import FCMNotification from "../components/fcm/FCMNotification";
 import { Providers } from "../components/display-mode/ThemeProvider";
 import ThemeColorUpdater from "../components/home/ThemeColorUpdater";
-
-export const metadata: Metadata = {
-  title: "Signal Buddy | 모두를 위한 보행 파트너",
-  description: "Signal Buddy | 모두를 위한 보행 파트너",
-  icons: {
-    icon: "/icon-192x192-rounded.png",
-  },
-};
+import { getMetadata } from "../utils";
+export const metadata: Metadata = getMetadata();
 
 export default function RootLayout({
   children,

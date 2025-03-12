@@ -29,7 +29,8 @@ const formSchema = z
     nickname: z
       .string()
       .min(1, { message: "닉네임을 입력해주세요." })
-      .max(10, { message: "닉네임은 최대 10자까지 가능합니다." }),
+      .max(10, { message: "닉네임은 최대 10자까지 가능합니다." })
+      .regex(/^\S+$/, "닉네임에는 공백을 포함할 수 없습니다."),
     password: z
       .string()
       .min(8, { message: "비밀번호를 최소 8자 이상 입력해주세요." })

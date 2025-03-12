@@ -93,7 +93,7 @@ export default async function Page() {
             ))}
           </ul>
         </section>
-        <RecentDestinations session={session} />
+        <RecentDestinations />
       </div>
     </div>
   );

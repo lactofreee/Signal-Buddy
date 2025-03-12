@@ -153,7 +153,7 @@ export default function RecentDestinationsItem({
   return (
     <li className="hover:theme-hover-recent-path mx-1 rounded-md">
       <div
-        className="flex items-center justify-between my-[10px] px-1"
+        className="flex items-center justify-between my-[10px] px-1 cursor-pointer"
         onClick={handleNavigate}
       >
         <div className="flex gap-2">

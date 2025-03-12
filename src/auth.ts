@@ -159,13 +159,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const resCookies = response.headers.get("set-cookie")?.split(", ");
         const refreshToken =
           resCookies?.find((cookie) => cookie.startsWith("refreshToken=")) ||
+          token.refreshToken ||
           "";
-
-        console.log("newToken", newToken, resCookies);
-        if (!newToken || !refreshToken) {
-          token.error = "RefreshTokenError";
-          return token;
-        }
 
         return {
           ...token,

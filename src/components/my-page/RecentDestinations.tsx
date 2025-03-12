@@ -4,7 +4,7 @@ import client from "@/src/lib/api/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import RecentDestinationsItem from "./RecentDestinationsItem";
-import { Session } from "next-auth";
+import { useEffect } from "react";
 
 export interface Destination {
   recentPathId: number;
@@ -16,11 +16,19 @@ export interface Destination {
   bookmarked: boolean;
 }
 
-type Props = {
-  session: Session;
-};
+export default function RecentDestinations() {
+  const { data: session, status } = useSession();
+  const queryClient = useQueryClient();
 
-export default function RecentDestinations({ session }: Props) {
+  useEffect(() => {
+    console.log(session);
+    if (status === "authenticated") {
+      queryClient.invalidateQueries({
+        queryKey: ["recentPaths", session?.user?.memberId],
+      });
+    }
+  }, [session?.user?.token]);
+
   const {
     data: destinations = [],
     isLoading,
@@ -32,6 +40,11 @@ export default function RecentDestinations({ session }: Props) {
       if (!session?.user?.memberId) return [];
       const response = await client.get(
         `/api/members/${session.user.memberId}/recent-path`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.user.token}`, // 최신 토큰 반영
+          },
+        },
       );
       const apiData = response.data;
       if (apiData.status === "성공") {
@@ -39,7 +52,7 @@ export default function RecentDestinations({ session }: Props) {
       }
       throw new Error("최근 경로 불러오기 실패");
     },
-    enabled: !!session?.user?.memberId,
+    enabled: !!session?.user?.memberId && status === "authenticated",
   });
 
   if (isLoading) return <div>로딩 중...</div>;

@@ -154,7 +154,6 @@ export default function useMapCrossRoad(map: TMap | null) {
     ws.current.onmessage = (event) => {
       const responseData = JSON.parse(event.data);
       const data = responseData.data;
-
       crossRoadMarkers.forEach((marker) => marker.setMap(null));
 
       const newMarkers = data
