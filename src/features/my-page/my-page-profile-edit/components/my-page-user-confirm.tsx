@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { verifyPW } from "@/src/services/members.service";
 import Image from "next/image";
-import logo from "@/public/imgs/logo.png";
+import logo from "@/public/imgs/common/logo-title-rg-black.png";
 import { Button } from "@/src/components/ui/button";
 import { PasswordInput } from "@/src/components/common/password-input";
 import { userConfirmFormSchema } from "@/src/features/my-page/my-page-profile-edit/actions/user-confirm-schema";

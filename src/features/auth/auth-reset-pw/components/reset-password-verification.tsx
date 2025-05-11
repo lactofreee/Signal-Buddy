@@ -2,7 +2,7 @@
 
 import { Button } from "@/src/components/ui/button";
 import Image from "next/image";
-import logo from "@/public/imgs/logo.png";
+import logo from "@/public/imgs/common/logo-title-rg-black.png";
 import { useState } from "react";
 import { EmailForm } from "./email-form";
 import { useRouter } from "next/navigation";
