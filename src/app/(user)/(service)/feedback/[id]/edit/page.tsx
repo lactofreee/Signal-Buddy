@@ -1,7 +1,7 @@
 import { auth } from "@/src/auth";
 import { IFeedbackDetailResponse } from "@/src/types/feedback/feedbackList";
-import { fetchDataFeedbackItem } from "@/src/app/api/feedback/fetchFeedbackItem";
-import FeedbackEditPost from "@/src/components/feedback/FeedbackEditPost";
+import { fetchDataFeedbackItem } from "@/src/features/feedback/feedback-common/queries/fetchFeedbackItem";
+import FeedbackEditPost from "@/src/features/feedback/feedback-edit/components/feedback-edit-post";
 
 export default async function Page({
   params,

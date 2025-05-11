@@ -1,4 +1,4 @@
-import { JoinForm } from "@/src/components/auth/join-form/join-form";
+import { JoinForm } from "@/src/features/auth/auth-join/components/join-form";
 import { Suspense } from "react";
 
 export default function LoginPage() {

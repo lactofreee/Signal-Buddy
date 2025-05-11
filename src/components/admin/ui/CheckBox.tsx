@@ -1,16 +1,22 @@
-"use client"
+"use client";
 
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/src/components/ui/checkbox";
 
 interface CheckboxProps {
-  id: string
-  label: string
-  checked?: boolean
-  onChange?: (checked: boolean) => void
-  className?: string
+  id: string;
+  label: string;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+  className?: string;
 }
 
-export function CustomCheckbox({ id, label, checked, onChange, className }: CheckboxProps) {
+export function CustomCheckbox({
+  id,
+  label,
+  checked,
+  onChange,
+  className,
+}: CheckboxProps) {
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
       <Checkbox id={id} checked={checked} onCheckedChange={onChange} />
@@ -21,5 +27,5 @@ export function CustomCheckbox({ id, label, checked, onChange, className }: Chec
         {label}
       </label>
     </div>
-  )
+  );
 }

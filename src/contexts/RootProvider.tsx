@@ -1,7 +1,7 @@
 "use client";
 
-import QueryProvider from "../components/utils/QueryProvider";
-import AuthContext from "./AuthContext";
+import AuthProvider from "./AuthProvider";
+import QueryProvider from "./QueryProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -9,8 +9,8 @@ type Props = {
 
 export default function RootProvider({ children }: Props) {
   return (
-    <AuthContext>
+    <AuthProvider>
       <QueryProvider>{children}</QueryProvider>
-    </AuthContext>
+    </AuthProvider>
   );
 }

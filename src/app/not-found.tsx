@@ -4,8 +4,8 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import Link from "next/link";
-import { AuthSideImage } from "../components/auth/auth-side-image/auth-side-image";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { AuthSideImage } from "@/src/features/auth/auth-common/components/auth-side-image";
 
 export default function Component() {
   return (

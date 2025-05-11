@@ -1,4 +1,4 @@
-import HomeContents from "@/src/components/home/HomeContents";
+import HomeContents from "@/src/features/home/home-screen/components/home-contents";
 import getBase64 from "@/src/utils/getBase64";
 
 export default async function Home() {

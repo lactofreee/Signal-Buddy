@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
-import { AuthSideImage } from "@/src/components/auth/auth-side-image/auth-side-image";
+import { cn } from "@/src/utils";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { AuthSideImage } from "@/src/features/auth/auth-common/components/auth-side-image";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (

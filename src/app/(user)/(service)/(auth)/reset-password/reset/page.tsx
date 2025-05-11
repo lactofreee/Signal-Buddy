@@ -1,4 +1,4 @@
-import { ResetPassword } from "@/src/components/auth/reset-password/reset-password";
+import { ResetPassword } from "@/src/features/auth/auth-reset-pw/components/reset-password";
 
 type Props = {
   searchParams?: Promise<{ email: string; date: string }>;

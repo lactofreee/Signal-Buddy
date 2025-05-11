@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/src/components/ui/sidebar";
 import { AppSidebar } from "@/src/components/admin/ui/app-sidebar";
 import { PanelLeftClose } from "lucide-react";
 

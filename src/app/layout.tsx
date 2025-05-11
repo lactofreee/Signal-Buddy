@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/src/components/ui/sonner";
 import RootProvider from "../contexts/RootProvider";
-import FCMNotification from "../components/fcm/FCMNotification";
-import { Providers } from "../components/display-mode/ThemeProvider";
-import ThemeColorUpdater from "../components/home/ThemeColorUpdater";
+import FCMNotification from "../hooks/use-fcm-notification";
+import { Providers } from "@/src/features/my-page/my-page-setting/components/my-page-theme-provider";
+import ThemeColorUpdater from "../hooks/use-theme-color-updater";
 import { getMetadata } from "../utils";
 export const metadata: Metadata = getMetadata();
 

@@ -5,6 +5,7 @@ export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{astro,html,js,ts,jsx,tsx,md,mdx,svelte}",
     "./node_modules/@shadcn/ui/dist/**/*.{js,ts,jsx,tsx}",
   ],
@@ -21,6 +22,7 @@ export default {
         green: "#2CCA3E",
         teal: "#8DB4AF",
         pink: "#FFE4E9",
+        blue: "#0084FF",
         gray: {
           "100": "#F3F3F3",
           "200": "#E8E8E8",
@@ -33,6 +35,7 @@ export default {
           "900": "#18181B",
           "950": "#09090B",
         },
+
         screens: {
           xm: "376px",
           sm: "640px",

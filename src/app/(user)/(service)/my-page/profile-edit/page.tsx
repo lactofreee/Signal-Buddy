@@ -1,5 +1,5 @@
 import { auth } from "@/src/auth";
-import UserEdit from "@/src/components/my-page/UserEdit";
+import UserEdit from "@/src/features/my-page/my-page-profile-edit/components/my-page-user-edit";
 import { ArrowLeftIcon } from "@/src/components/utils/icons";
 import Link from "next/link";
 import { redirect } from "next/navigation";

@@ -1,4 +1,4 @@
-import MapBox from "@/src/components/map/MapBox";
+import MapBox from "@/src/features/map/map-common/components/map-box";
 
 type Props = {
   params: Promise<{ slug?: string[] }>;

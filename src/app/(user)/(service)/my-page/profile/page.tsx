@@ -6,8 +6,8 @@ import likedFeedback from "@/public/imgs/liked-feedback.svg";
 import { ArrowRightIcon, SettingIcon } from "@/src/components/utils/icons";
 import { auth } from "@/src/auth";
 import { redirect } from "next/navigation";
-import Profile from "@/src/components/common/profile/Profile";
-import RecentDestinations from "@/src/components/my-page/RecentDestinations";
+import Profile from "@/src/components/common/profile";
+import RecentDestinations from "@/src/features/my-page/my-page-recent-path";
 
 export default async function Page() {
   const session = await auth();

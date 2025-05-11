@@ -1,10 +1,10 @@
 import { EditIcon } from "lucide-react";
-import FeedbackList from "@/src/components/feedback/FeedbackList";
-import MobileToolbar from "@/src/components/feedback/MobileToolbar";
-import FeedbackSidebar from "@/src/components/feedback/FeedbackSidebar";
-import FeedbackSearchbar from "@/src/components/feedback/FeedbackSearchbar";
-import MobileFeedbackFilterButtons from "@/src/components/feedback/MobileFeedbackFilterButtons";
-import MobileToolbarHandleButton from "@/src/components/feedback/MobileToolbarHandleButton";
+import FeedbackList from "@/src/features/feedback/feedback-list/components/feedback-list";
+import MobileToolbar from "@/src/features/feedback/feedback-mobile/components/feedback-mobile-toolbar";
+import FeedbackSidebar from "@/src/features/feedback/feedback-common/components/feedback-sidebar";
+import FeedbackSearchbar from "@/src/features/feedback/feedback-common/components/feedback-searchbar";
+import MobileFeedbackFilterButtons from "@/src/features/feedback/feedback-mobile/components/feedback-mobile-filter-buttons";
+import MobileToolbarHandleButton from "@/src/features/feedback/feedback-mobile/components/feedback-mobile-toolbar-handle-button";
 
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ import {
 } from "@/src/app/api/feedback/fetchFeedbackList";
 
 import Head from "next/head";
-import FeedbackPagination from "@/src/components/feedback/ui/FeedbackPagination";
+import FeedbackPagination from "@/src/features/feedback/feedback-list/components/feedback-pagination";
 
 export default async function Page({
   searchParams,

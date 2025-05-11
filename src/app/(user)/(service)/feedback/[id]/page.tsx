@@ -1,19 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import MeatballMenu from "@/src/components/feedback/MeatballMenu";
+import MeatballMenu from "@/src/features/feedback/feedback-common/components/feedback-meatball-menu";
 import { auth } from "@/src/auth";
-import { fetchDataFeedbackItem } from "@/src/app/api/feedback/fetchFeedbackItem";
+import { fetchDataFeedbackItem } from "@/src/features/feedback/feedback-common/queries/fetchFeedbackItem";
 import { ArrowLeftIcon } from "@/src/components/utils/icons";
 import { IFeedbackDetailResponse } from "@/src/types/feedback/feedbackList";
 
 import { formatDate } from "@/src/utils/formatDate";
-import FeedbackComment from "@/src/components/feedback/FeedbackComment";
+
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { formatFeedbackCategory } from "@/src/utils/formatFeedbackCategory";
-import Profile from "@/src/components/common/profile/Profile";
-import LikeBTN from "@/src/components/feedback/LikeBTN";
+import Profile from "@/src/components/common/profile";
+import LikeBTN from "@/src/features/feedback/feedback-common/components/feedback-like-button";
+import FeedbackComment from "@/src/features/feedback/feedback-comment/components/feedback-comment";
 
 const handleError = (error: unknown) => {
   if (error instanceof Response) {
