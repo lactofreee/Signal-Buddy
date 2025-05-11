@@ -1,6 +1,6 @@
 import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
 import Image from "next/image";
-import deleteImage from "@/public/imgs/delete.svg";
+import deleteImage from "@/public/imgs/Delete.svg";
 import twoLineHamburger from "@/public/imgs/two-line-hamburger.svg";
 import { MyPlaceNameChangeDialog } from "@/src/features/my-place/my-place-edit/components/my-place-edit-modal";
 
