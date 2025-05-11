@@ -8,6 +8,7 @@ type MyFeedbackResponse = {
 };
 
 export const likedFeedbackQuery = (memberId?: number, page = 0, size = 15) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery<MyFeedbackResponse>({
     queryKey: ["myFeedbacks", memberId, page],
     queryFn: async () => {

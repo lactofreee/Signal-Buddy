@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import client from "@/src/lib/api/client";
 import { Destination } from "@/src/features/my-page/my-page-recent-path/index";

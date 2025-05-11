@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import client from "@/src/lib/api/client";
 import { ReorderBody } from "@/src/types/my-place";

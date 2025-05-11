@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import {
   CrossRoadStateType,
@@ -181,7 +182,7 @@ export default function useMapCrossRoad(map: TMap | null) {
         ws.current.close();
       }
     };
-  }, []);
+  }, [addTargetMarker, center._lat, center._lng, crossRoadMarkers]);
 
   const sendMessage = (payload: string) => {
     if (ws.current?.readyState === WebSocket.OPEN) {

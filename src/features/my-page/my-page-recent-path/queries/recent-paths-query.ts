@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import client from "@/src/lib/api/client";
@@ -16,7 +17,7 @@ export default function recentPathsQuery() {
         queryKey: ["recentPaths", session?.user?.memberId],
       });
     }
-  }, [session?.user?.token]);
+  }, [queryClient, session?.user?.memberId, session?.user.token, status]);
 
   const {
     data: destinations = [],

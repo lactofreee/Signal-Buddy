@@ -80,7 +80,7 @@ export function LoginForm() {
       setTokenHandler(session.user.token);
       redirect("/");
     }
-  }, [session]);
+  }, [form, session]);
 
   return (
     <div>

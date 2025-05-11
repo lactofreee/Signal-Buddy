@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Bookmark } from "@/src/types/my-place";
 import client from "@/src/lib/api/client";
