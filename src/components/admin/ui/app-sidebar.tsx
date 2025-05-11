@@ -26,7 +26,7 @@ import {
 import React from "react";
 import Image from "next/image";
 
-import logo_text from "@/public/imgs/logo.svg";
+import logo from "@/public/imgs/common/logo-title-rg-black.png";
 import logo_symbol from "@/public/imgs/logo-symbol-background-white.svg";
 import Link from "next/link";
 
@@ -83,7 +83,7 @@ export function AppSidebar() {
                 className="rounded-lg border border-gray-300"
                 priority
               />
-              <Image src={logo_text} alt="" width={80} priority />
+              <Image src={logo} alt="" width={80} priority />
             </Link>
           </SidebarGroupLabel>
           <SidebarGroupContent>

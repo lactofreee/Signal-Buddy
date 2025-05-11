@@ -78,7 +78,7 @@ export function ResetPasswordVerification() {
     <div className="w-full max-w-[362px] md:theme-content-bg">
       <div className="flex flex-col">
         <Image
-          src={}
+          src={logo}
           alt="Signal Buddy 로고"
           width={206}
           height={38}

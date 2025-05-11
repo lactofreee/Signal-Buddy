@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import logo from "@/public/imgs/logo.svg";
+import logo from "@/public/imgs/common/logo-title-rg-black.png";
 import Link from "next/link";
 import { A2HS } from "@/src/features/home/home-pwa/components/home-pwa-A2HS-popup";
 import { Button } from "@/src/components/ui/button";
