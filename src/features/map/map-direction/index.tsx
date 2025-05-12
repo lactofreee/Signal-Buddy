@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { ILocation } from "@/src/hooks/use-geo-location";
@@ -299,14 +298,14 @@ export default function MapDirection({
     getGEO();
     if (isWatching) handleCancelRoute();
     return () => handleCancelRoute();
-  }, [getGEO, handleCancelRoute, isWatching]);
+  }, []);
 
   useEffect(() => {
     if (!isFirstLocationSet.current && location) {
       getRoute(formatLatLng(start), formatLatLng(end));
       isFirstLocationSet.current = true;
     }
-  }, [location, start, end, getRoute, formatLatLng]);
+  }, [location, start, end]);
 
   return (
     <>
